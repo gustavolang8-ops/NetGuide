@@ -280,10 +280,14 @@
       </div>
 
       <div id="equipments-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-300 transition">
+        <!-- CARD PADRÃO COM BOTÃO DE EXCLUIR -->
+        <div class="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-300 transition relative">
+          <button onclick="removeEquipmentCard(this)" class="absolute top-3 right-3 bg-red-50 hover:bg-red-100 text-red-600 p-2 rounded-xl border border-red-200 transition text-xs shadow-sm z-10" title="Excluir Equipamento">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
           <div class="p-5">
-            <div class="h-32 bg-slate-50 rounded-xl mb-3 flex items-center justify-center border border-slate-200 text-slate-400 overflow-hidden">
-              <i data-lucide="router" class="w-12 h-12 stroke-1"></i>
+            <div class="h-32 bg-slate-50 rounded-xl mb-3 flex items-center justify-center border border-slate-200 overflow-hidden">
+              <i data-lucide="router" class="w-12 h-12 stroke-1 text-slate-400"></i>
             </div>
             <span class="text-[10px] font-semibold text-cyan-600 uppercase tracking-wider">TP-Link</span>
             <h3 class="text-lg font-bold text-slate-900 mb-1">AC1200</h3>
@@ -369,7 +373,7 @@
     </div>
   </div>
 
-  <!-- MODAL: ADICIONAR (Com campo de URL da Imagem) -->
+  <!-- MODAL: ADICIONAR -->
   <div id="modal-add-equip" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white border border-slate-200 shadow-xl w-full max-w-md rounded-2xl p-6 space-y-3 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-start">
@@ -387,8 +391,8 @@
           <input type="text" id="new-model" required placeholder="Ex: Archer AX10" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-base sm:text-xs text-slate-900">
         </div>
         <div>
-          <label class="block text-slate-700 mb-1 font-medium">URL da Foto do Equipamento (Opcional)</label>
-          <input type="url" id="new-image" placeholder="Ex: https://link-da-foto.com/router.jpg" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-base sm:text-xs text-slate-900">
+          <label class="block text-slate-700 mb-1 font-medium">URL Direta da Foto (Opcional)</label>
+          <input type="url" id="new-image" placeholder="Ex: https://site.com/foto.jpg" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-base sm:text-xs text-slate-900">
         </div>
         <div>
           <label class="block text-slate-700 mb-1 font-medium">Descrição Curta</label>
@@ -725,6 +729,13 @@
 
     let equipmentCount = 1;
 
+    function removeEquipmentCard(button) {
+      const card = button.closest('.bg-white');
+      card.remove();
+      equipmentCount = Math.max(0, equipmentCount - 1);
+      document.getElementById('metric-equipments').innerText = equipmentCount;
+    }
+
     function handleAddRouter(event) {
       event.preventDefault();
       const brand = document.getElementById('new-brand').value;
@@ -736,14 +747,17 @@
 
       const grid = document.getElementById('equipments-grid');
       const card = document.createElement('div');
-      card.className = "bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-300 transition";
+      card.className = "bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-300 transition relative";
 
-      // Se o usuário colocou o link da foto, exibe a imagem. Senão, exibe o ícone padrão.
+      // Mudado para object-contain para a foto inteira aparecer encaixadinha sem dar zoom nas antenas
       const mediaContent = imageUrl 
-        ? `<img src="${imageUrl}" alt="${model}" class="w-full h-full object-cover rounded-xl">` 
+        ? `<img src="${imageUrl}" alt="${model}" class="w-full h-full object-contain p-2 rounded-xl" onerror="this.onerror=null; this.parentNode.innerHTML='<i data-lucide=&quot;router&quot; class=&quot;w-12 h-12 stroke-1 text-slate-400&quot;></i>'; lucide.createIcons();">` 
         : `<i data-lucide="router" class="w-12 h-12 stroke-1 text-slate-400"></i>`;
 
       card.innerHTML = `
+        <button onclick="removeEquipmentCard(this)" class="absolute top-3 right-3 bg-red-50 hover:bg-red-100 text-red-600 p-2 rounded-xl border border-red-200 transition text-xs shadow-sm z-10" title="Excluir Equipamento">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
         <div class="p-5">
           <div class="h-32 bg-slate-50 rounded-xl mb-3 flex items-center justify-center border border-slate-200 overflow-hidden">
             ${mediaContent}
