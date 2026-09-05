@@ -4,13 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NetGuide - Autoatendimento com RA</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- CSS Externo -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans flex flex-col md:flex-row h-screen overflow-x-hidden w-full">
 
+  <!-- BARRA SUPERIOR PARA CELULAR -->
   <div class="md:hidden bg-slate-950 border-b border-slate-800 p-4 flex justify-between items-center z-50 w-full fixed top-0 left-0 h-16">
     <div class="flex items-center gap-2">
       <div class="bg-indigo-600 p-1.5 rounded-lg text-white">
@@ -28,6 +33,7 @@
     </div>
   </div>
 
+  <!-- MENU LATERAL / MOBILE OVERLAY -->
   <aside id="sidebar" class="fixed md:relative top-16 md:top-0 inset-y-0 left-0 w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out h-[calc(100vh-4rem)] md:h-screen">
     <div>
       <div class="hidden md:flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-800">
@@ -46,10 +52,12 @@
       </div>
 
       <nav class="space-y-2 mt-4 md:mt-0">
+        <!-- ABAS DO CLIENTE -->
         <button onclick="switchTab('scan')" id="btn-scan" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition bg-indigo-600 text-white">
           <i data-lucide="camera" class="w-5 h-5"></i> Scanear Roteador
         </button>
 
+        <!-- ABAS DO ADMINISTRADOR (Ocultas por padrão) -->
         <div id="admin-nav-group" class="hidden pt-4 mt-4 border-t border-slate-800 space-y-2">
           <p class="px-2 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Gestão Provedora</p>
           <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
@@ -62,8 +70,9 @@
       </nav>
     </div>
 
+    <!-- PARTE INFERIOR DO MENU (WHATSAPP CORRIGIDO) -->
     <div class="space-y-2">
-      <a href="https://wa.me/558000500800?text=preciso%20de%20ajudar,%20estou%20asem%20conex%C3%A7ao%20vim%20atr%C3%A1sv%C3%A9s%20do%20aplicativo%20NetGuide" target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/20 transition text-xs">
+      <a href="https://wa.me/558000500800?text=Ol%C3%A1,%20preciso%20de%20ajuda%20com%20a%20minha%20conex%C3%A3o,%20vim%20pelo%20aplicativo%20NetGuide." target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/20 transition text-xs">
         <i data-lucide="message-circle" class="w-4 h-4"></i> Suporte WhatsApp
       </a>
 
@@ -79,10 +88,13 @@
     </div>
   </aside>
 
+  <!-- OVERLAY ESCURO PARA O MENU MOBILE -->
   <div id="mobile-overlay" onclick="toggleMobileMenu()" class="hidden fixed inset-0 bg-black/60 z-30 md:hidden"></div>
 
+  <!-- CONTEÚDO PRINCIPAL -->
   <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-900 p-4 md:p-6 w-full pt-24 pb-32 md:pt-6 md:pb-6">
 
+    <!-- SEÇÃO: SCANEAR ROTEADOR -->
     <section id="sec-scan" class="space-y-6 max-w-full">
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
@@ -100,6 +112,7 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
+        <!-- ÁREA DA CÂMERA -->
         <div class="lg:col-span-2 relative bg-black rounded-2xl overflow-hidden border border-slate-800 aspect-video flex items-center justify-center min-h-[220px] w-full">
           <video id="webcam" autoplay playsinline class="w-full h-full object-cover"></video>
           
@@ -111,11 +124,13 @@
             </button>
           </div>
 
+          <!-- TELA DE LOADING / SIMULAÇÃO DE LEITURA -->
           <div id="scan-loading" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-slate-950/85 backdrop-blur-sm text-center p-4 space-y-3 z-20">
             <div class="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
             <p id="loading-text" class="text-xs sm:text-sm font-medium text-indigo-200">Lendo código de barras / MAC...</p>
           </div>
 
+          <!-- OVERLAY RA -->
           <div id="ar-viewport" class="hidden absolute inset-0 pointer-events-none overflow-hidden w-full h-full">
             <div id="router-mock" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-56 sm:w-80 h-32 sm:h-44 bg-slate-800/90 border-2 border-dashed border-indigo-500/50 rounded-2xl flex flex-col justify-between p-3 sm:p-4 shadow-2xl backdrop-blur-sm">
               <div class="flex justify-between items-center">
@@ -174,21 +189,25 @@
             <div class="space-y-2">
               <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Opções de Autoatendimento</p>
               
+              <!-- BOTÃO DE ROTEADOR RESETADO -->
               <button id="btn-reset-guide" onclick="openFeatureModal('reset-guide')" class="hidden w-full flex items-center justify-between p-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-semibold transition cursor-pointer animate-pulse">
                 <span class="flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-amber-400"></i> Roteador Resetado - Passo a Passo</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-amber-400"></i>
               </button>
 
+              <!-- BOTÃO 1: LEDS -->
               <button onclick="openFeatureModal('led')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-700/50 border border-slate-700/50 text-slate-200 text-xs font-medium transition cursor-pointer">
                 <span class="flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-indigo-400"></i> Diagnóstico dos LEDs</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
               </button>
 
+              <!-- BOTÃO 2: PORTAS E CABOS -->
               <button onclick="openFeatureModal('cables')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-700/50 border border-slate-700/50 text-slate-200 text-xs font-medium transition cursor-pointer">
                 <span class="flex items-center gap-2"><i data-lucide="cable" class="w-4 h-4 text-indigo-400"></i> Portas e Cabos</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
               </button>
 
+              <!-- BOTÃO 3: WI-FI -->
               <button onclick="openFeatureModal('wifi')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-700/50 border border-slate-700/50 text-slate-200 text-xs font-medium transition cursor-pointer">
                 <span class="flex items-center gap-2"><i data-lucide="wifi" class="w-4 h-4 text-indigo-400"></i> Configuração do Wi-Fi</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
@@ -203,6 +222,7 @@
       </div>
     </section>
 
+    <!-- SEÇÃO: DASHBOARD (Apenas Admin) -->
     <section id="sec-dashboard" class="hidden space-y-6 max-w-full">
       <div>
         <h2 class="text-2xl font-bold text-white">Dashboard</h2>
@@ -251,6 +271,7 @@
       </div>
     </section>
 
+    <!-- SEÇÃO: EQUIPAMENTOS (Apenas Admin) -->
     <section id="sec-equipamentos" class="hidden space-y-6 max-w-full">
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
@@ -305,8 +326,9 @@
 
   </main>
 
+  <!-- MODAL DINÂMICO PARA AS OPÇÕES DE AUTOATENDIMENTO (COM PASSO A PASSO DETALHADO DO ROTEADOR) -->
   <div id="modal-feature" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-2xl p-5 space-y-4">
+    <div class="bg-slate-800 border border-slate-700 w-full max-w-lg rounded-2xl p-5 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-start">
         <div class="flex items-center gap-2">
           <div id="modal-feature-icon" class="bg-indigo-600 p-1.5 rounded-lg text-white"></div>
@@ -314,13 +336,14 @@
         </div>
         <button onclick="closeFeatureModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-      <div id="modal-feature-desc" class="text-xs text-slate-300 leading-relaxed space-y-2"></div>
-      <button onclick="closeFeatureModal()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-xl text-xs transition">
+      <div id="modal-feature-desc" class="text-xs text-slate-300 leading-relaxed space-y-3"></div>
+      <button onclick="closeFeatureModal()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-xl text-xs transition">
         Entendido
       </button>
     </div>
   </div>
 
+  <!-- MODAL: LOGIN ADMINISTRADOR -->
   <div id="modal-admin-login" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 space-y-4">
       <div class="flex justify-between items-start">
@@ -351,6 +374,7 @@
     </div>
   </div>
 
+  <!-- MODAL: DETALHES -->
   <div id="modal-equip" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-2xl p-5 space-y-3">
       <div class="flex justify-between items-start">
@@ -368,6 +392,7 @@
     </div>
   </div>
 
+  <!-- MODAL: ADICIONAR -->
   <div id="modal-add-equip" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-2xl p-5 space-y-3">
       <div class="flex justify-between items-start">
@@ -439,7 +464,7 @@
     }
     switchTab('scan');
 
-    // Função para abrir os modais interativos dos botões de autoatendimento
+    // Função para abrir os modais interativos com o passo a passo detalhado por abas do roteador
     function openFeatureModal(type) {
       const modal = document.getElementById('modal-feature');
       const title = document.getElementById('modal-feature-title');
@@ -459,14 +484,35 @@
         desc.innerHTML = "Através deste painel, o cliente pode visualizar o nome da rede (SSID) atual e receber instruções automáticas para alterar a senha ou alternar entre a frequência de 2.4GHz (maior alcance) e 5GHz (maior velocidade).";
         iconContainer.innerHTML = '<i data-lucide="wifi" class="w-4 h-4"></i>';
       } else if (type === 'reset-guide') {
-        title.innerText = "Roteador Resetado - Passo a Passo";
+        title.innerText = "Roteador Resetado - Passo a Passo Detalhado";
         desc.innerHTML = `
-          <p>O sistema identificou que o equipamento foi restaurado para o padrão de fábrica. Siga o procedimento abaixo para reconfigurá-lo:</p>
-          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50 space-y-2 mt-2">
-            <p><strong>1. Conecte ao Wi-Fi padrão:</strong> Conecte seu celular na rede Wi-Fi aberta que vem impressa na etiqueta embaixo do roteador.</p>
-            <p><strong>2. Acesse a Página Web:</strong> Abra o navegador de internet do seu celular e digite o endereço IP padrão: <code class="text-indigo-400 font-bold bg-slate-800 px-1.5 py-0.5 rounded">192.168.0.1</code> (ou verifique na etiqueta).</p>
-            <p><strong>3. Faça o Login:</strong> Digite o usuário e senha padrão de fábrica (geralmente <code class="text-indigo-400 font-bold bg-slate-800 px-1.5 py-0.5 rounded">admin</code> / <code class="text-indigo-400 font-bold bg-slate-800 px-1.5 py-0.5 rounded">admin</code>).</p>
-            <p><strong>4. Reconfigure o Nome e Senha:</strong> Vá até a aba <em>Wireless</em> ou <em>Configuração Rápida</em>, defina o novo <strong>Nome da Rede (SSID)</strong> e a <strong>Nova Senha do Wi-Fi</strong>, e clique em Salvar!</p>
+          <p class="text-slate-300">O sistema identificou que o equipamento foi restaurado para o padrão de fábrica. Siga o guia abaixo para reconfigurá-lo passo a passo em cada aba do roteador:</p>
+          
+          <div class="space-y-3 mt-2">
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
+              <strong class="text-indigo-400 block mb-1">Passo 1: Conexão Inicial</strong>
+              <p>Conecte seu celular na rede Wi-Fi padrão aberta impressa na etiqueta embaixo do roteador. Abra o navegador e digite o IP <code class="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">192.168.0.1</code>. Faça o login com as credenciais de fábrica (ex: <code class="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">admin</code> / <code class="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">admin</code>).</p>
+            </div>
+
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
+              <strong class="text-indigo-400 block mb-1">Passo 2: Aba "Quick Setup" ou "Configuração Rápida"</strong>
+              <p>Ao entrar, o assistente abrirá automaticamente. Clique em <em>Avançar</em>. Selecione o fuso horário local e escolha o tipo de conexão fornecido pela sua operadora (geralmente <strong>PPPoE</strong> se usar usuário/senha de fibra, ou <strong>Dynamic IP / DHCP</strong>).</p>
+            </div>
+
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
+              <strong class="text-indigo-400 block mb-1">Passo 3: Aba "Wireless" (Configuração do Wi-Fi)</strong>
+              <p>Nesta aba, configure o nome da sua rede em <strong>Wireless Network Name (SSID)</strong> e insira uma senha segura em <strong>Wireless Password</strong>. Faça isso para ambas as frequências se o roteador for Dual Band (2.4GHz e 5GHz).</p>
+            </div>
+
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
+              <strong class="text-indigo-400 block mb-1">Passo 4: Aba "Network" ou "WAN" (Conexão com a Provedora)</strong>
+              <p>Se a internet não conectar automaticamente pelo assistente, acesse a aba <em>Network > WAN</em>. Confirme se os parâmetros de autenticação passados pela provedora estão preenchidos corretamente e clique em <em>Salvar / Conectar</em>.</p>
+            </div>
+
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
+              <strong class="text-indigo-400 block mb-1">Passo 5: Aba "System Tools" (Ferramentas do Sistema)</strong>
+              <p>Por fim, vá até <em>System Tools > Reboot</em> (Reiniciar) para aplicar todas as configurações salvas de forma limpa. Reconecte seu celular na nova rede Wi-Fi criada!</p>
+            </div>
           </div>
         `;
         iconContainer.innerHTML = '<i data-lucide="refresh-cw" class="w-4 h-4"></i>';
@@ -502,7 +548,6 @@
         document.getElementById('admin-logout-box').classList.remove('hidden');
         switchTab('dashboard');
       } else {
-        document.getElementById('login-error').classList.add('hidden');
         document.getElementById('login-error').classList.remove('hidden');
       }
     }
@@ -617,7 +662,6 @@
       const btnSim = document.getElementById('btn-toggle-sim');
       const btnResetGuide = document.getElementById('btn-reset-guide');
 
-      // Esconde o botão de reset ao simular encaixe correto
       btnResetGuide.classList.add('hidden');
 
       if (isCorrected) {
@@ -650,7 +694,6 @@
       successOverlay.classList.add('hidden');
       btnContinue.classList.add('hidden');
 
-      // Exibe o botão especial de roteador resetado
       btnResetGuide.classList.remove('hidden');
 
       badge.className = "flex items-center gap-2 text-xs font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-full w-fit mb-4";
