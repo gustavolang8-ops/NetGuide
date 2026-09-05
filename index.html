@@ -12,7 +12,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- CSS Externo e Correções Safari -->
   <style>
-    /* Correções específicas para o motor WebKit do Safari mobile */
     body {
       -webkit-text-size-adjust: 100%;
     }
@@ -24,7 +23,7 @@
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans flex flex-col md:flex-row h-screen overflow-x-hidden w-full">
 
-  <!-- BARRA SUPERIOR PARA CELULAR (Com suporte a Safe Area do Safari) -->
+  <!-- BARRA SUPERIOR PARA CELULAR -->
   <div class="md:hidden bg-slate-950 border-b border-slate-800 px-4 pt-safe pb-3 flex justify-between items-center z-50 w-full fixed top-0 left-0 h-20 shadow-lg">
     <div class="flex items-center gap-2 mt-3">
       <div class="bg-indigo-600 p-1.5 rounded-lg text-white">
@@ -81,7 +80,7 @@
 
     <!-- PARTE INFERIOR DO MENU -->
     <div class="space-y-2">
-      <!-- BOTÃO DE SUPORTE WHATSAPP -->
+      <!-- BOTÃO DE SUPORTE WHATSAPP COM MENSAGEM CORRETA -->
       <a href="https://wa.me/558000500800?text=Ol%C3%A1,%20preciso%20de%20ajuda%20com%20a%20minha%20conex%C3%A3o,%20vim%20pelo%20aplicativo%20NetGuide." target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/20 transition text-xs">
         <i data-lucide="message-circle" class="w-4 h-4"></i> Suporte WhatsApp
       </a>
@@ -101,7 +100,7 @@
   <!-- OVERLAY ESCURO PARA O MENU MOBILE -->
   <div id="mobile-overlay" onclick="toggleMobileMenu()" class="hidden fixed inset-0 bg-black/60 z-30 md:hidden"></div>
 
-  <!-- CONTEÚDO PRINCIPAL (Folga ajustada para o Safari) -->
+  <!-- CONTEÚDO PRINCIPAL -->
   <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-900 p-4 md:p-6 w-full pt-28 pb-32 md:pt-6 md:pb-6">
 
     <!-- SEÇÃO: SCANEAR ROTEADOR -->
@@ -475,29 +474,34 @@
         desc.innerHTML = "Permite revisar o nome da rede (SSID) e senha do TP-Link AC1200 nas frequências de 2.4GHz e 5GHz diretamente pelo painel de controle do equipamento.";
         iconContainer.innerHTML = '<i data-lucide="wifi" class="w-4 h-4"></i>';
       } else if (type === 'reset-guide') {
-        title.innerText = "TP-Link AC1200 Resetado - Passo a Passo";
+        title.innerText = "TP-Link AC1200 Resetado - Passo a Passo MHNet";
         desc.innerHTML = `
-          <p class="text-slate-300">O sistema detectou o padrão de LEDs piscando, indicando reset de fábrica. Siga o guia abaixo para reconfigurar o TP-Link AC1200:</p>
+          <p class="text-slate-300">O sistema detectou o padrão de LEDs piscando, indicando reset de fábrica. Siga o guia prático abaixo para reconfigurar:</p>
           
           <div class="space-y-3 mt-2">
             <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
-              <strong class="text-indigo-400 block mb-1">Passo 1: Conexão Inicial</strong>
-              <p>Conecte seu celular na rede Wi-Fi aberta padrão impressa na etiqueta embaixo do AC1200. Abra o navegador e digite o IP <code class="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">192.168.0.1</code>. Entre com a senha de fábrica.</p>
+              <strong class="text-indigo-400 block mb-1">1. Conecte à Rede Wi-Fi Padrão</strong>
+              <p>Conecte um computador ou celular à rede Wi-Fi gerada pelo roteador. Ela aparecerá com o nome padrão e a senha correspondente está impressa em uma etiqueta na parte de baixo do equipamento (indicada como 'Senha Wireless').</p>
             </div>
 
             <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
-              <strong class="text-indigo-400 block mb-1">Passo 2: Configuração Rápida (Quick Setup)</strong>
-              <p>O assistente iniciará. Clique em <em>Avançar</em>, selecione sua região e defina o tipo de conexão da MHNet (geralmente <strong>PPPoE</strong> com usuário e senha fornecidos pela provedora, ou <strong>Dynamic IP</strong>).</p>
+              <strong class="text-indigo-400 block mb-1">2. Acesse a Página Web</strong>
+              <p>Quando conectado (mesmo sem estar com internet), abra o navegador de internet e digite na barra de endereços <code class="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">192.168.0.1</code> e aperte Enter (este IP pode variar de acordo com o equipamento).</p>
             </div>
 
             <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
-              <strong class="text-indigo-400 block mb-1">Passo 3: Aba "Wireless" (Wi-Fi)</strong>
-              <p>Defina o novo <strong>Nome da Rede (SSID)</strong> e a <strong>Senha</strong> para as frequências de 2.4GHz e 5GHz do seu AC1200.</p>
+              <strong class="text-indigo-400 block mb-1">3. Faça o Login</strong>
+              <p>A página abrirá solicitando autenticação; utilize a senha wireless indicada na etiqueta do aparelho.</p>
             </div>
 
             <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
-              <strong class="text-indigo-400 block mb-1">Passo 4: Salvar e Reiniciar</strong>
-              <p>Clique em <em>Salvar</em> e vá em <em>System Tools > Reboot</em> para reiniciar o roteador de forma limpa. Reconecte seu celular na nova rede Wi-Fi criada!</p>
+              <strong class="text-indigo-400 block mb-1">4 e 5. Selecione PPPoE e Insira Dados</strong>
+              <p>Na aba de configuração rápida, selecione <strong>PPPoE</strong> e clique em avançar. Insira o <strong>usuário</strong> e a <strong>senha PPPoE</strong> fornecidos pela MHNet. Não é necessário marcar nem desmarcar mais nenhuma opção, apenas avance.</p>
+            </div>
+
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
+              <strong class="text-indigo-400 block mb-1">6. Nome e Senha do Wi-Fi (SSID)</strong>
+              <p>A próxima janela servirá para configurar o nome e a senha da rede Wi-Fi. Defina o <strong>SSID</strong> (nome desejado para a rede) e a <strong>password</strong> (senha). Se tiver a rede 5G disponível, você pode escrever '5G' no final para diferenciá-la. Avance até o final e clique em salvar; o equipamento vai reiniciar!</p>
             </div>
           </div>
         `;
