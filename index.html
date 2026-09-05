@@ -25,8 +25,8 @@
     </button>
   </div>
 
-  <!-- MENU LATERAL / MOBILE OVERLAY (COM A LOGOMARCA OFICIAL) -->
-  <aside id="sidebar" class="fixed md:sticky top-16 md:top-0 inset-y-0 left-0 w-64 bg-white border-r border-slate-200 flex flex-col justify-between p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out h-full md:h-screen shadow-sm md:shadow-none">
+  <!-- MENU LATERAL / MOBILE OVERLAY (COM ROLAGEM INTERNA) -->
+  <aside id="sidebar" class="fixed md:sticky top-16 md:top-0 inset-y-0 left-0 w-64 bg-white border-r border-slate-200 flex flex-col justify-between p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out h-full md:h-screen shadow-sm md:shadow-none overflow-y-auto">
     <div>
       <!-- LOGO ASSINATURA EXCLUSIVA NETGUIDE -->
       <div class="flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-200 gap-1.5">
@@ -64,7 +64,7 @@
     </div>
 
     <!-- PARTE INFERIOR DO MENU -->
-    <div class="space-y-2">
+    <div class="space-y-2 pt-6">
       <!-- BOTÃO DE SUPORTE WHATSAPP -->
       <a href="https://wa.me/558000500800?text=Ol%C3%A1,%20preciso%20de%20ajuda%20com%20a%20minha%20conex%C3%A3o,%20vim%20pelo%20aplicativo%20NetGuide." target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium text-emerald-700 hover:bg-emerald-50 border border-emerald-300 transition text-xs shadow-sm">
         <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600"></i> Suporte WhatsApp
@@ -320,7 +320,7 @@
     </div>
   </div>
 
-  <!-- MODAL: LOGIN ADMINISTRADOR (Com text-base anti-zoom no iOS) -->
+  <!-- MODAL: LOGIN ADMINISTRADOR -->
   <div id="modal-admin-login" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white border border-slate-200 shadow-xl w-full max-w-sm rounded-2xl p-6 space-y-4">
       <div class="flex justify-between items-start">
