@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>NetGuide - Autoatendimento com RA</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -10,20 +10,29 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- CSS Externo -->
+  <!-- CSS Externo e Correções Safari -->
+  <style>
+    /* Correções específicas para o motor WebKit do Safari mobile */
+    body {
+      -webkit-text-size-adjust: 100%;
+    }
+    main {
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans flex flex-col md:flex-row h-screen overflow-x-hidden w-full">
 
-  <!-- BARRA SUPERIOR PARA CELULAR -->
-  <div class="md:hidden bg-slate-950 border-b border-slate-800 p-4 flex justify-between items-center z-50 w-full fixed top-0 left-0 h-16">
-    <div class="flex items-center gap-2">
+  <!-- BARRA SUPERIOR PARA CELULAR (Com suporte a Safe Area do Safari) -->
+  <div class="md:hidden bg-slate-950 border-b border-slate-800 px-4 pt-safe pb-3 flex justify-between items-center z-50 w-full fixed top-0 left-0 h-20 shadow-lg">
+    <div class="flex items-center gap-2 mt-3">
       <div class="bg-indigo-600 p-1.5 rounded-lg text-white">
         <i data-lucide="wifi" class="w-5 h-5"></i>
       </div>
       <span class="font-bold text-lg text-white">NetGuide</span>
     </div>
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 mt-3">
       <button onclick="openAdminModal()" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-800 flex items-center gap-1 transition">
         <i data-lucide="shield" class="w-3.5 h-3.5 text-indigo-400"></i> Admin
       </button>
@@ -34,7 +43,7 @@
   </div>
 
   <!-- MENU LATERAL / MOBILE OVERLAY -->
-  <aside id="sidebar" class="fixed md:relative top-16 md:top-0 inset-y-0 left-0 w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out h-[calc(100vh-4rem)] md:h-screen">
+  <aside id="sidebar" class="fixed md:relative top-20 md:top-0 inset-y-0 left-0 w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out h-[calc(100vh-5rem)] md:h-screen">
     <div>
       <div class="hidden md:flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-800">
         <div class="flex items-center gap-3">
@@ -72,7 +81,7 @@
 
     <!-- PARTE INFERIOR DO MENU -->
     <div class="space-y-2">
-      <!-- BOTÃO DE SUPORTE WHATSAPP COM MENSAGEM CORRIGIDA -->
+      <!-- BOTÃO DE SUPORTE WHATSAPP -->
       <a href="https://wa.me/558000500800?text=Ol%C3%A1,%20preciso%20de%20ajuda%20com%20a%20minha%20conex%C3%A3o,%20vim%20pelo%20aplicativo%20NetGuide." target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/20 transition text-xs">
         <i data-lucide="message-circle" class="w-4 h-4"></i> Suporte WhatsApp
       </a>
@@ -92,8 +101,8 @@
   <!-- OVERLAY ESCURO PARA O MENU MOBILE -->
   <div id="mobile-overlay" onclick="toggleMobileMenu()" class="hidden fixed inset-0 bg-black/60 z-30 md:hidden"></div>
 
-  <!-- CONTEÚDO PRINCIPAL -->
-  <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-900 p-4 md:p-6 w-full pt-24 pb-32 md:pt-6 md:pb-6">
+  <!-- CONTEÚDO PRINCIPAL (Folga ajustada para o Safari) -->
+  <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-900 p-4 md:p-6 w-full pt-28 pb-32 md:pt-6 md:pb-6">
 
     <!-- SEÇÃO: SCANEAR ROTEADOR -->
     <section id="sec-scan" class="space-y-6 max-w-full">
