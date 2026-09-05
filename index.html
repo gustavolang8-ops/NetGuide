@@ -16,46 +16,73 @@
 <body class="bg-slate-900 text-slate-100 font-sans flex flex-col md:flex-row h-screen overflow-x-hidden w-full">
 
   <!-- BARRA SUPERIOR PARA CELULAR -->
-  <div class="md:hidden bg-slate-950 border-b border-slate-800 p-4 flex justify-between items-center z-50 w-full">
+  <div class="md:hidden bg-slate-950 border-b border-slate-800 p-4 flex justify-between items-center z-50 w-full fixed top-0 left-0 h-16">
     <div class="flex items-center gap-2">
       <div class="bg-indigo-600 p-1.5 rounded-lg text-white">
         <i data-lucide="wifi" class="w-5 h-5"></i>
       </div>
       <span class="font-bold text-lg text-white">NetGuide</span>
     </div>
-    <button onclick="toggleMobileMenu()" class="text-slate-300 p-2 rounded-lg bg-slate-900 border border-slate-800">
-      <i data-lucide="menu" class="w-6 h-6"></i>
-    </button>
+    <div class="flex items-center gap-2">
+      <button onclick="openAdminModal()" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-800 flex items-center gap-1 transition">
+        <i data-lucide="shield" class="w-3.5 h-3.5 text-indigo-400"></i> Admin
+      </button>
+      <button onclick="toggleMobileMenu()" class="text-slate-300 p-2 rounded-lg bg-slate-900 border border-slate-800">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
   </div>
 
   <!-- MENU LATERAL / MOBILE OVERLAY -->
-  <aside id="sidebar" class="fixed md:relative inset-y-0 left-0 w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+  <aside id="sidebar" class="fixed md:relative top-16 md:top-0 inset-y-0 left-0 w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out h-[calc(100vh-4rem)] md:h-screen">
     <div>
-      <div class="hidden md:flex items-center gap-3 px-2 py-4 mb-6 border-b border-slate-800">
-        <div class="bg-indigo-600 p-2 rounded-lg text-white">
-          <i data-lucide="wifi"></i>
+      <div class="hidden md:flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="bg-indigo-600 p-2 rounded-lg text-white">
+            <i data-lucide="wifi"></i>
+          </div>
+          <div>
+            <h1 class="font-bold text-xl tracking-wide text-white">NetGuide</h1>
+            <p class="text-xs text-slate-400">Plataforma RA</p>
+          </div>
         </div>
-        <div>
-          <h1 class="font-bold text-xl tracking-wide text-white">NetGuide</h1>
-          <p class="text-xs text-slate-400">Plataforma RA</p>
-        </div>
+        <button onclick="openAdminModal()" title="Área Administrativa" class="text-slate-400 hover:text-white p-1.5 rounded-lg bg-slate-900 border border-slate-800 transition">
+          <i data-lucide="shield" class="w-4 h-4 text-indigo-400"></i>
+        </button>
       </div>
 
       <nav class="space-y-2 mt-4 md:mt-0">
-        <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
-          <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
-        </button>
-        <button onclick="switchTab('scan')" id="btn-scan" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+        <!-- ABAS DO CLIENTE -->
+        <button onclick="switchTab('scan')" id="btn-scan" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition bg-indigo-600 text-white">
           <i data-lucide="camera" class="w-5 h-5"></i> Scanear Roteador
         </button>
-        <button onclick="switchTab('equipamentos')" id="btn-equipamentos" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
-          <i data-lucide="router" class="w-5 h-5"></i> Equipamentos
-        </button>
+        
+        <a href="https://wa.me/5500000000000?text=Olá,%20preciso%20de%20suporte%20com%20meu%20roteador%20via%20NetGuide" target="_blank" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/20 transition">
+          <i data-lucide="message-circle" class="w-5 h-5"></i> Suporte WhatsApp
+        </a>
+
+        <!-- ABAS DO ADMINISTRADOR (Ocultas por padrão) -->
+        <div id="admin-nav-group" class="hidden pt-4 mt-4 border-t border-slate-800 space-y-2">
+          <p class="px-2 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Gestão Provedora</p>
+          <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+          </button>
+          <button onclick="switchTab('equipamentos')" id="btn-equipamentos" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="router" class="w-5 h-5"></i> Equipamentos
+          </button>
+        </div>
       </nav>
     </div>
 
-    <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-xs text-slate-400 text-center">
-      NetGuide &copy; 2026 - RA
+    <div class="space-y-2">
+      <div id="admin-logout-box" class="hidden">
+        <button onclick="logoutAdmin()" class="w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 font-medium py-2 rounded-xl text-xs transition flex items-center justify-center gap-2">
+          <i data-lucide="log-out" class="w-4 h-4"></i> Sair do Modo Admin
+        </button>
+      </div>
+      <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-xs text-slate-400 text-center">
+        NetGuide &copy; 2026 - RA
+      </div>
     </div>
   </aside>
 
@@ -63,59 +90,10 @@
   <div id="mobile-overlay" onclick="toggleMobileMenu()" class="hidden fixed inset-0 bg-black/60 z-30 md:hidden"></div>
 
   <!-- CONTEÚDO PRINCIPAL -->
-  <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-900 p-4 md:p-6 w-full">
-
-    <!-- SEÇÃO: DASHBOARD -->
-    <section id="sec-dashboard" class="space-y-6 max-w-full">
-      <div>
-        <h2 class="text-2xl font-bold text-white">Dashboard</h2>
-        <p class="text-slate-400 text-sm">Visão geral do autoatendimento e métricas da plataforma.</p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
-          <div class="flex justify-between items-start mb-2">
-            <span class="text-slate-400 text-sm font-medium">Clientes no Site</span>
-            <div class="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg"><i data-lucide="users" class="w-5 h-5"></i></div>
-          </div>
-          <span class="text-3xl font-bold text-white">142</span>
-        </div>
-
-        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
-          <div class="flex justify-between items-start mb-2">
-            <span class="text-slate-400 text-sm font-medium">Usuários Ativos</span>
-            <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg"><i data-lucide="user-check" class="w-5 h-5"></i></div>
-          </div>
-          <span class="text-3xl font-bold text-white">89</span>
-        </div>
-
-        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
-          <div class="flex justify-between items-start mb-2">
-            <span class="text-slate-400 text-sm font-medium">Scans Realizados</span>
-            <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg"><i data-lucide="scan" class="w-5 h-5"></i></div>
-          </div>
-          <span class="text-3xl font-bold text-white">1,208</span>
-        </div>
-
-        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
-          <div class="flex justify-between items-start mb-2">
-            <span class="text-slate-400 text-sm font-medium">Equipamentos Cadastrados</span>
-            <div class="p-2 bg-purple-500/10 text-purple-400 rounded-lg"><i data-lucide="box" class="w-5 h-5"></i></div>
-          </div>
-          <span class="text-3xl font-bold text-white" id="metric-equipments">2</span>
-        </div>
-      </div>
-
-      <div class="bg-slate-800/60 border border-slate-700/50 p-4 md:p-6 rounded-2xl">
-        <h3 class="text-lg font-bold text-white mb-4">Clientes utilizando o site ao longo dos dias</h3>
-        <div class="h-64">
-          <canvas id="chartUsage"></canvas>
-        </div>
-      </div>
-    </section>
+  <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-900 p-4 md:p-6 w-full pt-20 md:pt-6">
 
     <!-- SEÇÃO: SCANEAR ROTEADOR -->
-    <section id="sec-scan" class="hidden space-y-6 max-w-full">
+    <section id="sec-scan" class="space-y-6 max-w-full">
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
           <h2 class="text-2xl font-bold text-white">Escaneamento com RA</h2>
@@ -139,7 +117,7 @@
             </button>
           </div>
 
-          <!-- TELA DE LOADING / SIMULAÇÃO DE LEITURA DE MAC E QR CODE -->
+          <!-- TELA DE LOADING / SIMULAÇÃO DE LEITURA -->
           <div id="scan-loading" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-slate-950/85 backdrop-blur-sm text-center p-4 space-y-3 z-20">
             <div class="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
             <p id="loading-text" class="text-xs sm:text-sm font-medium text-indigo-200">Lendo código de barras / MAC...</p>
@@ -225,7 +203,56 @@
       </div>
     </section>
 
-    <!-- SEÇÃO: EQUIPAMENTOS -->
+    <!-- SEÇÃO: DASHBOARD (Apenas Admin) -->
+    <section id="sec-dashboard" class="hidden space-y-6 max-w-full">
+      <div>
+        <h2 class="text-2xl font-bold text-white">Dashboard</h2>
+        <p class="text-slate-400 text-sm">Visão geral do autoatendimento e métricas da plataforma.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-slate-400 text-sm font-medium">Clientes no Site</span>
+            <div class="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg"><i data-lucide="users" class="w-5 h-5"></i></div>
+          </div>
+          <span class="text-3xl font-bold text-white">142</span>
+        </div>
+
+        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-slate-400 text-sm font-medium">Usuários Ativos</span>
+            <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg"><i data-lucide="user-check" class="w-5 h-5"></i></div>
+          </div>
+          <span class="text-3xl font-bold text-white">89</span>
+        </div>
+
+        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-slate-400 text-sm font-medium">Scans Realizados</span>
+            <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg"><i data-lucide="scan" class="w-5 h-5"></i></div>
+          </div>
+          <span class="text-3xl font-bold text-white">1,208</span>
+        </div>
+
+        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-slate-400 text-sm font-medium">Equipamentos Cadastrados</span>
+            <div class="p-2 bg-purple-500/10 text-purple-400 rounded-lg"><i data-lucide="box" class="w-5 h-5"></i></div>
+          </div>
+          <span class="text-3xl font-bold text-white" id="metric-equipments">2</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/60 border border-slate-700/50 p-4 md:p-6 rounded-2xl">
+        <h3 class="text-lg font-bold text-white mb-4">Clientes utilizando o site ao longo dos dias</h3>
+        <div class="h-64">
+          <canvas id="chartUsage"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO: EQUIPAMENTOS (Apenas Admin) -->
     <section id="sec-equipamentos" class="hidden space-y-6 max-w-full">
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
@@ -279,6 +306,37 @@
     </section>
 
   </main>
+
+  <!-- MODAL: LOGIN ADMINISTRADOR -->
+  <div id="modal-admin-login" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-5 space-y-4">
+      <div class="flex justify-between items-start">
+        <div class="flex items-center gap-2">
+          <div class="bg-indigo-600 p-1.5 rounded-lg text-white"><i data-lucide="shield" class="w-4 h-4"></i></div>
+          <h3 class="text-base font-bold text-white">Acesso Administrativo</h3>
+        </div>
+        <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <p class="text-xs text-slate-400">Insira as credenciais para gerenciar a plataforma da provedora.</p>
+
+      <form id="form-login" onsubmit="handleAdminLogin(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 mb-1">Usuário</label>
+          <input type="text" id="admin-user" required placeholder="admin" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white">
+        </div>
+        <div>
+          <label class="block text-slate-300 mb-1">Senha</label>
+          <input type="password" id="admin-pass" required placeholder="••••••" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white">
+        </div>
+        <p id="login-error" class="text-red-400 text-xs hidden">Usuário ou senha incorretos. (Dica: admin / 123)</p>
+
+        <div class="pt-2 flex gap-2">
+          <button type="button" onclick="closeAdminModal()" class="w-1/2 bg-slate-700 hover:bg-slate-600 text-white font-medium py-2 rounded-xl transition">Cancelar</button>
+          <button type="submit" class="w-1/2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-xl transition">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- MODAL: DETALHES -->
   <div id="modal-equip" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -347,18 +405,18 @@
     }
 
     function switchTab(tab) {
-      document.getElementById('sec-dashboard').classList.add('hidden');
       document.getElementById('sec-scan').classList.add('hidden');
+      document.getElementById('sec-dashboard').classList.add('hidden');
       document.getElementById('sec-equipamentos').classList.add('hidden');
 
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('bg-indigo-600', 'text-white'));
 
-      if (tab === 'dashboard') {
-        document.getElementById('sec-dashboard').classList.remove('hidden');
-        document.getElementById('btn-dashboard').classList.add('bg-indigo-600', 'text-white');
-      } else if (tab === 'scan') {
+      if (tab === 'scan') {
         document.getElementById('sec-scan').classList.remove('hidden');
         document.getElementById('btn-scan').classList.add('bg-indigo-600', 'text-white');
+      } else if (tab === 'dashboard') {
+        document.getElementById('sec-dashboard').classList.remove('hidden');
+        document.getElementById('btn-dashboard').classList.add('bg-indigo-600', 'text-white');
       } else if (tab === 'equipamentos') {
         document.getElementById('sec-equipamentos').classList.remove('hidden');
         document.getElementById('btn-equipamentos').classList.add('bg-indigo-600', 'text-white');
@@ -368,10 +426,44 @@
         toggleMobileMenu();
       }
     }
-    switchTab('dashboard');
+    switchTab('scan');
 
+    // Funções de Controle de Acesso Admin
+    function openAdminModal() {
+      document.getElementById('modal-admin-login').classList.remove('hidden');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('modal-admin-login').classList.add('hidden');
+      document.getElementById('form-login').reset();
+      document.getElementById('login-error').classList.add('hidden');
+    }
+
+    function handleAdminLogin(event) {
+      event.preventDefault();
+      const user = document.getElementById('admin-user').value;
+      const pass = document.getElementById('admin-pass').value;
+
+      // Credenciais simuladas padrão: admin / 123
+      if (user === 'admin' && pass === '123') {
+        closeAdminModal();
+        document.getElementById('admin-nav-group').classList.remove('hidden');
+        document.getElementById('admin-logout-box').classList.remove('hidden');
+        switchTab('dashboard');
+      } else {
+        document.getElementById('login-error').classList.remove('hidden');
+      }
+    }
+
+    function logoutAdmin() {
+      document.getElementById('admin-nav-group').classList.add('hidden');
+      document.getElementById('admin-logout-box').classList.add('hidden');
+      switchTab('scan');
+    }
+
+    // Inicialização do Gráfico do Dashboard
     const ctx = document.getElementById('chartUsage').getContext('2d');
-    new Chart(ctx, {
+    const usageChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
@@ -398,20 +490,17 @@
     let cameraActive = false;
     let isCorrected = false;
 
-    // FLUXO COMPLETO SIMULADO DE LEITURA (Câmera -> Scan MAC -> Diagnóstico -> RA)
     async function startCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         const video = document.getElementById('webcam');
         video.srcObject = stream;
         
-        // Esconde o botão inicial e mostra o loading simulando a leitura do QR Code/MAC
         document.getElementById('camera-placeholder').classList.add('hidden');
         const loadingDiv = document.getElementById('scan-loading');
         const loadingText = document.getElementById('loading-text');
         loadingDiv.classList.remove('hidden');
 
-        // Sequência de simulação realista por etapas
         setTimeout(() => {
           loadingText.innerText = "Etiqueta encontrada! Lendo MAC Address...";
         }, 1000);
@@ -425,7 +514,6 @@
           document.getElementById('ar-viewport').classList.remove('hidden');
           document.getElementById('btn-toggle-sim').classList.remove('hidden');
           
-          // Atualiza o painel lateral com o equipamento identificado
           const badge = document.getElementById('status-badge');
           badge.className = "flex items-center gap-2 text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full w-fit mb-4";
           badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteador Identificado via MAC';
@@ -438,7 +526,6 @@
         }, 3400);
 
       } catch (err) {
-        // Caso o dispositivo não tenha câmera ou bloqueie, roda o fallback simulado sem erro
         document.getElementById('camera-placeholder').classList.add('hidden');
         document.getElementById('ar-viewport').classList.remove('hidden');
         document.getElementById('btn-toggle-sim').classList.remove('hidden');
