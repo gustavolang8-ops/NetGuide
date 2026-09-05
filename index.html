@@ -43,7 +43,7 @@
           </div>
           <div>
             <h1 class="font-bold text-xl tracking-wide text-white">NetGuide</h1>
-            <p class="text-xs text-slate-400">Plataforma RA</p>
+            <p class="text-xs text-slate-400">Plataforma RA - MHNet</p>
           </div>
         </div>
         <button onclick="openAdminModal()" title="Área Administrativa" class="text-slate-400 hover:text-white p-1.5 rounded-lg bg-slate-900 border border-slate-800 transition">
@@ -70,8 +70,9 @@
       </nav>
     </div>
 
-    <!-- PARTE INFERIOR DO MENU (WHATSAPP CORRIGIDO) -->
+    <!-- PARTE INFERIOR DO MENU -->
     <div class="space-y-2">
+      <!-- BOTÃO DE SUPORTE WHATSAPP COM MENSAGEM CORRIGIDA -->
       <a href="https://wa.me/558000500800?text=Ol%C3%A1,%20preciso%20de%20ajuda%20com%20a%20minha%20conex%C3%A3o,%20vim%20pelo%20aplicativo%20NetGuide." target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium text-emerald-400 hover:bg-emerald-500/10 border border-emerald-500/20 transition text-xs">
         <i data-lucide="message-circle" class="w-4 h-4"></i> Suporte WhatsApp
       </a>
@@ -99,7 +100,7 @@
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
           <h2 class="text-2xl font-bold text-white">Escaneamento com RA</h2>
-          <p class="text-slate-400 text-sm">Aponte a câmera para o equipamento para iniciar a detecção inteligente.</p>
+          <p class="text-slate-400 text-sm">Aponte a câmera para o equipamento homologado MHNet para iniciar a detecção.</p>
         </div>
         <div id="simulation-buttons" class="hidden flex gap-2 flex-wrap">
           <button id="btn-toggle-sim" onclick="toggleCorrectionStep()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-2.5 rounded-xl transition w-fit">
@@ -118,7 +119,7 @@
           
           <div id="camera-placeholder" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 text-slate-400 p-4 text-center space-y-3">
             <i data-lucide="camera" class="w-10 h-10 text-indigo-400 animate-pulse stroke-1"></i>
-            <p class="text-xs sm:text-sm">Aponte para a etiqueta ou roteador e clique abaixo</p>
+            <p class="text-xs sm:text-sm">Aponte para a etiqueta ou roteador AC1200 e clique abaixo</p>
             <button onclick="startCamera()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium text-sm hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/30">
               Iniciar Leitura Inteligente
             </button>
@@ -134,8 +135,8 @@
           <div id="ar-viewport" class="hidden absolute inset-0 pointer-events-none overflow-hidden w-full h-full">
             <div id="router-mock" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-56 sm:w-80 h-32 sm:h-44 bg-slate-800/90 border-2 border-dashed border-indigo-500/50 rounded-2xl flex flex-col justify-between p-3 sm:p-4 shadow-2xl backdrop-blur-sm">
               <div class="flex justify-between items-center">
-                <span class="text-[9px] sm:text-xs text-indigo-300 font-mono">TP-Link Archer C6 (MAC: E8:48:B8...)</span>
-                <div class="flex gap-1">
+                <span class="text-[9px] sm:text-xs text-indigo-300 font-mono">TP-Link AC1200 (MAC: E8:48:B8...)</span>
+                <div class="flex gap-1" id="mock-leds">
                   <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
                   <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
                   <div class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></div>
@@ -259,7 +260,7 @@
             <span class="text-slate-400 text-sm font-medium">Equipamentos Cadastrados</span>
             <div class="p-2 bg-purple-500/10 text-purple-400 rounded-lg"><i data-lucide="box" class="w-5 h-5"></i></div>
           </div>
-          <span class="text-3xl font-bold text-white" id="metric-equipments">2</span>
+          <span class="text-3xl font-bold text-white" id="metric-equipments">1</span>
         </div>
       </div>
 
@@ -276,7 +277,7 @@
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
           <h2 class="text-2xl font-bold text-white">Catálogo de Equipamentos</h2>
-          <p class="text-slate-400 text-sm">Base de dados de roteadores e ONTs homologados.</p>
+          <p class="text-slate-400 text-sm">Base de dados de roteadores e ONTs homologados MHNet.</p>
         </div>
         <button onclick="openAddModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm px-4 py-2.5 rounded-xl transition flex items-center gap-2 w-fit">
           <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Equipamento
@@ -290,33 +291,14 @@
               <i data-lucide="router" class="w-12 h-12 stroke-1"></i>
             </div>
             <span class="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider">TP-Link</span>
-            <h3 class="text-lg font-bold text-white mb-1">Archer C6</h3>
-            <p class="text-xs text-slate-400 mb-3">Roteador Gigabit Dual Band AC1200.</p>
+            <h3 class="text-lg font-bold text-white mb-1">AC1200</h3>
+            <p class="text-xs text-slate-400 mb-3">Roteador Gigabit Dual Band AC1200 (Padrão MHNet).</p>
             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              Status: Ativo
+              Status: Ativo / Homologado
             </span>
           </div>
           <div class="px-5 pb-5 pt-1">
-            <button onclick="openDetailsModal('TP-Link Archer C6', 'Gigabit AC1200', '4 Portas LAN Gigabit, 1 Porta WAN Gigabit', 'LED Power, 2.4GHz, 5GHz, Internet, LAN')" class="w-full bg-slate-700 hover:bg-slate-600 text-white text-xs font-medium py-2 rounded-xl transition">
-              Ver detalhes
-            </button>
-          </div>
-        </div>
-
-        <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-600 transition">
-          <div class="p-5">
-            <div class="h-32 bg-slate-900 rounded-xl mb-3 flex items-center justify-center border border-slate-800 text-slate-600">
-              <i data-lucide="wifi" class="w-12 h-12 stroke-1"></i>
-            </div>
-            <span class="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider">Huawei</span>
-            <h3 class="text-lg font-bold text-white mb-1">AX2</h3>
-            <p class="text-xs text-slate-400 mb-3">Roteador Wi-Fi 6 de alta velocidade.</p>
-            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              Status: Ativo
-            </span>
-          </div>
-          <div class="px-5 pb-5 pt-1">
-            <button onclick="openDetailsModal('Huawei AX2', 'Wi-Fi 6 Dual-Band', '3 Portas Auto-Sensing Gigabit (WAN/LAN)', 'LED Único Multicolorido')" class="w-full bg-slate-700 hover:bg-slate-600 text-white text-xs font-medium py-2 rounded-xl transition">
+            <button onclick="openDetailsModal('TP-Link AC1200', 'Gigabit Dual-Band AC1200', '4 Portas LAN Gigabit, 1 Porta WAN Gigabit', 'LED Power, 2.4GHz, 5GHz, Internet, LAN (Piscar geral indica reset)')" class="w-full bg-slate-700 hover:bg-slate-600 text-white text-xs font-medium py-2 rounded-xl transition">
               Ver detalhes
             </button>
           </div>
@@ -326,7 +308,7 @@
 
   </main>
 
-  <!-- MODAL DINÂMICO PARA AS OPÇÕES DE AUTOATENDIMENTO (COM PASSO A PASSO DETALHADO DO ROTEADOR) -->
+  <!-- MODAL DINÂMICO PARA AS OPÇÕES DE AUTOATENDIMENTO -->
   <div id="modal-feature" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-slate-800 border border-slate-700 w-full max-w-lg rounded-2xl p-5 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-start">
@@ -403,23 +385,23 @@
       <form id="form-add-router" onsubmit="handleAddRouter(event)" class="space-y-2 text-xs">
         <div>
           <label class="block text-slate-300 mb-1">Fabricante</label>
-          <input type="text" id="new-brand" required placeholder="Ex: Intelbras" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
+          <input type="text" id="new-brand" required placeholder="Ex: TP-Link" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
         </div>
         <div>
           <label class="block text-slate-300 mb-1">Modelo</label>
-          <input type="text" id="new-model" required placeholder="Ex: RX 1500" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
+          <input type="text" id="new-model" required placeholder="Ex: Archer AX10" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
         </div>
         <div>
           <label class="block text-slate-300 mb-1">Descrição Curta</label>
-          <textarea id="new-desc" rows="2" required placeholder="Ex: Roteador Wi-Fi 6..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"></textarea>
+          <textarea id="new-desc" rows="2" required placeholder="Ex: Roteador Wi-Fi..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"></textarea>
         </div>
         <div>
           <label class="block text-slate-300 mb-1">Portas e Cabos</label>
-          <input type="text" id="new-ports" required placeholder="Ex: 1 WAN + 3 LAN" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
+          <input type="text" id="new-ports" required placeholder="Ex: 1 WAN + 4 LAN" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
         </div>
         <div>
           <label class="block text-slate-300 mb-1">Indicadores LED</label>
-          <input type="text" id="new-leds" required placeholder="Ex: Power, WAN, 2.4G, 5G" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
+          <input type="text" id="new-leds" required placeholder="Ex: Power, Wi-Fi, LAN, WAN" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
         </div>
 
         <div class="pt-2 flex gap-2">
@@ -464,7 +446,7 @@
     }
     switchTab('scan');
 
-    // Função para abrir os modais interativos com o passo a passo detalhado por abas do roteador
+    // Função para abrir os modais interativos com o passo a passo detalhado do AC1200
     function openFeatureModal(type) {
       const modal = document.getElementById('modal-feature');
       const title = document.getElementById('modal-feature-title');
@@ -472,46 +454,41 @@
       const iconContainer = document.getElementById('modal-feature-icon');
 
       if (type === 'led') {
-        title.innerText = "Diagnóstico Inteligente dos LEDs";
-        desc.innerHTML = "O sistema verifica em tempo real o status das luzes do roteador. Luzes verdes fixas indicam operação normal. Luzes vermelhas ou piscando na indicação de 'Internet' apontam ausência de sinal da fibra ou problema no cabo de rede.";
+        title.innerText = "Diagnóstico Inteligente de LEDs (AC1200)";
+        desc.innerHTML = "O sistema analisa o padrão óptico do roteador. <strong>Atenção:</strong> Se todos os LEDs estiverem piscando simultaneamente, o equipamento foi restaurado para o padrão de fábrica (resetado) e perdeu as configurações de conexão da MHNet.";
         iconContainer.innerHTML = '<i data-lucide="activity" class="w-4 h-4"></i>';
       } else if (type === 'cables') {
         title.innerText = "Guia de Portas e Cabos (RA)";
-        desc.innerHTML = "A Realidade Aumentada (RA) identifica visualmente o equipamento e guia o cliente passo a passo. A porta WAN (geralmente azul) recebe o sinal de internet, enquanto as portas LAN (amarelas) distribuem o sinal para computadores e dispositivos locais.";
+        desc.innerHTML = "A Realidade Aumentada (RA) identifica o TP-Link AC1200. Certifique-se de que o cabo principal da fibra/modem está conectado firmemente na porta <strong>WAN (azul)</strong> e os dispositivos locais nas portas <strong>LAN</strong>.";
         iconContainer.innerHTML = '<i data-lucide="cable" class="w-4 h-4"></i>';
       } else if (type === 'wifi') {
         title.innerText = "Configuração e Otimização do Wi-Fi";
-        desc.innerHTML = "Através deste painel, o cliente pode visualizar o nome da rede (SSID) atual e receber instruções automáticas para alterar a senha ou alternar entre a frequência de 2.4GHz (maior alcance) e 5GHz (maior velocidade).";
+        desc.innerHTML = "Permite revisar o nome da rede (SSID) e senha do TP-Link AC1200 nas frequências de 2.4GHz e 5GHz diretamente pelo painel de controle do equipamento.";
         iconContainer.innerHTML = '<i data-lucide="wifi" class="w-4 h-4"></i>';
       } else if (type === 'reset-guide') {
-        title.innerText = "Roteador Resetado - Passo a Passo Detalhado";
+        title.innerText = "TP-Link AC1200 Resetado - Passo a Passo";
         desc.innerHTML = `
-          <p class="text-slate-300">O sistema identificou que o equipamento foi restaurado para o padrão de fábrica. Siga o guia abaixo para reconfigurá-lo passo a passo em cada aba do roteador:</p>
+          <p class="text-slate-300">O sistema detectou o padrão de LEDs piscando, indicando reset de fábrica. Siga o guia abaixo para reconfigurar o TP-Link AC1200:</p>
           
           <div class="space-y-3 mt-2">
             <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
               <strong class="text-indigo-400 block mb-1">Passo 1: Conexão Inicial</strong>
-              <p>Conecte seu celular na rede Wi-Fi padrão aberta impressa na etiqueta embaixo do roteador. Abra o navegador e digite o IP <code class="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">192.168.0.1</code>. Faça o login com as credenciais de fábrica (ex: <code class="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">admin</code> / <code class="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">admin</code>).</p>
+              <p>Conecte seu celular na rede Wi-Fi aberta padrão impressa na etiqueta embaixo do AC1200. Abra o navegador e digite o IP <code class="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">192.168.0.1</code>. Entre com a senha de fábrica.</p>
             </div>
 
             <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
-              <strong class="text-indigo-400 block mb-1">Passo 2: Aba "Quick Setup" ou "Configuração Rápida"</strong>
-              <p>Ao entrar, o assistente abrirá automaticamente. Clique em <em>Avançar</em>. Selecione o fuso horário local e escolha o tipo de conexão fornecido pela sua operadora (geralmente <strong>PPPoE</strong> se usar usuário/senha de fibra, ou <strong>Dynamic IP / DHCP</strong>).</p>
+              <strong class="text-indigo-400 block mb-1">Passo 2: Configuração Rápida (Quick Setup)</strong>
+              <p>O assistente iniciará. Clique em <em>Avançar</em>, selecione sua região e defina o tipo de conexão da MHNet (geralmente <strong>PPPoE</strong> com usuário e senha fornecidos pela provedora, ou <strong>Dynamic IP</strong>).</p>
             </div>
 
             <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
-              <strong class="text-indigo-400 block mb-1">Passo 3: Aba "Wireless" (Configuração do Wi-Fi)</strong>
-              <p>Nesta aba, configure o nome da sua rede em <strong>Wireless Network Name (SSID)</strong> e insira uma senha segura em <strong>Wireless Password</strong>. Faça isso para ambas as frequências se o roteador for Dual Band (2.4GHz e 5GHz).</p>
+              <strong class="text-indigo-400 block mb-1">Passo 3: Aba "Wireless" (Wi-Fi)</strong>
+              <p>Defina o novo <strong>Nome da Rede (SSID)</strong> e a <strong>Senha</strong> para as frequências de 2.4GHz e 5GHz do seu AC1200.</p>
             </div>
 
             <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
-              <strong class="text-indigo-400 block mb-1">Passo 4: Aba "Network" ou "WAN" (Conexão com a Provedora)</strong>
-              <p>Se a internet não conectar automaticamente pelo assistente, acesse a aba <em>Network > WAN</em>. Confirme se os parâmetros de autenticação passados pela provedora estão preenchidos corretamente e clique em <em>Salvar / Conectar</em>.</p>
-            </div>
-
-            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/50">
-              <strong class="text-indigo-400 block mb-1">Passo 5: Aba "System Tools" (Ferramentas do Sistema)</strong>
-              <p>Por fim, vá até <em>System Tools > Reboot</em> (Reiniciar) para aplicar todas as configurações salvas de forma limpa. Reconecte seu celular na nova rede Wi-Fi criada!</p>
+              <strong class="text-indigo-400 block mb-1">Passo 4: Salvar e Reiniciar</strong>
+              <p>Clique em <em>Salvar</em> e vá em <em>System Tools > Reboot</em> para reiniciar o roteador de forma limpa. Reconecte seu celular na nova rede Wi-Fi criada!</p>
             </div>
           </div>
         `;
@@ -603,7 +580,7 @@
         }, 1000);
 
         setTimeout(() => {
-          loadingText.innerText = "Consultando base de dados da operadora...";
+          loadingText.innerText = "Consultando base de dados MHNet...";
         }, 2200);
 
         setTimeout(() => {
@@ -613,10 +590,10 @@
           
           const badge = document.getElementById('status-badge');
           badge.className = "flex items-center gap-2 text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full w-fit mb-4";
-          badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Roteador Identificado via MAC';
+          badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> TP-Link AC1200 Identificado via MAC';
 
-          document.getElementById('router-title').innerText = "TP-Link Archer C6";
-          document.getElementById('router-desc').innerText = "MAC: E8:48:B8:3A:9F:21 - Diagnóstico de portas concluído.";
+          document.getElementById('router-title').innerText = "TP-Link AC1200";
+          document.getElementById('router-desc').innerText = "MAC: E8:48:B8:3A:9F:21 - Homologado MHNet.";
 
           cameraActive = true;
           startARTrackingSimulation();
@@ -629,10 +606,10 @@
         
         const badge = document.getElementById('status-badge');
         badge.className = "flex items-center gap-2 text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full w-fit mb-4";
-        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Simulação Virtual Ativa';
+        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Simulação Virtual Ativa (AC1200)';
 
-        document.getElementById('router-title').innerText = "TP-Link Archer C6";
-        document.getElementById('router-desc').innerText = "Equipamento simulado com sucesso.";
+        document.getElementById('router-title').innerText = "TP-Link AC1200";
+        document.getElementById('router-desc').innerText = "Equipamento MHNet simulado com sucesso.";
 
         cameraActive = true;
         startARTrackingSimulation();
@@ -671,6 +648,13 @@
         btnContinue.classList.remove('hidden');
         btnSim.innerText = "Simular Cabo Incorreto";
         btnSim.classList.replace('bg-indigo-600', 'bg-amber-600');
+        
+        // LEDs normais
+        document.getElementById('mock-leds').innerHTML = `
+          <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+          <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+          <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+        `;
       } else {
         errorOverlay.classList.remove('hidden');
         wanMarker.classList.remove('hidden');
@@ -697,10 +681,17 @@
       btnResetGuide.classList.remove('hidden');
 
       badge.className = "flex items-center gap-2 text-xs font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-full w-fit mb-4";
-      badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Alerta: Roteador Resetado Detectado';
+      badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Alerta: LEDs Piscando (Roteador Resetado)';
 
-      document.getElementById('router-title').innerText = "TP-Link Archer C6 (Padrão de Fábrica)";
-      document.getElementById('router-desc').innerText = "O firmware detectou ausência de configuração personalizada.";
+      // Simula todos os LEDs piscando indicando reset
+      document.getElementById('mock-leds').innerHTML = `
+        <div class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></div>
+      `;
+
+      document.getElementById('router-title').innerText = "TP-Link AC1200 (Padrão de Fábrica)";
+      document.getElementById('router-desc').innerText = "Padrão de luzes piscando detectado: Equipamento resetado.";
     }
 
     function openDetailsModal(title, tech, ports, leds) {
@@ -724,7 +715,7 @@
       document.getElementById('form-add-router').reset();
     }
 
-    let equipmentCount = 2;
+    let equipmentCount = 1;
 
     function handleAddRouter(event) {
       event.preventDefault();
