@@ -4,47 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>NetGuide - Autoatendimento com RA</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- CSS Externo -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans flex flex-col md:flex-row h-screen overflow-x-hidden w-full">
 
-  <!-- BARRA SUPERIOR PARA CELULAR (MARCA NETGUIDE) -->
-  <div class="md:hidden bg-white border-b border-slate-200 px-4 pt-safe pb-3 flex justify-between items-center z-50 w-full fixed top-0 left-0 h-20 shadow-sm">
-    <div class="flex items-center gap-2.5 mt-3">
-      <!-- LOGO ASSINATURA NETGUIDE -->
-      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white shadow-md shadow-cyan-500/20">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"></path></svg>
-      </div>
-      <div>
-        <span class="font-black text-lg tracking-tight text-slate-900">Net<span class="text-cyan-600">Guide</span></span>
-        <span class="block text-[9px] font-bold text-slate-400 uppercase tracking-widest -mt-1">Diagnostics</span>
-      </div>
-    </div>
-    <div class="flex items-center gap-2 mt-3">
-      <button onclick="openAdminModal()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1.5 rounded-lg border border-slate-300 flex items-center gap-1 transition">
-        <i data-lucide="shield" class="w-3.5 h-3.5 text-cyan-600"></i> Admin
-      </button>
-      <button onclick="toggleMobileMenu()" class="text-slate-700 p-2 rounded-lg bg-slate-100 border border-slate-300">
-        <i data-lucide="menu" class="w-6 h-6"></i>
-      </button>
-    </div>
+  <div class="md:hidden bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 pt-safe flex justify-between items-center z-50 w-full fixed top-0 left-0 h-16 shadow-sm">
+    <button onclick="toggleMobileMenu()" class="text-slate-700 p-2 rounded-xl bg-slate-100 border border-slate-300 flex items-center gap-2 text-xs font-semibold">
+      <i data-lucide="menu" class="w-5 h-5 text-cyan-600"></i> Menu
+    </button>
+    <button onclick="openAdminModal()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl border border-slate-300 flex items-center gap-1.5 transition font-semibold">
+      <i data-lucide="shield" class="w-4 h-4 text-cyan-600"></i> Admin
+    </button>
   </div>
 
-  <!-- MENU LATERAL / MOBILE OVERLAY (MARCA NETGUIDE) -->
-  <aside id="sidebar" class="fixed md:relative top-20 md:top-0 inset-y-0 left-0 w-64 bg-white border-r border-slate-200 flex flex-col justify-between p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out h-[calc(100vh-5rem)] md:h-screen shadow-sm md:shadow-none">
+  <aside id="sidebar" class="fixed md:relative top-16 md:top-0 inset-y-0 left-0 w-64 bg-white border-r border-slate-200 flex flex-col justify-between p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out h-[calc(100vh-4rem)] md:h-screen shadow-sm md:shadow-none">
     <div>
-      <!-- LOGO ASSINATURA EXCLUSIVA NETGUIDE (DESKTOP) -->
       <div class="flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-200 gap-1.5">
         <div class="flex items-center gap-3 min-w-0 flex-1">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-cyan-500/20">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M125.25 18.75h.008v.008H12v-.008z"></path><circle cx="12" cy="17" r="1"></circle></svg>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12 18.75h.008v.008H12v-.008z"></path></svg>
           </div>
           <div class="min-w-0 flex-1">
             <h1 class="font-black text-lg tracking-tight text-slate-900 truncate">Net<span class="text-cyan-600">Guide</span></h1>
@@ -57,12 +38,10 @@
       </div>
 
       <nav class="space-y-2 mt-4 md:mt-0">
-        <!-- ABAS DO CLIENTE -->
         <button onclick="switchTab('scan')" id="btn-scan" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition bg-cyan-600 text-white shadow-sm shadow-cyan-600/20">
           <i data-lucide="camera" class="w-5 h-5"></i> Scanear Roteador
         </button>
 
-        <!-- ABAS DO ADMINISTRADOR (Ocultas por padrão) -->
         <div id="admin-nav-group" class="hidden pt-4 mt-4 border-t border-slate-200 space-y-2">
           <p class="px-2 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Gestão Plataforma</p>
           <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition">
@@ -75,9 +54,7 @@
       </nav>
     </div>
 
-    <!-- PARTE INFERIOR DO MENU -->
     <div class="space-y-2">
-      <!-- BOTÃO DE SUPORTE WHATSAPP -->
       <a href="https://wa.me/558000500800?text=Ol%C3%A1,%20preciso%20de%20ajuda%20com%20a%20minha%20conex%C3%A3o,%20vim%20pelo%20aplicativo%20NetGuide." target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium text-emerald-700 hover:bg-emerald-50 border border-emerald-300 transition text-xs shadow-sm">
         <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600"></i> Suporte WhatsApp
       </a>
@@ -94,13 +71,10 @@
     </div>
   </aside>
 
-  <!-- OVERLAY ESCURO PARA O MENU MOBILE -->
   <div id="mobile-overlay" onclick="toggleMobileMenu()" class="hidden fixed inset-0 bg-black/40 z-30 md:hidden"></div>
 
-  <!-- CONTEÚDO PRINCIPAL -->
-  <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-100 p-4 md:p-6 w-full pt-28 pb-32 md:pt-6 md:pb-6">
+  <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-100 p-4 md:p-6 w-full pt-24 pb-32 md:pt-6 md:pb-6">
 
-    <!-- SEÇÃO: SCANEAR ROTEADOR -->
     <section id="sec-scan" class="space-y-6 max-w-full">
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
@@ -118,7 +92,6 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
-        <!-- ÁREA DA CÂMERA -->
         <div class="lg:col-span-2 relative bg-slate-950 rounded-2xl overflow-hidden border border-slate-200 aspect-video flex items-center justify-center min-h-[220px] w-full shadow-md">
           <video id="webcam" autoplay playsinline class="w-full h-full object-cover"></video>
           
@@ -132,13 +105,11 @@
             </button>
           </div>
 
-          <!-- TELA DE LOADING / SIMULAÇÃO DE LEITURA -->
           <div id="scan-loading" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 backdrop-blur-sm text-center p-4 space-y-3 z-20">
             <div class="w-10 h-10 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
             <p id="loading-text" class="text-xs sm:text-sm font-medium text-cyan-200">Lendo código de barras / MAC...</p>
           </div>
 
-          <!-- OVERLAY RA -->
           <div id="ar-viewport" class="hidden absolute inset-0 pointer-events-none overflow-hidden w-full h-full">
             <div id="router-mock" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-56 sm:w-80 h-32 sm:h-44 bg-slate-900/90 border-2 border-dashed border-cyan-500/50 rounded-2xl flex flex-col justify-between p-3 sm:p-4 shadow-2xl backdrop-blur-sm">
               <div class="flex justify-between items-center">
@@ -197,25 +168,21 @@
             <div class="space-y-2">
               <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Opções de Autoatendimento</p>
               
-              <!-- BOTÃO DE ROTEADOR RESETADO -->
               <button id="btn-reset-guide" onclick="openFeatureModal('reset-guide')" class="hidden w-full flex items-center justify-between p-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-800 text-xs font-semibold transition cursor-pointer animate-pulse">
                 <span class="flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-amber-600"></i> Roteador Resetado - Passo a Passo</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-amber-600"></i>
               </button>
 
-              <!-- BOTÃO 1: LEDS -->
               <button onclick="openFeatureModal('led')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium transition cursor-pointer">
                 <span class="flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-cyan-600"></i> Diagnóstico dos LEDs</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
               </button>
 
-              <!-- BOTÃO 2: PORTAS E CABOS -->
               <button onclick="openFeatureModal('cables')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium transition cursor-pointer">
                 <span class="flex items-center gap-2"><i data-lucide="cable" class="w-4 h-4 text-cyan-600"></i> Portas e Cabos</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
               </button>
 
-              <!-- BOTÃO 3: WI-FI -->
               <button onclick="openFeatureModal('wifi')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium transition cursor-pointer">
                 <span class="flex items-center gap-2"><i data-lucide="wifi" class="w-4 h-4 text-cyan-600"></i> Configuração do Wi-Fi</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
@@ -230,7 +197,6 @@
       </div>
     </section>
 
-    <!-- SEÇÃO: DASHBOARD (Apenas Admin) -->
     <section id="sec-dashboard" class="hidden space-y-6 max-w-full">
       <div>
         <h2 class="text-2xl font-bold text-slate-900">Dashboard</h2>
@@ -279,7 +245,6 @@
       </div>
     </section>
 
-    <!-- SEÇÃO: EQUIPAMENTOS (Apenas Admin) -->
     <section id="sec-equipamentos" class="hidden space-y-6 max-w-full">
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
@@ -315,7 +280,6 @@
 
   </main>
 
-  <!-- MODAL DINÂMICO PARA AS OPÇÕES DE AUTOATENDIMENTO -->
   <div id="modal-feature" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white border border-slate-200 shadow-xl w-full max-w-lg rounded-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-start">
@@ -332,7 +296,6 @@
     </div>
   </div>
 
-  <!-- MODAL: LOGIN ADMINISTRADOR -->
   <div id="modal-admin-login" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white border border-slate-200 shadow-xl w-full max-w-sm rounded-2xl p-6 space-y-4">
       <div class="flex justify-between items-start">
@@ -363,7 +326,6 @@
     </div>
   </div>
 
-  <!-- MODAL: DETALHES -->
   <div id="modal-equip" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white border border-slate-200 shadow-xl w-full max-w-md rounded-2xl p-6 space-y-3">
       <div class="flex justify-between items-start">
@@ -381,7 +343,6 @@
     </div>
   </div>
 
-  <!-- MODAL: ADICIONAR -->
   <div id="modal-add-equip" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white border border-slate-200 shadow-xl w-full max-w-md rounded-2xl p-6 space-y-3">
       <div class="flex justify-between items-start">
@@ -462,7 +423,6 @@
     }
     switchTab('scan');
 
-    // Função para abrir os modais interativos com o passo a passo detalhado do AC1200
     function openFeatureModal(type) {
       const modal = document.getElementById('modal-feature');
       const title = document.getElementById('modal-feature-title');
@@ -524,7 +484,6 @@
       document.getElementById('modal-feature').classList.add('hidden');
     }
 
-    // Funções de Controle de Acesso Admin
     function openAdminModal() {
       document.getElementById('modal-admin-login').classList.remove('hidden');
     }
@@ -556,7 +515,6 @@
       switchTab('scan');
     }
 
-    // Inicialização do Gráfico do Dashboard
     const ctx = document.getElementById('chartUsage').getContext('2d');
     const usageChart = new Chart(ctx, {
       type: 'line',
