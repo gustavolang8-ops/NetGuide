@@ -89,8 +89,8 @@
   <!-- OVERLAY ESCURO PARA O MENU MOBILE -->
   <div id="mobile-overlay" onclick="toggleMobileMenu()" class="hidden fixed inset-0 bg-black/60 z-30 md:hidden"></div>
 
-  <!-- CONTEÚDO PRINCIPAL (Com espaçamento superior aumentado para evitar sobreposição) -->
-  <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-900 p-4 md:p-6 w-full pt-24 md:pt-6">
+  <!-- CONTEÚDO PRINCIPAL (Com pt-24 e pb-32 para evitar qualquer corte da barra do Safari no iPhone) -->
+  <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-900 p-4 md:p-6 w-full pt-24 pb-32 md:pt-6 md:pb-6">
 
     <!-- SEÇÃO: SCANEAR ROTEADOR -->
     <section id="sec-scan" class="space-y-6 max-w-full">
