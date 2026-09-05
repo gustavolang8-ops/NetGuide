@@ -36,17 +36,18 @@
   <!-- MENU LATERAL / MOBILE OVERLAY (TEMA CLARO) -->
   <aside id="sidebar" class="fixed md:relative top-20 md:top-0 inset-y-0 left-0 w-64 bg-white border-r border-slate-200 flex flex-col justify-between p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out h-[calc(100vh-5rem)] md:h-screen shadow-sm md:shadow-none">
     <div>
-      <div class="hidden md:flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-200">
-        <div class="flex items-center gap-3">
-          <div class="bg-indigo-600 p-2 rounded-lg text-white">
+      <!-- CABEÇALHO DO MENU (CORRIGIDO PARA O DESKTOP) -->
+      <div class="hidden md:flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-200 gap-2">
+        <div class="flex items-center gap-2.5 overflow-hidden">
+          <div class="bg-indigo-600 p-2 rounded-lg text-white flex-shrink-0">
             <i data-lucide="wifi"></i>
           </div>
-          <div>
-            <h1 class="font-bold text-xl tracking-wide text-slate-900">NetGuide</h1>
-            <p class="text-xs text-slate-500">Plataforma RA - MHNet</p>
+          <div class="truncate">
+            <h1 class="font-bold text-base tracking-wide text-slate-900 truncate">NetGuide</h1>
+            <p class="text-[11px] text-slate-500 truncate">Plataforma RA - MHNet</p>
           </div>
         </div>
-        <button onclick="openAdminModal()" title="Área Administrativa" class="text-slate-500 hover:text-slate-900 p-1.5 rounded-lg bg-slate-100 border border-slate-200 transition">
+        <button onclick="openAdminModal()" title="Área Administrativa" class="flex-shrink-0 text-slate-600 hover:text-slate-900 p-2 rounded-lg bg-slate-100 border border-slate-200 transition">
           <i data-lucide="shield" class="w-4 h-4 text-indigo-600"></i>
         </button>
       </div>
