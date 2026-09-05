@@ -63,7 +63,7 @@
       </nav>
     </div>
 
-    <!-- PARTE INFERIOR DO MENU (Com margem superior automática para empurrar quando houver espaço) -->
+    <!-- PARTE INFERIOR DO MENU -->
     <div class="space-y-2 pt-8 mt-auto pb-6">
       <!-- BOTÃO DE SUPORTE WHATSAPP -->
       <a href="https://wa.me/558000500800?text=Ol%C3%A1,%20preciso%20de%20ajuda%20com%20a%20minha%20conex%C3%A3o,%20vim%20pelo%20aplicativo%20NetGuide." target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium text-emerald-700 hover:bg-emerald-50 border border-emerald-300 transition text-xs shadow-sm">
@@ -282,7 +282,7 @@
       <div id="equipments-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-300 transition">
           <div class="p-5">
-            <div class="h-32 bg-slate-50 rounded-xl mb-3 flex items-center justify-center border border-slate-200 text-slate-400">
+            <div class="h-32 bg-slate-50 rounded-xl mb-3 flex items-center justify-center border border-slate-200 text-slate-400 overflow-hidden">
               <i data-lucide="router" class="w-12 h-12 stroke-1"></i>
             </div>
             <span class="text-[10px] font-semibold text-cyan-600 uppercase tracking-wider">TP-Link</span>
@@ -369,9 +369,9 @@
     </div>
   </div>
 
-  <!-- MODAL: ADICIONAR -->
+  <!-- MODAL: ADICIONAR (Com campo de URL da Imagem) -->
   <div id="modal-add-equip" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 shadow-xl w-full max-w-md rounded-2xl p-6 space-y-3">
+    <div class="bg-white border border-slate-200 shadow-xl w-full max-w-md rounded-2xl p-6 space-y-3 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-start">
         <h3 class="text-lg font-bold text-slate-900">Adicionar Novo Roteador</h3>
         <button onclick="closeAddModal()" class="text-slate-400 hover:text-slate-700"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -385,6 +385,10 @@
         <div>
           <label class="block text-slate-700 mb-1 font-medium">Modelo</label>
           <input type="text" id="new-model" required placeholder="Ex: Archer AX10" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-base sm:text-xs text-slate-900">
+        </div>
+        <div>
+          <label class="block text-slate-700 mb-1 font-medium">URL da Foto do Equipamento (Opcional)</label>
+          <input type="url" id="new-image" placeholder="Ex: https://link-da-foto.com/router.jpg" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-base sm:text-xs text-slate-900">
         </div>
         <div>
           <label class="block text-slate-700 mb-1 font-medium">Descrição Curta</label>
@@ -481,7 +485,7 @@
 
             <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
               <strong class="text-cyan-600 block mb-1">2. Acesse a Página Web</strong>
-              <p>Quando conectado, mesmo sem estar com internet, abra o navegador e digite na barra de endereços <code class="bg-slate-200 px-1.5 py-0.5 rounded text-cyan-700 font-mono">192.168.0.1</code> e aperte enter. (esse IP pode variar de acordo o equipamento).</p>
+              <p>Когда conectado, mesmo sem estar com internet, abra o navegador e digite na barra de endereços <code class="bg-slate-200 px-1.5 py-0.5 rounded text-cyan-700 font-mono">192.168.0.1</code> e aperte enter. (esse IP pode variar de acordo o equipamento).</p>
             </div>
 
             <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
@@ -725,6 +729,7 @@
       event.preventDefault();
       const brand = document.getElementById('new-brand').value;
       const model = document.getElementById('new-model').value;
+      const imageUrl = document.getElementById('new-image').value.trim();
       const desc = document.getElementById('new-desc').value;
       const ports = document.getElementById('new-ports').value;
       const leds = document.getElementById('new-leds').value;
@@ -733,10 +738,15 @@
       const card = document.createElement('div');
       card.className = "bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-300 transition";
 
+      // Se o usuário colocou o link da foto, exibe a imagem. Senão, exibe o ícone padrão.
+      const mediaContent = imageUrl 
+        ? `<img src="${imageUrl}" alt="${model}" class="w-full h-full object-cover rounded-xl">` 
+        : `<i data-lucide="router" class="w-12 h-12 stroke-1 text-slate-400"></i>`;
+
       card.innerHTML = `
         <div class="p-5">
-          <div class="h-32 bg-slate-50 rounded-xl mb-3 flex items-center justify-center border border-slate-200 text-slate-400">
-            <i data-lucide="router" class="w-12 h-12 stroke-1"></i>
+          <div class="h-32 bg-slate-50 rounded-xl mb-3 flex items-center justify-center border border-slate-200 overflow-hidden">
+            ${mediaContent}
           </div>
           <span class="text-[10px] font-semibold text-cyan-600 uppercase tracking-wider">${brand}</span>
           <h3 class="text-lg font-bold text-slate-900 mb-1">${model}</h3>
