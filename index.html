@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetGuide - Autoatendimento com RA</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js para o gráfico do Dashboard -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Link para o arquivo CSS externo -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans flex h-screen overflow-hidden">
+
+  <!-- MENU LATERAL FIXO -->
+  <aside class="w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between p-4 flex-shrink-0">
+    <div>
+      <div class="flex items-center gap-3 px-2 py-4 mb-6 border-b border-slate-800">
+        <div class="bg-indigo-600 p-2 rounded-lg text-white">
+          <i data-lucide="wifi"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-xl tracking-wide text-white">NetGuide</h1>
+          <p class="text-xs text-slate-400">Plataforma RA</p>
+        </div>
+      </div>
+
+      <nav class="space-y-2">
+        <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+        </button>
+        <button onclick="switchTab('scan')" id="btn-scan" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+          <i data-lucide="camera" class="w-5 h-5"></i> Scanear Roteador
+        </button>
+        <button onclick="switchTab('equipamentos')" id="btn-equipamentos" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition">
+          <i data-lucide="router" class="w-5 h-5"></i> Equipamentos
+        </button>
+      </nav>
+    </div>
+
+    <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-xs text-slate-400 text-center">
+      NetGuide &copy; 2026 - RA
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="flex-1 overflow-y-auto bg-slate-900 p-6">
+
+    <!-- SEÇÃO: DASHBOARD -->
+    <section id="sec-dashboard" class="space-y-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-bold text-white">Dashboard</h2>
+          <p class="text-slate-400 text-sm">Visão geral do autoatendimento e métricas da plataforma.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-slate-400 text-sm font-medium">Clientes no Site</span>
+            <div class="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg"><i data-lucide="users" class="w-5 h-5"></i></div>
+          </div>
+          <span class="text-3xl font-bold text-white">142</span>
+        </div>
+
+        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-slate-400 text-sm font-medium">Usuários Ativos</span>
+            <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg"><i data-lucide="user-check" class="w-5 h-5"></i></div>
+          </div>
+          <span class="text-3xl font-bold text-white">89</span>
+        </div>
+
+        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-slate-400 text-sm font-medium">Scans Realizados</span>
+            <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg"><i data-lucide="scan" class="w-5 h-5"></i></div>
+          </div>
+          <span class="text-3xl font-bold text-white">1,208</span>
+        </div>
+
+        <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-2xl">
+          <div class="flex justify-between items-start mb-2">
+            <span class="text-slate-400 text-sm font-medium">Equipamentos Cadastrados</span>
+            <div class="p-2 bg-purple-500/10 text-purple-400 rounded-lg"><i data-lucide="box" class="w-5 h-5"></i></div>
+          </div>
+          <span class="text-3xl font-bold text-white" id="metric-equipments">2</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/60 border border-slate-700/50 p-6 rounded-2xl">
+        <h3 class="text-lg font-bold text-white mb-4">Clientes utilizando o site ao longo dos dias</h3>
+        <div class="h-64">
+          <canvas id="chartUsage"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO: SCANEAR ROTEADOR -->
+    <section id="sec-scan" class="hidden space-y-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-bold text-white">Escaneamento com Realidade Aumentada</h2>
+          <p class="text-slate-400 text-sm">Aponte a câmera para o equipamento para iniciar a detecção inteligente.</p>
+        </div>
+        <button id="btn-toggle-sim" onclick="toggleCorrectionStep()" class="hidden bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">
+          Simular Encaixe Correto
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 relative bg-black rounded-2xl overflow-hidden border border-slate-800 aspect-video flex items-center justify-center">
+          <video id="webcam" autoplay playsinline class="w-full h-full object-cover"></video>
+          
+          <div id="camera-placeholder" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/80 text-slate-400 space-y-3">
+            <i data-lucide="camera-off" class="w-12 h-12 stroke-1"></i>
+            <p>Clique em "Ativar Câmera" para iniciar a simulação RA</p>
+            <button onclick="startCamera()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium text-sm hover:bg-indigo-500 transition">
+              Ativar Câmera
+            </button>
+          </div>
+
+          <div id="ar-viewport" class="hidden absolute inset-0 pointer-events-none">
+            <div id="router-mock" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-44 bg-slate-800/90 border-2 border-dashed border-indigo-500/50 rounded-2xl flex flex-col justify-between p-4 shadow-2xl backdrop-blur-sm">
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-indigo-300 font-mono">TP-Link Archer C6</span>
+                <div class="flex gap-1.5">
+                  <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                  <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                  <div class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></div>
+                </div>
+              </div>
+              
+              <div class="flex gap-2 justify-center py-2 bg-slate-900/80 rounded-lg border border-slate-700/50">
+                <div class="w-8 h-8 rounded bg-slate-700 border border-slate-600 flex items-center justify-center text-[10px] text-slate-300">LAN1</div>
+                <div class="w-8 h-8 rounded bg-amber-600/40 border border-amber-500 flex items-center justify-center text-[10px] text-amber-200 font-bold">LAN2</div>
+                <div class="w-8 h-8 rounded bg-slate-700 border border-slate-600 flex items-center justify-center text-[10px] text-slate-300">LAN3</div>
+                <div class="w-8 h-8 rounded bg-blue-600/30 border-2 border-blue-500 flex items-center justify-center text-[10px] text-blue-300 font-bold">WAN</div>
+              </div>
+            </div>
+
+            <div id="ar-error-overlay" class="ar-overlay absolute left-1/2 top-1/2 -translate-x-12 -translate-y-24 flex flex-col items-center">
+              <div class="bg-red-500/90 text-white text-xs px-3 py-1.5 rounded-lg shadow-lg backdrop-blur-md flex items-center gap-2 border border-red-400 ar-pulse-error">
+                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                <span class="font-bold">Cabo conectado incorretamente</span>
+              </div>
+              <div class="text-blue-400 ar-bounce mt-2 flex flex-col items-center">
+                <i data-lucide="arrow-down-big" class="w-8 h-8 fill-blue-500 stroke-white"></i>
+                <span class="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded shadow font-semibold">Conecte o cabo aqui</span>
+              </div>
+            </div>
+
+            <div id="ar-wan-marker" class="ar-overlay absolute left-1/2 top-1/2 translate-x-16 translate-y-6">
+              <span class="bg-blue-500/80 text-white text-[10px] px-2 py-1 rounded border border-blue-300 font-bold shadow-md">
+                Marcador: Porta WAN
+              </span>
+            </div>
+
+            <div id="ar-success-overlay" class="hidden ar-overlay absolute left-1/2 top-1/2 translate-x-12 -translate-y-20 flex flex-col items-center">
+              <div class="bg-emerald-500 text-white text-xs px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-2 border border-emerald-300">
+                <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                <span class="font-bold">Conexão correta</span>
+              </div>
+              <span class="bg-emerald-800/90 text-emerald-200 text-[10px] px-2 py-0.5 rounded shadow mt-1">
+                Cabo conectado na porta WAN
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-800/60 border border-slate-700/50 p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full w-fit mb-4">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Roteador Identificado
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mb-1">TP-Link Archer C6</h3>
+            <p class="text-xs text-slate-400 mb-6">Equipamento detectado via reconhecimento visual em tempo real.</p>
+
+            <div class="space-y-2">
+              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Opções de Autoatendimento</p>
+              <button class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-slate-700/50 border border-slate-700/50 text-slate-200 text-sm font-medium transition">
+                <span class="flex items-center gap-2.5"><i data-lucide="activity" class="w-4 h-4 text-indigo-400"></i> Diagnóstico dos LEDs</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+              </button>
+              <button class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-slate-700/50 border border-slate-700/50 text-slate-200 text-sm font-medium transition">
+                <span class="flex items-center gap-2.5"><i data-lucide="cable" class="w-4 h-4 text-indigo-400"></i> Portas e Cabos</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+              </button>
+              <button class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-slate-700/50 border border-slate-700/50 text-slate-200 text-sm font-medium transition">
+                <span class="flex items-center gap-2.5"><i data-lucide="wifi" class="w-4 h-4 text-indigo-400"></i> Configuração do Wi-Fi</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+              </button>
+              <button class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-slate-700/50 border border-slate-700/50 text-slate-200 text-sm font-medium transition">
+                <span class="flex items-center gap-2.5"><i data-lucide="network" class="w-4 h-4 text-indigo-400"></i> Configuração de IP</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+              </button>
+              <button class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-900/60 hover:bg-slate-700/50 border border-slate-700/50 text-slate-200 text-sm font-medium transition">
+                <span class="flex items-center gap-2.5"><i data-lucide="lock" class="w-4 h-4 text-indigo-400"></i> Configuração PPPoE</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+              </button>
+            </div>
+          </div>
+
+          <button id="btn-continue-diag" class="hidden w-full mt-6 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2">
+            Continuar Diagnóstico <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO: EQUIPAMENTOS -->
+    <section id="sec-equipamentos" class="hidden space-y-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-bold text-white">Catálogo de Equipamentos</h2>
+          <p class="text-slate-400 text-sm">Base de dados de roteadores e ONTs homologados pela empresa.</p>
+        </div>
+        <!-- BOTÃO DE ADICIONAR NOVO ROTEADOR -->
+        <button onclick="openAddModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm px-4 py-2.5 rounded-xl transition flex items-center gap-2">
+          <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Equipamento
+        </button>
+      </div>
+
+      <!-- CONTAINER DOS CARDS DOS EQUIPAMENTOS -->
+      <div id="equipments-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- CARD 1: TP-LINK ARCHER C6 -->
+        <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-600 transition">
+          <div class="p-6">
+            <div class="h-36 bg-slate-900 rounded-xl mb-4 flex items-center justify-center border border-slate-800 text-slate-600">
+              <i data-lucide="router" class="w-16 h-16 stroke-1"></i>
+            </div>
+            <span class="text-xs font-semibold text-indigo-400 uppercase tracking-wider">TP-Link</span>
+            <h3 class="text-xl font-bold text-white mb-2">Archer C6</h3>
+            <p class="text-xs text-slate-400 mb-4">Roteador Gigabit Dual Band AC1200 com suporte a tecnologia MU-MIMO e 4 antenas externas.</p>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              Status: Ativo / Suportado
+            </span>
+          </div>
+          <div class="px-6 pb-6 pt-2">
+            <button onclick="openDetailsModal('TP-Link Archer C6', 'Gigabit AC1200', '4 Portas LAN Gigabit, 1 Porta WAN Gigabit', 'LED Power, 2.4GHz, 5GHz, Internet, LAN')" class="w-full bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium py-2.5 rounded-xl transition">
+              Ver detalhes
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 2: HUAWEI AX2 -->
+        <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-600 transition">
+          <div class="p-6">
+            <div class="h-36 bg-slate-900 rounded-xl mb-4 flex items-center justify-center border border-slate-800 text-slate-600">
+              <i data-lucide="wifi" class="w-16 h-16 stroke-1"></i>
+            </div>
+            <span class="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Huawei</span>
+            <h3 class="text-xl font-bold text-white mb-2">AX2</h3>
+            <p class="text-xs text-slate-400 mb-4">Roteador Wi-Fi 6 de alta velocidade, suporte a HarmonyOS Mesh+ e controles dos pais avançados.</p>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              Status: Ativo / Suportado
+            </span>
+          </div>
+          <div class="px-6 pb-6 pt-2">
+            <button onclick="openDetailsModal('Huawei AX2', 'Wi-Fi 6 Dual-Band', '3 Portas Auto-Sensing Gigabit (WAN/LAN)', 'LED Único Multicolorido (Status/Conexão)')" class="w-full bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium py-2.5 rounded-xl transition">
+              Ver detalhes
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: DETALHES DO EQUIPAMENTO -->
+  <div id="modal-equip" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-2xl p-6 space-y-4">
+      <div class="flex justify-between items-start">
+        <h3 id="modal-title" class="text-xl font-bold text-white">Detalhes do Roteador</h3>
+        <button onclick="closeDetailsModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div class="space-y-3 text-sm text-slate-300">
+        <p><strong>Tecnologia:</strong> <span id="modal-tech" class="text-slate-400"></span></p>
+        <p><strong>Portas e Cabos:</strong> <span id="modal-ports" class="text-slate-400"></span></p>
+        <p><strong>Indicadores LED:</strong> <span id="modal-leds" class="text-slate-400"></span></p>
+        <div class="p-3 bg-slate-900 rounded-lg border border-slate-700 text-xs text-slate-400">
+          <strong>Procedimento padrão de reset:</strong> Pressione o botão RESET por 10 segundos até todos os LEDs piscarem simultaneamente.
+        </div>
+      </div>
+      <button onclick="closeDetailsModal()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-xl transition">
+        Fechar
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: ADICIONAR NOVO EQUIPAMENTO -->
+  <div id="modal-add-equip" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-2xl p-6 space-y-4">
+      <div class="flex justify-between items-start">
+        <h3 class="text-xl font-bold text-white">Adicionar Novo Roteador</h3>
+        <button onclick="closeAddModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form id="form-add-router" onsubmit="handleAddRouter(event)" class="space-y-3 text-sm">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Fabricante</label>
+          <input type="text" id="new-brand" required placeholder="Ex: Intelbras, TP-Link, D-Link" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Modelo</label>
+          <input type="text" id="new-model" required placeholder="Ex: RX 1500" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição Curta</label>
+          <textarea id="new-desc" rows="2" required placeholder="Ex: Roteador Dual Band Wi-Fi 6..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Portas e Cabos</label>
+          <input type="text" id="new-ports" required placeholder="Ex: 1 WAN Gigabit + 3 LAN Gigabit" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Indicadores LED</label>
+          <input type="text" id="new-leds" required placeholder="Ex: Power, WAN, LAN, 2.4G, 5G" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div class="pt-2 flex gap-3">
+          <button type="button" onclick="closeAddModal()" class="w-1/2 bg-slate-700 hover:bg-slate-600 text-white font-medium py-2 rounded-xl transition">
+            Cancelar
+          </button>
+          <button type="submit" class="w-1/2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-xl transition">
+            Cadastrar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // INICIALIZAÇÃO DOS ÍCONES
+    lucide.createIcons();
+
+    // NAVEGAÇÃO ENTRE ABAS
+    function switchTab(tab) {
+      document.getElementById('sec-dashboard').classList.add('hidden');
+      document.getElementById('sec-scan').classList.add('hidden');
+      document.getElementById('sec-equipamentos').classList.add('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('bg-indigo-600', 'text-white'));
+
+      if (tab === 'dashboard') {
+        document.getElementById('sec-dashboard').classList.remove('hidden');
+        document.getElementById('btn-dashboard').classList.add('bg-indigo-600', 'text-white');
+      } else if (tab === 'scan') {
+        document.getElementById('sec-scan').classList.remove('hidden');
+        document.getElementById('btn-scan').classList.add('bg-indigo-600', 'text-white');
+      } else if (tab === 'equipamentos') {
+        document.getElementById('sec-equipamentos').classList.remove('hidden');
+        document.getElementById('btn-equipamentos').classList.add('bg-indigo-600', 'text-white');
+      }
+    }
+    switchTab('dashboard');
+
+    // GRÁFICO DO DASHBOARD
+    const ctx = document.getElementById('chartUsage').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+        datasets: [{
+          label: 'Acessos de Clientes',
+          data: [65, 89, 120, 142, 110, 155, 170],
+          borderColor: '#6366f1',
+          backgroundColor: 'rgba(99, 102, 241, 0.1)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+          y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }
+        }
+      }
+    });
+
+    // CÂMERA E SIMULAÇÃO DE REALIDADE AUMENTADA (RA)
+    let cameraActive = false;
+    let isCorrected = false;
+
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        const video = document.getElementById('webcam');
+        video.srcObject = stream;
+        document.getElementById('camera-placeholder').classList.add('hidden');
+        document.getElementById('ar-viewport').classList.remove('hidden');
+        document.getElementById('btn-toggle-sim').classList.remove('hidden');
+        cameraActive = true;
+        startARTrackingSimulation();
+      } catch (err) {
+        alert("Câmera indisponível ou permissão negada. Ativando fundo virtual para simulação.");
+        document.getElementById('camera-placeholder').classList.add('hidden');
+        document.getElementById('ar-viewport').classList.remove('hidden');
+        document.getElementById('btn-toggle-sim').classList.remove('hidden');
+        startARTrackingSimulation();
+      }
+    }
+
+    function startARTrackingSimulation() {
+      let angle = 0;
+      setInterval(() => {
+        if (!cameraActive) return;
+        angle += 0.05;
+        const offsetX = Math.sin(angle) * 8;
+        const offsetY = Math.cos(angle) * 5;
+        const mock = document.getElementById('router-mock');
+        if (mock) {
+          mock.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
+        }
+      }, 50);
+    }
+
+    function toggleCorrectionStep() {
+      isCorrected = !isCorrected;
+      const errorOverlay = document.getElementById('ar-error-overlay');
+      const wanMarker = document.getElementById('ar-wan-marker');
+      const successOverlay = document.getElementById('ar-success-overlay');
+      const btnContinue = document.getElementById('btn-continue-diag');
+      const btnSim = document.getElementById('btn-toggle-sim');
+
+      if (isCorrected) {
+        errorOverlay.classList.add('hidden');
+        wanMarker.classList.add('hidden');
+        successOverlay.classList.remove('hidden');
+        btnContinue.classList.remove('hidden');
+        btnSim.innerText = "Simular Cabo Incorreto";
+        btnSim.classList.replace('bg-indigo-600', 'bg-amber-600');
+      } else {
+        errorOverlay.classList.remove('hidden');
+        wanMarker.classList.remove('hidden');
+        successOverlay.classList.add('hidden');
+        btnContinue.classList.add('hidden');
+        btnSim.innerText = "Simular Encaixe Correto";
+        btnSim.classList.replace('bg-amber-600', 'bg-indigo-600');
+      }
+    }
+
+    // CONTROLE DOS MODAIS
+    function openDetailsModal(title, tech, ports, leds) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-tech').innerText = tech;
+      document.getElementById('modal-ports').innerText = ports;
+      document.getElementById('modal-leds').innerText = leds;
+      document.getElementById('modal-equip').classList.remove('hidden');
+    }
+
+    function closeDetailsModal() {
+      document.getElementById('modal-equip').classList.add('hidden');
+    }
+
+    function openAddModal() {
+      document.getElementById('modal-add-equip').classList.remove('hidden');
+    }
+
+    function closeAddModal() {
+      document.getElementById('modal-add-equip').classList.add('hidden');
+      document.getElementById('form-add-router').reset();
+    }
+
+    // ADICIONAR NOVO ROTEADOR AO CATÁLOGO DINAMICAMENTE
+    let equipmentCount = 2; // Inicia com os 2 modelos existentes
+
+    function handleAddRouter(event) {
+      event.preventDefault();
+
+      const brand = document.getElementById('new-brand').value;
+      const model = document.getElementById('new-model').value;
+      const desc = document.getElementById('new-desc').value;
+      const ports = document.getElementById('new-ports').value;
+      const leds = document.getElementById('new-leds').value;
+
+      // Criar elemento HTML para o novo card
+      const grid = document.getElementById('equipments-grid');
+      const card = document.createElement('div');
+      card.className = "bg-slate-800/60 border border-slate-700/50 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-600 transition";
+
+      card.innerHTML = `
+        <div class="p-6">
+          <div class="h-36 bg-slate-900 rounded-xl mb-4 flex items-center justify-center border border-slate-800 text-slate-600">
+            <i data-lucide="router" class="w-16 h-16 stroke-1"></i>
+          </div>
+          <span class="text-xs font-semibold text-indigo-400 uppercase tracking-wider">${brand}</span>
+          <h3 class="text-xl font-bold text-white mb-2">${model}</h3>
+          <p class="text-xs text-slate-400 mb-4">${desc}</p>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Status: Ativo / Suportado
+          </span>
+        </div>
+        <div class="px-6 pb-6 pt-2">
+          <button onclick="openDetailsModal('${brand} ${model}', 'Tecnologia Padrão', '${ports}', '${leds}')" class="w-full bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium py-2.5 rounded-xl transition">
+            Ver detalhes
+          </button>
+        </div>
+      `;
+
+      grid.appendChild(card);
+      lucide.createIcons(); // Atualiza ícones Lucide para o novo elemento
+
+      // Atualiza o contador de equipamentos no Dashboard
+      equipmentCount++;
+      document.getElementById('metric-equipments').innerText = equipmentCount;
+
+      closeAddModal();
+    }
+  </script>
+</body>
+</html>
