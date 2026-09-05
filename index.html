@@ -36,8 +36,8 @@
   <!-- MENU LATERAL / MOBILE OVERLAY (TEMA CLARO) -->
   <aside id="sidebar" class="fixed md:relative top-20 md:top-0 inset-y-0 left-0 w-64 bg-white border-r border-slate-200 flex flex-col justify-between p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out h-[calc(100vh-5rem)] md:h-screen shadow-sm md:shadow-none">
     <div>
-      <!-- CABEÇALHO DO MENU (CORRIGIDO PARA O DESKTOP) -->
-      <div class="hidden md:flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-200 gap-2">
+      <!-- CABEÇALHO DO MENU (SEMPRE VISÍVEL NA SIDEBAR) -->
+      <div class="flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-200 gap-2">
         <div class="flex items-center gap-2.5 overflow-hidden">
           <div class="bg-indigo-600 p-2 rounded-lg text-white flex-shrink-0">
             <i data-lucide="wifi"></i>
@@ -540,7 +540,7 @@
         document.getElementById('admin-logout-box').classList.remove('hidden');
         switchTab('dashboard');
       } else {
-        document.getElementById('login-error').classList.remove('hidden');
+        document.getElementById('login-error').classList.add('hidden');
       }
     }
 
