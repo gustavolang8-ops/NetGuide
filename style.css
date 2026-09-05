@@ -36,9 +36,18 @@ body {
     background-color: var(--bg-light);
     color: var(--text-main);
     display: flex;
-    height: 100vh;
-    overflow: hidden;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
+}
+
+@media (min-width: 768px) {
+    body {
+        flex-direction: row;
+        height: 100vh;
+        overflow: hidden;
+    }
 }
 
 main {
@@ -345,7 +354,7 @@ main {
 }
 
 .ar-arrow-3d {
-    color: #06b6d4;
+    class: #06b6d4;
     margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
