@@ -47,7 +47,7 @@
   <!-- MENU LATERAL / MOBILE OVERLAY -->
   <aside id="sidebar" class="fixed md:sticky top-16 md:top-0 inset-y-0 left-0 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-200 dark:border-slate-800 flex flex-col p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out h-full md:h-screen shadow-lg md:shadow-none overflow-y-auto">
     <div>
-      <!-- LOGO NETGUIDE (LIMPA NO PC, SEM BOTÕES EM CIMA) -->
+      <!-- LOGO NETGUIDE (LIMPA E LIVRE NO PC) -->
       <div class="flex items-center px-2 py-4 mb-6 border-b border-slate-100 dark:border-slate-800 gap-3">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-cyan-500/25">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12 18.75h.008v.008H12v-.008z"></path></svg>
@@ -75,15 +75,14 @@
       </nav>
     </div>
 
-    <!-- RODAPÉ DO MENU (BOTÕES DE TEMA E ADMIN ORGANIZADOS NO PC) -->
+    <!-- RODAPÉ DO MENU (BOTÕES DE TEMA E ADMIN SEMPRE VISÍVEIS NO PC) -->
     <div class="space-y-2.5 pt-6 mt-auto pb-4">
-      <!-- BOTÕES DE CONTROLE NO PC (TEMA E ADMIN ABAIXO) -->
-      <div class="hidden md:grid grid-cols-2 gap-2">
-        <button onclick="toggleDarkMode()" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-medium py-2.5 rounded-xl text-xs transition-all duration-200 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-1.5" title="Alternar Tema">
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="toggleDarkMode()" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-medium py-2.5 rounded-xl text-xs transition-all duration-200 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer" title="Alternar Tema">
           <i data-lucide="sun-medium" class="w-4 h-4 text-amber-500 dark:hidden"></i>
           <i data-lucide="moon" class="w-4 h-4 text-cyan-400 hidden dark:block"></i> Tema
         </button>
-        <button onclick="openAdminModal()" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-medium py-2.5 rounded-xl text-xs transition-all duration-200 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-1.5" title="Área Admin">
+        <button onclick="openAdminModal()" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-medium py-2.5 rounded-xl text-xs transition-all duration-200 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer" title="Área Admin">
           <i data-lucide="shield" class="w-4 h-4 text-cyan-600"></i> Admin
         </button>
       </div>
