@@ -1,9 +1,7 @@
 /*  
-    NetGuide - Estilos Personalizados (Tema Claro / Marca NetGuide)
-    Design limpo, profissional e tecnológico para a plataforma SaaS
+    NetGuide - Estilos SaaS Moderno & Futurista (Light & Dark Mode)
 */
 
-/* Reset e Configurações Globais */
 * {
     margin: 0;
     padding: 0;
@@ -11,30 +9,7 @@
     font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
 }
 
-:root {
-    --bg-light: #f1f5f9;       /* Slate 100 */
-    --bg-sidebar: #ffffff;     /* Branco puro */
-    --bg-card: #ffffff;
-    --bg-card-hover: #f8fafc;
-    --border-color: #cbd5e1;   /* Slate 300 */
-    
-    /* Identidade NetGuide (Cyan Tecnológico) */
-    --primary: #0891b2;        /* Cyan 600 */
-    --primary-hover: #0e7490;  /* Cyan 700 */
-    --success: #10b981;        /* Emerald 500 */
-    --success-bg: #ecfdf5;
-    --warning: #f59e0b;
-    --error: #ef4444;
-    --error-bg: #fef2f2;
-    
-    --text-main: #1e293b;      /* Slate 800 */
-    --text-muted: #64748b;     /* Slate 500 */
-    --text-dim: #94a3b8;       /* Slate 400 */
-}
-
 body {
-    background-color: var(--bg-light);
-    color: var(--text-main);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -55,360 +30,37 @@ main {
 }
 
 /* ==========================================
-   MENU LATERAL FIXO (SIDEBAR)
+   EFEITOS VISUAIS E COMPONENTES MODERNOS
    ========================================== */
-.sidebar {
-    width: 260px;
-    background-color: var(--bg-sidebar);
-    border-right: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.5rem;
-    flex-shrink: 0;
+.glass-card {
+    backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.brand-container {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding-bottom: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
+.glass-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px -10px rgba(8, 145, 178, 0.12);
 }
 
-.brand-icon {
-    background-color: var(--primary);
-    color: #fff;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Scrollbar Estilizada Responsiva */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
 }
-
-.brand-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: 0.025em;
-    color: #0f172a;
-}
-
-.brand-subtitle {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-}
-
-.nav-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 0.75rem;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text-muted);
+::-webkit-scrollbar-track {
     background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: left;
 }
-
-.nav-item:hover {
-    background-color: #f1f5f9;
-    color: #0f172a;
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
 }
-
-.nav-item.active {
-    background-color: var(--primary);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(8, 145, 178, 0.25);
-}
-
-.sidebar-footer {
-    padding: 0.75rem;
-    background-color: #f8fafc;
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    text-align: center;
-}
-
-/* ==========================================
-   CONTEÚDO PRINCIPAL
-   ========================================== */
-.main-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 2rem;
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #0f172a;
-}
-
-.section-desc {
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    margin-top: 0.25rem;
-}
-
-/* ==========================================
-   CARDS E GRID
-   ========================================== */
-.grid-metrics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 1rem;
-    padding: 1.25rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.5rem;
-}
-
-.card-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-muted);
-}
-
-.card-icon-wrapper {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.card-value {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: #0f172a;
-}
-
-.chart-card {
-    margin-top: 1.5rem;
-    padding: 1.5rem;
-}
-
-.chart-container {
-    height: 280px;
-    width: 100%;
-    margin-top: 1rem;
-}
-
-/* ==========================================
-   REALIDADE AUMENTADA (RA) - SCANNER
-   ========================================== */
-.ar-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1.5rem;
-}
-
-@media (max-width: 1024px) {
-    .ar-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.camera-viewport {
-    position: relative;
-    background-color: #000;
-    border-radius: 1rem;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-    aspect-ratio: 16 / 9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#webcam {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.camera-placeholder {
-    position: absolute;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.9);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    color: #cbd5e1;
-}
-
-.ar-viewport {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-}
-
-.router-mock-3d {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 320px;
-    height: 180px;
-    background: rgba(15, 23, 42, 0.85);
-    border: 2px dashed rgba(8, 145, 178, 0.7);
-    border-radius: 1rem;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    backdrop-filter: blur(4px);
-    transition: transform 0.1s ease-out;
-}
-
-.ports-container {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-    background: rgba(30, 41, 59, 0.8);
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid #475569;
-}
-
-.port-box {
-    width: 36px;
-    height: 36px;
-    border-radius: 0.25rem;
+.dark ::-webkit-scrollbar-thumb {
     background: #334155;
-    border: 1px solid #475569;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: #cbd5e1;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
-.port-box.wrong {
-    background: rgba(217, 119, 6, 0.4);
-    border-color: #f59e0b;
-    color: #fef3c7;
-}
-
-.port-box.target {
-    background: rgba(8, 145, 178, 0.4);
-    border: 2px solid #06b6d4;
-    color: #cffafe;
-}
-
-.ar-overlay-element {
-    position: absolute;
-    transition: all 0.1s ease-out;
-    pointer-events: none;
-}
-
-.ar-error-badge {
-    background: rgba(239, 68, 68, 0.95);
-    color: #fff;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
-    animation: pulseError 1.5s infinite ease-in-out;
-}
-
-.ar-arrow-3d {
-    class: #06b6d4;
-    margin-top: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: bounceArrow 1s infinite ease-in-out;
-}
-
-.ar-arrow-label {
-    background: #0891b2;
-    color: #fff;
-    font-size: 0.65rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 0.25rem;
-    font-weight: 600;
-    margin-top: -0.25rem;
-}
-
-.ar-wan-badge {
-    background: rgba(8, 145, 178, 0.9);
-    color: #fff;
-    font-size: 0.65rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-weight: 700;
-    border: 1px solid #67e8f9;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-
-.ar-success-badge {
-    background: #10b981;
-    color: #fff;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
-}
-
-@keyframes pulseError {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.75; transform: scale(0.97); }
-}
-
-@keyframes bounceArrow {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(6px); }
-}
-
-/* ==========================================
-   MODAL E SUPORTE SAFARI
-   ========================================== */
 .pt-safe {
     padding-top: env(safe-area-inset-top, 1rem);
 }
