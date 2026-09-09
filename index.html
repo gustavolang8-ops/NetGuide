@@ -311,7 +311,7 @@
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
           <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Catálogo de Equipamentos</h2>
-          <p class="text-slate-500 dark:text-slate-400 text-sm">Base de dados de roteadores e ONTs homologados.</p>
+          <p class="text-slate-500 dark:text-slate-400 text-sm">Base de dados de roteadores e ONTs homologados (Sincronizado na Nuvem).</p>
         </div>
         <button onclick="openAddModal()" class="bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-2xl transition-all duration-200 hover:scale-105 shadow-lg shadow-cyan-600/20 flex items-center gap-2 w-fit active:scale-95">
           <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Equipamento
@@ -319,28 +319,7 @@
       </div>
 
       <div id="equipments-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- CARD PADRÃO -->
-        <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm rounded-3xl overflow-hidden flex flex-col justify-between hover:border-cyan-300 dark:hover:border-cyan-700 hover:shadow-xl transition-all duration-300 relative group">
-          <button onclick="removeEquipmentCard(this)" class="absolute top-3 right-3 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 p-2 rounded-xl border border-red-200 dark:border-red-900 transition-all duration-200 hover:scale-110 text-xs shadow-sm z-10 active:scale-95" title="Excluir Equipamento">
-            <i data-lucide="trash-2" class="w-4 h-4"></i>
-          </button>
-          <div class="p-6">
-            <div class="h-36 bg-slate-50 dark:bg-slate-800/60 rounded-2xl mb-4 flex items-center justify-center border border-slate-100 dark:border-slate-800 overflow-hidden">
-              <i data-lucide="router" class="w-12 h-12 stroke-1 text-slate-400"></i>
-            </div>
-            <span class="text-[10px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-widest">TP-Link</span>
-            <h3 class="text-lg font-black text-slate-900 dark:text-white mb-1">AC1200</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">Roteador Gigabit Dual Band AC1200 (Homologado).</p>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800/60">
-              Status: Ativo / Homologado
-            </span>
-          </div>
-          <div class="px-6 pb-6 pt-1">
-            <button onclick="openDetailsModal('TP-Link AC1200', 'Gigabit Dual-Band AC1200', '4 Portas LAN Gigabit, 1 Porta WAN Gigabit', 'LED Power, 2.4GHz, 5GHz, Internet, LAN (Piscar geral indica reset)')" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold py-2.5 rounded-2xl transition-all duration-200 hover:scale-[1.02] active:scale-95">
-              Ver detalhes
-            </button>
-          </div>
-        </div>
+        <!-- Os cards serão carregados dinamicamente do Supabase -->
       </div>
     </section>
 
@@ -499,7 +478,7 @@
     }
 
     // ==========================================
-    // SISTEMA DE MODO ESCURO E SUPABASE (SYNC)
+    // INICIALIZAÇÃO E CARREGAMENTO DE DADOS (SUPABASE)
     // ==========================================
     document.addEventListener('DOMContentLoaded', async () => {
       const savedTheme = localStorage.getItem('netguide_theme');
@@ -507,7 +486,7 @@
         document.documentElement.classList.add('dark');
       }
       
-      // Busca o número do WhatsApp direto da nuvem do Supabase
+      // Carrega WhatsApp da nuvem
       try {
         const { data } = await _supabase
           .from('configuracoes')
@@ -523,6 +502,9 @@
       } catch (err) {
         console.log('Usando número padrão');
       }
+
+      // Carrega os Equipamentos da nuvem
+      await loadEquipmentsFromCloud();
     });
 
     function toggleDarkMode() {
@@ -857,17 +839,76 @@
       document.getElementById('form-add-router').reset();
     }
 
-    let equipmentCount = 1;
+    // ==========================================
+    // CRUD DE EQUIPAMENTOS NA NUVEM (SUPABASE)
+    // ==========================================
+    async function loadEquipmentsFromCloud() {
+      const grid = document.getElementById('equipments-grid');
+      
+      const { data, error } = await _supabase
+        .from('equipamentos')
+        .select('*')
+        .order('id', { ascending: false });
 
-    function removeEquipmentCard(button) {
-      const card = button.closest('.bg-white');
-      card.remove();
-      equipmentCount = Math.max(0, equipmentCount - 1);
-      document.getElementById('metric-equipments').innerText = equipmentCount;
-      showToast('Equipamento removido do catálogo.', 'info');
+      if (error) {
+        console.error('Erro ao carregar equipamentos:', error);
+        return;
+      }
+
+      grid.innerHTML = '';
+
+      if (!data || data.length === 0) {
+        // Se a tabela estiver vazia, insere o padrão inicial para facilitar
+        await _supabase.from('equipamentos').insert([{
+          brand: 'TP-Link',
+          model: 'AC1200',
+          image_url: '',
+          description: 'Roteador Gigabit Dual Band AC1200 (Homologado).',
+          ports: '4 Portas LAN Gigabit, 1 Porta WAN Gigabit',
+          leds: 'LED Power, 2.4GHz, 5GHz, Internet, LAN (Piscar geral indica reset)'
+        }]);
+        loadEquipmentsFromCloud();
+        return;
+      }
+
+      document.getElementById('metric-equipments').innerText = data.length;
+
+      data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm rounded-3xl overflow-hidden flex flex-col justify-between hover:border-cyan-300 dark:hover:border-cyan-700 hover:shadow-xl transition-all duration-300 relative group";
+
+        const mediaContent = item.image_url 
+          ? `<img src="${item.image_url}" alt="${item.model}" class="w-full h-full object-contain p-2 rounded-2xl" onerror="this.onerror=null; this.parentNode.innerHTML='<i data-lucide=&quot;router&quot; class=&quot;w-12 h-12 stroke-1 text-slate-400&quot;></i>'; lucide.createIcons();">` 
+          : `<i data-lucide="router" class="w-12 h-12 stroke-1 text-slate-400"></i>`;
+
+        card.innerHTML = `
+          <button onclick="removeEquipmentFromCloud(${item.id})" class="absolute top-3 right-3 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 p-2 rounded-xl border border-red-200 dark:border-red-900 transition-all duration-200 hover:scale-110 text-xs shadow-sm z-10 active:scale-95" title="Excluir Equipamento">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+          <div class="p-6">
+            <div class="h-36 bg-slate-50 dark:bg-slate-800/60 rounded-2xl mb-4 flex items-center justify-center border border-slate-100 dark:border-slate-800 overflow-hidden">
+              ${mediaContent}
+            </div>
+            <span class="text-[10px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-widest">${item.brand}</span>
+            <h3 class="text-lg font-black text-slate-900 dark:text-white mb-1">${item.model}</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">${item.description}</p>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800/60">
+              Status: Ativo / Nuvem
+            </span>
+          </div>
+          <div class="px-6 pb-6 pt-1">
+            <button onclick="openDetailsModal('${item.brand} ${item.model}', 'Tecnologia Padrão', '${item.ports}', '${item.leds}')" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold py-2.5 rounded-2xl transition-all duration-200 hover:scale-[1.02] active:scale-95">
+              Ver detalhes
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      lucide.createIcons();
     }
 
-    function handleAddRouter(event) {
+    async function handleAddRouter(event) {
       event.preventDefault();
       const brand = document.getElementById('new-brand').value;
       const model = document.getElementById('new-model').value;
@@ -876,43 +917,38 @@
       const ports = document.getElementById('new-ports').value;
       const leds = document.getElementById('new-leds').value;
 
-      const grid = document.getElementById('equipments-grid');
-      const card = document.createElement('div');
-      card.className = "bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm rounded-3xl overflow-hidden flex flex-col justify-between hover:border-cyan-300 dark:hover:border-cyan-700 hover:shadow-xl transition-all duration-300 relative group";
+      // Salva na tabela 'equipamentos' do Supabase
+      const { error } = await _supabase.from('equipamentos').insert([{
+        brand,
+        model,
+        image_url: imageUrl,
+        description: desc,
+        ports,
+        leds
+      }]);
 
-      const mediaContent = imageUrl 
-        ? `<img src="${imageUrl}" alt="${model}" class="w-full h-full object-contain p-2 rounded-2xl" onerror="this.onerror=null; this.parentNode.innerHTML='<i data-lucide=&quot;router&quot; class=&quot;w-12 h-12 stroke-1 text-slate-400&quot;></i>'; lucide.createIcons();">` 
-        : `<i data-lucide="router" class="w-12 h-12 stroke-1 text-slate-400"></i>`;
+      if (!error) {
+        closeAddModal();
+        showToast('Novo roteador cadastrado na nuvem com sucesso!', 'success');
+        loadEquipmentsFromCloud(); // Atualiza a lista direto da nuvem
+      } else {
+        console.error(error);
+        showToast('Erro ao cadastrar roteador na nuvem.', 'warning');
+      }
+    }
 
-      card.innerHTML = `
-        <button onclick="removeEquipmentCard(this)" class="absolute top-3 right-3 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 p-2 rounded-xl border border-red-200 dark:border-red-900 transition-all duration-200 hover:scale-110 text-xs shadow-sm z-10 active:scale-95" title="Excluir Equipamento">
-          <i data-lucide="trash-2" class="w-4 h-4"></i>
-        </button>
-        <div class="p-6">
-          <div class="h-36 bg-slate-50 dark:bg-slate-800/60 rounded-2xl mb-4 flex items-center justify-center border border-slate-100 dark:border-slate-800 overflow-hidden">
-            ${mediaContent}
-          </div>
-          <span class="text-[10px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-widest">${brand}</span>
-          <h3 class="text-lg font-black text-slate-900 dark:text-white mb-1">${model}</h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">${desc}</p>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800/60">
-            Status: Ativo
-          </span>
-        </div>
-        <div class="px-6 pb-6 pt-1">
-          <button onclick="openDetailsModal('${brand} ${model}', 'Tecnologia Padrão', '${ports}', '${leds}')" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold py-2.5 rounded-2xl transition-all duration-200 hover:scale-[1.02] active:scale-95">
-            Ver detalhes
-          </button>
-        </div>
-      `;
+    async function removeEquipmentFromCloud(id) {
+      const { error } = await _supabase
+        .from('equipamentos')
+        .delete()
+        .eq('id', id);
 
-      grid.appendChild(card);
-      lucide.createIcons();
-
-      equipmentCount++;
-      document.getElementById('metric-equipments').innerText = equipmentCount;
-      closeAddModal();
-      showToast('Novo roteador cadastrado com sucesso!', 'success');
+      if (!error) {
+        showToast('Equipamento removido da nuvem.', 'info');
+        loadEquipmentsFromCloud(); // Atualiza a lista
+      } else {
+        showToast('Erro ao remover equipamento.', 'warning');
+      }
     }
 
     // WHATSAPP WHITE LABEL (COM VALIDAÇÃO INTELIGENTE E AUTO-PREFIXO 55)
@@ -926,12 +962,10 @@
         return;
       }
 
-      // Se o usuário digitou sem o 55 na frente, adiciona automaticamente
       if (!cleanNumber.startsWith('55')) {
         cleanNumber = '55' + cleanNumber;
       }
       
-      // Verifica se já existe um registro para a chave 'whatsapp'
       const { data: existing } = await _supabase
         .from('configuracoes')
         .select('*')
@@ -954,7 +988,6 @@
 
       if (!error) {
         applyWhatsAppNumber(cleanNumber);
-        // Atualiza o input visualmente com o número formatado correto
         document.getElementById('admin-whatsapp-input').value = cleanNumber;
         showToast('Número de suporte atualizado na nuvem para todos!', 'success');
       } else {
