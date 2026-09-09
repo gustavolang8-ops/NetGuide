@@ -48,25 +48,26 @@
   <aside id="sidebar" class="fixed md:sticky top-16 md:top-0 inset-y-0 left-0 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-200 dark:border-slate-800 flex flex-col p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out h-full md:h-screen shadow-lg md:shadow-none overflow-y-auto">
     <div>
       <!-- LOGO NETGUIDE -->
-      <div class="flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-100 dark:border-slate-800 gap-1.5">
-        <div class="flex items-center gap-3 min-w-0 flex-1">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-cyan-500/25">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12 18.75h.008v.008H12v-.008z"></path></svg>
+      <div class="flex justify-between items-center px-1 py-4 mb-6 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-2.5 min-w-0 flex-1">
+          <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-cyan-500/25">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12 18.75h.008v.008H12v-.008z"></path></svg>
           </div>
           <div class="min-w-0 flex-1">
             <h1 class="font-black text-lg tracking-tight text-slate-900 dark:text-white">Net<span class="text-cyan-600">Guide</span></h1>
-            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Smart Diagnostic OS</p>
           </div>
         </div>
-        <div class="flex items-center gap-1">
-          <!-- BOTÃO SWITCH ESTILO iOS (DESKTOP) -->
-          <button onclick="toggleDarkMode()" title="Alternar Tema" class="hidden md:flex w-14 h-8 rounded-full bg-slate-300 dark:bg-slate-700 relative p-1 transition-all duration-300 items-center shadow-inner cursor-pointer flex-shrink-0 hover:scale-105">
-            <div class="w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center dark:translate-x-6">
-              <svg class="w-3.5 h-3.5 text-amber-500 dark:hidden" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
-              <svg class="w-3.5 h-3.5 text-slate-900 hidden dark:block" fill="currentColor" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <!-- BOTÃO SWITCH ESTILO iOS (SEMPRE VISÍVEL NO PC) -->
+          <button onclick="toggleDarkMode()" title="Alternar Tema" class="flex w-12 h-7 rounded-full bg-slate-300 dark:bg-slate-700 relative p-1 transition-all duration-300 items-center shadow-inner cursor-pointer hover:scale-105">
+            <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center dark:translate-x-5">
+              <svg class="w-3 h-3 text-amber-500 dark:hidden" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
+              <svg class="w-3 h-3 text-slate-900 hidden dark:block" fill="currentColor" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
             </div>
           </button>
-          <button onclick="openAdminModal()" title="Área Administrativa" class="w-10 h-10 flex-shrink-0 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-all duration-200 hover:scale-105 flex items-center justify-center active:scale-95">
+          
+          <button onclick="openAdminModal()" title="Área Administrativa" class="w-9 h-9 flex-shrink-0 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-all duration-200 hover:scale-105 flex items-center justify-center active:scale-95">
             <i data-lucide="shield" class="w-4 h-4 text-cyan-600"></i>
           </button>
         </div>
@@ -131,7 +132,7 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
-        <!-- ÁREA DA CÂMERA (MAIOR NO CELULAR) -->
+        <!-- ÁREA DA CÂMERA -->
         <div class="lg:col-span-2 relative bg-slate-950 rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 h-[360px] sm:h-[400px] lg:aspect-video flex items-center justify-center w-full shadow-xl">
           <video id="webcam" autoplay playsinline class="w-full h-full object-cover"></video>
           
@@ -858,7 +859,6 @@
       grid.innerHTML = '';
 
       if (!data || data.length === 0) {
-        // Se a tabela estiver vazia, insere o padrão inicial para facilitar
         await _supabase.from('equipamentos').insert([{
           brand: 'TP-Link',
           model: 'AC1200',
@@ -917,7 +917,6 @@
       const ports = document.getElementById('new-ports').value;
       const leds = document.getElementById('new-leds').value;
 
-      // Salva na tabela 'equipamentos' do Supabase
       const { error } = await _supabase.from('equipamentos').insert([{
         brand,
         model,
@@ -930,7 +929,7 @@
       if (!error) {
         closeAddModal();
         showToast('Novo roteador cadastrado na nuvem com sucesso!', 'success');
-        loadEquipmentsFromCloud(); // Atualiza a lista direto da nuvem
+        loadEquipmentsFromCloud();
       } else {
         console.error(error);
         showToast('Erro ao cadastrar roteador na nuvem.', 'warning');
@@ -945,7 +944,7 @@
 
       if (!error) {
         showToast('Equipamento removido da nuvem.', 'info');
-        loadEquipmentsFromCloud(); // Atualiza a lista
+        loadEquipmentsFromCloud();
       } else {
         showToast('Erro ao remover equipamento.', 'warning');
       }
