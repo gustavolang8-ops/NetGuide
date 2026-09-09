@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>NetGuide - Autoatendimento com RA</title>
+  <title>NetGuide - Smart Diagnostic OS</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
@@ -13,93 +13,91 @@
   <!-- CSS Externo -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans flex flex-col md:flex-row min-h-screen overflow-x-hidden w-full">
+<body class="bg-slate-50 text-slate-800 font-sans flex flex-col md:flex-row min-h-screen overflow-x-hidden w-full">
 
-  <!-- BARRA SUPERIOR MÍNIMA PARA CELULAR (APENAS BOTÕES) -->
-  <div class="md:hidden bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 pt-safe flex justify-between items-center z-50 w-full fixed top-0 left-0 h-16 shadow-sm">
-    <button onclick="toggleMobileMenu()" class="text-slate-700 p-2 rounded-xl bg-slate-100 border border-slate-300 flex items-center gap-2 text-xs font-semibold">
+  <!-- BARRA SUPERIOR MÍNIMA PARA CELULAR -->
+  <div class="md:hidden bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-4 pt-safe flex justify-between items-center z-50 w-full fixed top-0 left-0 h-16 shadow-sm">
+    <button onclick="toggleMobileMenu()" class="text-slate-700 p-2.5 rounded-xl bg-slate-100/80 border border-slate-200 flex items-center gap-2 text-xs font-semibold active:scale-95 transition">
       <i data-lucide="menu" class="w-5 h-5 text-cyan-600"></i> Menu
     </button>
-    <button onclick="openAdminModal()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl border border-slate-300 flex items-center gap-1.5 transition font-semibold">
+    <button onclick="openAdminModal()" class="text-xs bg-slate-100/80 hover:bg-slate-200 text-slate-700 px-3.5 py-2.5 rounded-xl border border-slate-200 flex items-center gap-1.5 transition font-semibold active:scale-95">
       <i data-lucide="shield" class="w-4 h-4 text-cyan-600"></i> Admin
     </button>
   </div>
 
-  <!-- MENU LATERAL / MOBILE OVERLAY (COM ROLAGEM LIVRE) -->
-  <aside id="sidebar" class="fixed md:sticky top-16 md:top-0 inset-y-0 left-0 w-64 bg-white border-r border-slate-200 flex flex-col p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out h-full md:h-screen shadow-sm md:shadow-none overflow-y-auto">
+  <!-- MENU LATERAL / MOBILE OVERLAY -->
+  <aside id="sidebar" class="fixed md:sticky top-16 md:top-0 inset-y-0 left-0 w-64 bg-white/95 backdrop-blur-xl border-r border-slate-200 flex flex-col p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out h-full md:h-screen shadow-lg md:shadow-none overflow-y-auto">
     <div>
-      <!-- LOGO ASSINATURA EXCLUSIVA NETGUIDE -->
-      <div class="flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-200 gap-1.5">
+      <!-- LOGO NETGUIDE -->
+      <div class="flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-100 gap-1.5">
         <div class="flex items-center gap-3 min-w-0 flex-1">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-cyan-500/20">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-cyan-500/25">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12 18.75h.008v.008H12v-.008z"></path></svg>
           </div>
           <div class="min-w-0 flex-1">
-            <h1 class="font-black text-lg tracking-tight text-slate-900 truncate">Net<span class="text-cyan-600">Guide</span></h1>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">Smart Diagnostic OS</p>
+            <h1 class="font-black text-lg tracking-tight text-slate-900">Net<span class="text-cyan-600">Guide</span></h1>
+            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Smart Diagnostic OS</p>
           </div>
         </div>
-        <button onclick="openAdminModal()" title="Área Administrativa" class="flex-shrink-0 text-slate-600 hover:text-slate-900 p-2 rounded-lg bg-slate-100 border border-slate-200 transition">
+        <button onclick="openAdminModal()" title="Área Administrativa" class="flex-shrink-0 text-slate-600 hover:text-slate-900 p-2 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 transition">
           <i data-lucide="shield" class="w-4 h-4 text-cyan-600"></i>
         </button>
       </div>
 
-      <nav class="space-y-2 mt-4 md:mt-0">
-        <!-- ABAS DO CLIENTE -->
-        <button onclick="switchTab('scan')" id="btn-scan" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition bg-cyan-600 text-white shadow-sm shadow-cyan-600/20">
+      <nav class="space-y-1.5 mt-2">
+        <button onclick="switchTab('scan')" id="btn-scan" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition bg-gradient-to-r from-cyan-600 to-cyan-500 text-white shadow-md shadow-cyan-500/20">
           <i data-lucide="camera" class="w-5 h-5"></i> Scanear Roteador
         </button>
 
-        <!-- ABAS DO ADMINISTRADOR (Ocultas por padrão) -->
-        <div id="admin-nav-group" class="hidden pt-4 mt-4 border-t border-slate-200 space-y-2">
-          <p class="px-2 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Gestão Plataforma</p>
-          <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition">
+        <div id="admin-nav-group" class="hidden pt-4 mt-4 border-t border-slate-100 space-y-1.5">
+          <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Gestão Plataforma</p>
+          <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
           </button>
-          <button onclick="switchTab('equipamentos')" id="btn-equipamentos" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition">
+          <button onclick="switchTab('equipamentos')" id="btn-equipamentos" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
             <i data-lucide="router" class="w-5 h-5"></i> Equipamentos
           </button>
         </div>
       </nav>
     </div>
 
-    <!-- PARTE INFERIOR DO MENU -->
-    <div class="space-y-2 pt-8 mt-auto pb-6">
-      <!-- BOTÃO DE SUPORTE WHATSAPP -->
-      <a href="https://wa.me/558000500800?text=Ol%C3%A1,%20preciso%20de%20ajuda%20com%20a%20minha%20conex%C3%A3o,%20vim%20pelo%20aplicativo%20NetGuide." target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium text-emerald-700 hover:bg-emerald-50 border border-emerald-300 transition text-xs shadow-sm">
+    <!-- RODAPÉ DO MENU COM BOTÃO DO WHATSAPP -->
+    <div class="space-y-2.5 pt-6 mt-auto pb-4">
+      <!-- ADICIONADO ID AQUI PARA O JAVASCRIPT RECONHECER O BOTÃO -->
+      <a id="btn-whatsapp-support" href="https://wa.me/558000500800?text=Ol%C3%A1,%20preciso%20de%20ajuda%20com%20a%20minha%20conex%C3%A3o,%20vim%20pelo%20aplicativo%20NetGuide." target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-medium text-emerald-700 hover:bg-emerald-50/80 border border-emerald-200/80 transition text-xs shadow-sm bg-emerald-50/40">
         <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600"></i> Suporte WhatsApp
       </a>
 
       <div id="admin-logout-box" class="hidden">
-        <button onclick="logoutAdmin()" class="w-full bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-medium py-2 rounded-xl text-xs transition flex items-center justify-center gap-2">
+        <button onclick="logoutAdmin()" class="w-full bg-red-50/80 hover:bg-red-100 text-red-600 border border-red-200 font-medium py-2.5 rounded-2xl text-xs transition flex items-center justify-center gap-2">
           <i data-lucide="log-out" class="w-4 h-4"></i> Sair do Modo Admin
         </button>
       </div>
 
-      <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs text-slate-500 text-center">
+      <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-[11px] text-slate-400 text-center font-medium">
         NetGuide &copy; 2026 - All Rights Reserved
       </div>
     </div>
   </aside>
 
-  <!-- OVERLAY ESCURO PARA O MENU MOBILE -->
-  <div id="mobile-overlay" onclick="toggleMobileMenu()" class="hidden fixed inset-0 bg-black/40 z-30 md:hidden"></div>
+  <!-- OVERLAY MOBILE -->
+  <div id="mobile-overlay" onclick="toggleMobileMenu()" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-30 md:hidden"></div>
 
   <!-- CONTEÚDO PRINCIPAL -->
-  <main class="flex-1 bg-slate-100 p-4 md:p-6 w-full pt-24 pb-16 md:pt-6 md:pb-6">
+  <main class="flex-1 bg-slate-50 p-4 md:p-8 w-full pt-24 pb-16 md:pt-8 md:pb-8">
 
     <!-- SEÇÃO: SCANEAR ROTEADOR -->
     <section id="sec-scan" class="space-y-6 max-w-full">
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
-          <h2 class="text-2xl font-bold text-slate-900">Escaneamento com RA</h2>
-          <p class="text-slate-600 text-sm">Aponte a câmera para o equipamento homologado para iniciar a detecção inteligente.</p>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Escaneamento com RA</h2>
+          <p class="text-slate-500 text-sm">Aponte a câmera para o equipamento homologado para iniciar a detecção inteligente.</p>
         </div>
         <div id="simulation-buttons" class="hidden flex gap-2 flex-wrap">
-          <button id="btn-toggle-sim" onclick="toggleCorrectionStep()" class="bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold px-3 py-2.5 rounded-xl transition shadow-sm w-fit">
+          <button id="btn-toggle-sim" onclick="toggleCorrectionStep()" class="bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-lg shadow-cyan-600/20 active:scale-95">
             Simular Encaixe Correto
           </button>
-          <button id="btn-sim-reset" onclick="simulateResetState()" class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold px-3 py-2.5 rounded-xl transition shadow-sm w-fit">
+          <button id="btn-sim-reset" onclick="simulateResetState()" class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-lg shadow-amber-600/20 active:scale-95">
             Simular Roteador Resetado
           </button>
         </div>
@@ -107,197 +105,212 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
         <!-- ÁREA DA CÂMERA -->
-        <div class="lg:col-span-2 relative bg-slate-950 rounded-2xl overflow-hidden border border-slate-200 aspect-video flex items-center justify-center min-h-[220px] w-full shadow-md">
+        <div class="lg:col-span-2 relative bg-slate-950 rounded-3xl overflow-hidden border border-slate-200/80 aspect-video flex items-center justify-center min-h-[240px] w-full shadow-xl">
           <video id="webcam" autoplay playsinline class="w-full h-full object-cover"></video>
           
-          <div id="camera-placeholder" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 text-slate-300 p-4 text-center space-y-3">
-            <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-1">
-              <i data-lucide="scan" class="w-7 h-7 animate-pulse"></i>
+          <div id="camera-placeholder" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 backdrop-blur-md text-slate-300 p-6 text-center space-y-4">
+            <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-1 shadow-inner">
+              <i data-lucide="scan" class="w-8 h-8 animate-pulse"></i>
             </div>
-            <p class="text-xs sm:text-sm font-medium">Aponte para a etiqueta ou roteador para iniciar</p>
-            <button onclick="startCamera()" class="bg-cyan-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-cyan-500 transition shadow-lg shadow-cyan-600/30">
+            <div>
+              <p class="text-sm font-semibold text-white">Pronto para iniciar a leitura</p>
+              <p class="text-xs text-slate-400 mt-1">Aponte para a etiqueta ou roteador NetGuide</p>
+            </div>
+            <button onclick="startCamera()" class="bg-gradient-to-r from-cyan-600 to-cyan-500 text-white px-6 py-3 rounded-2xl font-bold text-xs uppercase tracking-wider hover:from-cyan-500 hover:to-cyan-400 transition shadow-lg shadow-cyan-600/30 active:scale-95">
               Iniciar Leitura NetGuide
             </button>
           </div>
 
-          <!-- TELA DE LOADING / SIMULAÇÃO DE LEITURA -->
-          <div id="scan-loading" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 backdrop-blur-sm text-center p-4 space-y-3 z-20">
-            <div class="w-10 h-10 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
-            <p id="loading-text" class="text-xs sm:text-sm font-medium text-cyan-200">Lendo código de barras / MAC...</p>
+          <!-- LOADING -->
+          <div id="scan-loading" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 backdrop-blur-md text-center p-4 space-y-3 z-20">
+            <div class="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin shadow-lg"></div>
+            <p id="loading-text" class="text-xs font-semibold text-cyan-200">Lendo código de barras / MAC...</p>
           </div>
 
           <!-- OVERLAY RA -->
           <div id="ar-viewport" class="hidden absolute inset-0 pointer-events-none overflow-hidden w-full h-full">
-            <div id="router-mock" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-56 sm:w-80 h-32 sm:h-44 bg-slate-900/90 border-2 border-dashed border-cyan-500/50 rounded-2xl flex flex-col justify-between p-3 sm:p-4 shadow-2xl backdrop-blur-sm">
+            <div id="router-mock" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 h-36 sm:h-44 bg-slate-900/90 border-2 border-dashed border-cyan-500/60 rounded-2xl flex flex-col justify-between p-4 shadow-2xl backdrop-blur-md">
               <div class="flex justify-between items-center">
-                <span class="text-[9px] sm:text-xs text-cyan-300 font-mono">TP-Link AC1200 (MAC: E8:48:B8...)</span>
-                <div class="flex gap-1" id="mock-leds">
-                  <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-                  <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-                  <div class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></div>
+                <span class="text-[10px] sm:text-xs text-cyan-300 font-mono font-semibold">TP-Link AC1200 (MAC: E8:48:B8...)</span>
+                <div class="flex gap-1.5" id="mock-leds">
+                  <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400"></div>
+                  <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400"></div>
+                  <div class="w-2 h-2 rounded-full bg-amber-400 animate-pulse shadow-sm shadow-amber-400"></div>
                 </div>
               </div>
               
-              <div class="flex gap-1 justify-center py-1.5 bg-slate-950/80 rounded-lg border border-slate-800">
-                <div class="w-6 h-6 rounded bg-slate-800 border border-slate-700 flex items-center justify-center text-[8px] text-slate-300">L1</div>
-                <div class="w-6 h-6 rounded bg-amber-600/40 border border-amber-500 flex items-center justify-center text-[8px] text-amber-200 font-bold">L2</div>
-                <div class="w-6 h-6 rounded bg-slate-800 border border-slate-700 flex items-center justify-center text-[8px] text-slate-300">L3</div>
-                <div class="w-6 h-6 rounded bg-blue-600/30 border-2 border-blue-500 flex items-center justify-center text-[8px] text-blue-300 font-bold">WAN</div>
+              <div class="flex gap-1.5 justify-center py-2 bg-slate-950/90 rounded-xl border border-slate-800">
+                <div class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-[9px] text-slate-300 font-bold">L1</div>
+                <div class="w-7 h-7 rounded-lg bg-amber-600/40 border border-amber-500 flex items-center justify-center text-[9px] text-amber-200 font-bold">L2</div>
+                <div class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-[9px] text-slate-300 font-bold">L3</div>
+                <div class="w-7 h-7 rounded-lg bg-blue-600/40 border-2 border-blue-500 flex items-center justify-center text-[9px] text-blue-200 font-bold shadow-sm shadow-blue-500/50">WAN</div>
               </div>
             </div>
 
-            <div id="ar-error-overlay" class="ar-overlay absolute left-1/2 top-1/2 -translate-x-10 -translate-y-16 flex flex-col items-center">
-              <div class="bg-red-500/90 text-white text-[9px] px-2 py-0.5 rounded-lg shadow-lg flex items-center gap-1 border border-red-400 ar-pulse-error whitespace-nowrap">
-                <i data-lucide="alert-triangle" class="w-3 h-3"></i>
-                <span class="font-bold">Cabo incorreto (Detectado na LAN 2)</span>
+            <div id="ar-error-overlay" class="ar-overlay absolute left-1/2 top-1/2 -translate-x-12 -translate-y-16 flex flex-col items-center">
+              <div class="bg-red-500/95 text-white text-[10px] px-2.5 py-1 rounded-xl shadow-xl flex items-center gap-1.5 border border-red-400 whitespace-nowrap font-bold">
+                <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
+                <span>Cabo incorreto (Detectado na LAN 2)</span>
               </div>
-              <div class="text-cyan-400 ar-bounce mt-1 flex flex-col items-center">
-                <i data-lucide="arrow-down-big" class="w-5 h-5 fill-cyan-500 stroke-white"></i>
-                <span class="bg-cyan-600 text-white text-[8px] px-1 py-0.5 rounded shadow font-semibold">Conecte na WAN</span>
+              <div class="text-cyan-400 mt-1.5 flex flex-col items-center animate-bounce">
+                <i data-lucide="arrow-down" class="w-5 h-5 text-cyan-400 stroke-[3]"></i>
+                <span class="bg-cyan-600 text-white text-[9px] px-2 py-0.5 rounded-lg shadow font-bold">Conecte na WAN</span>
               </div>
             </div>
 
-            <div id="ar-wan-marker" class="ar-overlay absolute left-1/2 top-1/2 translate-x-10 translate-y-2">
-              <span class="bg-cyan-500/80 text-white text-[8px] px-1 py-0.5 rounded border border-cyan-300 font-bold shadow-md whitespace-nowrap">
+            <div id="ar-wan-marker" class="ar-overlay absolute left-1/2 top-1/2 translate-x-10 translate-y-3">
+              <span class="bg-cyan-500/90 text-white text-[9px] px-2 py-1 rounded-lg border border-cyan-300 font-extrabold shadow-lg whitespace-nowrap">
                 Porta WAN
               </span>
             </div>
 
             <div id="ar-success-overlay" class="hidden ar-overlay absolute left-1/2 top-1/2 translate-x-6 -translate-y-14 flex flex-col items-center">
-              <div class="bg-emerald-500 text-white text-[9px] px-2 py-0.5 rounded-lg shadow-lg flex items-center gap-1 border border-emerald-300 whitespace-nowrap">
-                <i data-lucide="check-circle-2" class="w-3 h-3"></i>
-                <span class="font-bold">Conexão correta na WAN!</span>
+              <div class="bg-emerald-500 text-white text-[10px] px-2.5 py-1 rounded-xl shadow-xl flex items-center gap-1.5 border border-emerald-300 whitespace-nowrap font-bold">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+                <span>Conexão correta na WAN!</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="bg-white border border-slate-200 shadow-sm p-5 rounded-2xl flex flex-col justify-between w-full">
+        <!-- PAINEL LATERAL DA CÂMERA -->
+        <div class="bg-white border border-slate-200/80 shadow-sm p-6 rounded-3xl flex flex-col justify-between w-full hover:shadow-md transition">
           <div>
-            <div id="status-badge" class="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full w-fit mb-4">
+            <div id="status-badge" class="flex items-center gap-2 text-xs font-bold text-slate-600 bg-slate-100 border border-slate-200 px-3.5 py-1.5 rounded-full w-fit mb-4">
               <span class="w-2 h-2 rounded-full bg-slate-400"></span>
               Aguardando Leitura da Câmera
             </div>
 
             <h3 id="router-title" class="text-xl font-bold text-slate-900 mb-1">Nenhum Equipamento</h3>
-            <p id="router-desc" class="text-xs text-slate-600 mb-4">Ative a câmera para escanear a etiqueta e puxar os dados do sistema.</p>
+            <p id="router-desc" class="text-xs text-slate-500 mb-5">Ative a câmera para escanear a etiqueta e puxar os dados do sistema.</p>
 
-            <div class="space-y-2">
-              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Opções de Autoatendimento</p>
+            <div class="space-y-2.5">
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Opções de Autoatendimento</p>
               
-              <!-- BOTÃO DE ROTEADOR RESETADO -->
-              <button id="btn-reset-guide" onclick="openFeatureModal('reset-guide')" class="hidden w-full flex items-center justify-between p-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-800 text-xs font-semibold transition cursor-pointer animate-pulse">
-                <span class="flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-amber-600"></i> Roteador Resetado - Passo a Passo</span>
+              <button id="btn-reset-guide" onclick="openFeatureModal('reset-guide')" class="hidden w-full flex items-center justify-between p-3 rounded-2xl bg-amber-50 hover:bg-amber-100/80 border border-amber-200 text-amber-900 text-xs font-semibold transition cursor-pointer animate-pulse">
+                <span class="flex items-center gap-2.5"><i data-lucide="refresh-cw" class="w-4 h-4 text-amber-600"></i> Roteador Resetado - Passo a Passo</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-amber-600"></i>
               </button>
 
-              <!-- BOTÃO 1: LEDS -->
-              <button onclick="openFeatureModal('led')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium transition cursor-pointer">
-                <span class="flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-cyan-600"></i> Diagnóstico dos LEDs</span>
+              <button onclick="openFeatureModal('led')" class="w-full flex items-center justify-between p-3 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-slate-700 text-xs font-medium transition cursor-pointer">
+                <span class="flex items-center gap-2.5"><i data-lucide="activity" class="w-4 h-4 text-cyan-600"></i> Diagnóstico dos LEDs</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
               </button>
 
-              <!-- BOTÃO 2: PORTAS E CABOS -->
-              <button onclick="openFeatureModal('cables')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium transition cursor-pointer">
-                <span class="flex items-center gap-2"><i data-lucide="cable" class="w-4 h-4 text-cyan-600"></i> Portas e Cabos</span>
+              <button onclick="openFeatureModal('cables')" class="w-full flex items-center justify-between p-3 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-slate-700 text-xs font-medium transition cursor-pointer">
+                <span class="flex items-center gap-2.5"><i data-lucide="cable" class="w-4 h-4 text-cyan-600"></i> Portas e Cabos</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
               </button>
 
-              <!-- BOTÃO 3: WI-FI -->
-              <button onclick="openFeatureModal('wifi')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium transition cursor-pointer">
-                <span class="flex items-center gap-2"><i data-lucide="wifi" class="w-4 h-4 text-cyan-600"></i> Configuração do Wi-Fi</span>
+              <button onclick="openFeatureModal('wifi')" class="w-full flex items-center justify-between p-3 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 text-slate-700 text-xs font-medium transition cursor-pointer">
+                <span class="flex items-center gap-2.5"><i data-lucide="wifi" class="w-4 h-4 text-cyan-600"></i> Configuração do Wi-Fi</span>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
               </button>
             </div>
           </div>
 
-          <button id="btn-continue-diag" class="hidden w-full mt-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2 shadow-sm">
+          <button id="btn-continue-diag" class="hidden w-full mt-6 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-2xl transition text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 active:scale-95">
             Finalizar e Validar Conexão <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
         </div>
       </div>
     </section>
 
-    <!-- SEÇÃO: DASHBOARD (Apenas Admin) -->
+    <!-- SEÇÃO: DASHBOARD -->
     <section id="sec-dashboard" class="hidden space-y-6 max-w-full">
       <div>
-        <h2 class="text-2xl font-bold text-slate-900">Dashboard</h2>
-        <p class="text-slate-600 text-sm">Visão geral do autoatendimento e métricas da plataforma.</p>
+        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Dashboard</h2>
+        <p class="text-slate-500 text-sm">Visão geral do autoatendimento e métricas da plataforma.</p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-white border border-slate-200 shadow-sm p-5 rounded-2xl">
-          <div class="flex justify-between items-start mb-2">
-            <span class="text-slate-500 text-sm font-medium">Clientes no Site</span>
-            <div class="p-2 bg-cyan-50 text-cyan-600 rounded-lg"><i data-lucide="users" class="w-5 h-5"></i></div>
+        <div class="bg-white border border-slate-200/80 shadow-sm p-6 rounded-3xl hover:shadow-md transition">
+          <div class="flex justify-between items-start mb-3">
+            <span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Clientes no Site</span>
+            <div class="p-2.5 bg-cyan-50 text-cyan-600 rounded-2xl"><i data-lucide="users" class="w-5 h-5"></i></div>
           </div>
-          <span class="text-3xl font-bold text-slate-900">142</span>
+          <span class="text-3xl font-black text-slate-900">142</span>
         </div>
 
-        <div class="bg-white border border-slate-200 shadow-sm p-5 rounded-2xl">
-          <div class="flex justify-between items-start mb-2">
-            <span class="text-slate-500 text-sm font-medium">Usuários Ativos</span>
-            <div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="user-check" class="w-5 h-5"></i></div>
+        <div class="bg-white border border-slate-200/80 shadow-sm p-6 rounded-3xl hover:shadow-md transition">
+          <div class="flex justify-between items-start mb-3">
+            <span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Usuários Ativos</span>
+            <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-2xl"><i data-lucide="user-check" class="w-5 h-5"></i></div>
           </div>
-          <span class="text-3xl font-bold text-slate-900">89</span>
+          <span class="text-3xl font-black text-slate-900">89</span>
         </div>
 
-        <div class="bg-white border border-slate-200 shadow-sm p-5 rounded-2xl">
-          <div class="flex justify-between items-start mb-2">
-            <span class="text-slate-500 text-sm font-medium">Scans Realizados</span>
-            <div class="p-2 bg-blue-50 text-blue-600 rounded-lg"><i data-lucide="scan" class="w-5 h-5"></i></div>
+        <div class="bg-white border border-slate-200/80 shadow-sm p-6 rounded-3xl hover:shadow-md transition">
+          <div class="flex justify-between items-start mb-3">
+            <span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Scans Realizados</span>
+            <div class="p-2.5 bg-blue-50 text-blue-600 rounded-2xl"><i data-lucide="scan" class="w-5 h-5"></i></div>
           </div>
-          <span class="text-3xl font-bold text-slate-900">1,208</span>
+          <span class="text-3xl font-black text-slate-900">1,208</span>
         </div>
 
-        <div class="bg-white border border-slate-200 shadow-sm p-5 rounded-2xl">
-          <div class="flex justify-between items-start mb-2">
-            <span class="text-slate-500 text-sm font-medium">Equipamentos Cadastrados</span>
-            <div class="p-2 bg-purple-50 text-purple-600 rounded-lg"><i data-lucide="box" class="w-5 h-5"></i></div>
+        <div class="bg-white border border-slate-200/80 shadow-sm p-6 rounded-3xl hover:shadow-md transition">
+          <div class="flex justify-between items-start mb-3">
+            <span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Equipamentos</span>
+            <div class="p-2.5 bg-purple-50 text-purple-600 rounded-2xl"><i data-lucide="box" class="w-5 h-5"></i></div>
           </div>
-          <span class="text-3xl font-bold text-slate-900" id="metric-equipments">1</span>
+          <span class="text-3xl font-black text-slate-900" id="metric-equipments">1</span>
         </div>
       </div>
 
-      <div class="bg-white border border-slate-200 shadow-sm p-4 md:p-6 rounded-2xl">
-        <h3 class="text-lg font-bold text-slate-900 mb-4">Clientes utilizando o site ao longo dos dias</h3>
+      <div class="bg-white border border-slate-200/80 shadow-sm p-6 rounded-3xl">
+        <h3 class="text-base font-bold text-slate-900 mb-4">Clientes utilizando o site ao longo dos dias</h3>
         <div class="h-64">
           <canvas id="chartUsage"></canvas>
         </div>
       </div>
+
+      <!-- NOVA ÁREA NO DASHBOARD PARA CONFIGURAR O WHATSAPP -->
+      <div class="bg-white border border-slate-200/80 shadow-sm p-6 rounded-3xl mt-6">
+        <h3 class="text-base font-bold text-slate-900 mb-2">Configuração de Suporte (WhatsApp)</h3>
+        <p class="text-xs text-slate-500 mb-4">Defina o número de telefone que os clientes usarão para pedir ajuda. (Coloque 55 para o Brasil, ex: 550800500800).</p>
+        
+        <form onsubmit="updateWhatsAppNumber(event)" class="flex gap-3">
+          <input type="text" id="admin-whatsapp-input" placeholder="Ex: 558000500800" class="flex-1 bg-slate-50 border border-slate-200 rounded-2xl p-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+          <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-6 rounded-2xl transition shadow-lg shadow-emerald-600/20 active:scale-95 text-sm">
+            Salvar Número
+          </button>
+        </form>
+        <p id="whatsapp-success-msg" class="text-emerald-600 text-xs mt-2 hidden font-medium">Número atualizado com sucesso na plataforma!</p>
+      </div>
+
     </section>
 
-    <!-- SEÇÃO: EQUIPAMENTOS (Apenas Admin) -->
+    <!-- SEÇÃO: EQUIPAMENTOS -->
     <section id="sec-equipamentos" class="hidden space-y-6 max-w-full">
       <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
-          <h2 class="text-2xl font-bold text-slate-900">Catálogo de Equipamentos</h2>
-          <p class="text-slate-600 text-sm">Base de dados de roteadores e ONTs homologados.</p>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Catálogo de Equipamentos</h2>
+          <p class="text-slate-500 text-sm">Base de dados de roteadores e ONTs homologados.</p>
         </div>
-        <button onclick="openAddModal()" class="bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-sm px-4 py-2.5 rounded-xl transition shadow-sm flex items-center gap-2 w-fit">
+        <button onclick="openAddModal()" class="bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-2xl transition shadow-lg shadow-cyan-600/20 flex items-center gap-2 w-fit active:scale-95">
           <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Equipamento
         </button>
       </div>
 
       <div id="equipments-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- CARD PADRÃO COM BOTÃO DE EXCLUIR -->
-        <div class="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-300 transition relative">
+        <!-- CARD PADRÃO -->
+        <div class="bg-white border border-slate-200/80 shadow-sm rounded-3xl overflow-hidden flex flex-col justify-between hover:border-cyan-300 hover:shadow-xl transition-all duration-300 relative group">
           <button onclick="removeEquipmentCard(this)" class="absolute top-3 right-3 bg-red-50 hover:bg-red-100 text-red-600 p-2 rounded-xl border border-red-200 transition text-xs shadow-sm z-10" title="Excluir Equipamento">
             <i data-lucide="trash-2" class="w-4 h-4"></i>
           </button>
-          <div class="p-5">
-            <div class="h-32 bg-slate-50 rounded-xl mb-3 flex items-center justify-center border border-slate-200 overflow-hidden">
+          <div class="p-6">
+            <div class="h-36 bg-slate-50 rounded-2xl mb-4 flex items-center justify-center border border-slate-100 overflow-hidden">
               <i data-lucide="router" class="w-12 h-12 stroke-1 text-slate-400"></i>
             </div>
-            <span class="text-[10px] font-semibold text-cyan-600 uppercase tracking-wider">TP-Link</span>
-            <h3 class="text-lg font-bold text-slate-900 mb-1">AC1200</h3>
-            <p class="text-xs text-slate-500 mb-3">Roteador Gigabit Dual Band AC1200 (Homologado).</p>
-            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span class="text-[10px] font-bold text-cyan-600 uppercase tracking-widest">TP-Link</span>
+            <h3 class="text-lg font-black text-slate-900 mb-1">AC1200</h3>
+            <p class="text-xs text-slate-500 mb-4 leading-relaxed">Roteador Gigabit Dual Band AC1200 (Homologado).</p>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80">
               Status: Ativo / Homologado
             </span>
           </div>
-          <div class="px-5 pb-5 pt-1">
-            <button onclick="openDetailsModal('TP-Link AC1200', 'Gigabit Dual-Band AC1200', '4 Portas LAN Gigabit, 1 Porta WAN Gigabit', 'LED Power, 2.4GHz, 5GHz, Internet, LAN (Piscar geral indica reset)')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium py-2 rounded-xl transition">
+          <div class="px-6 pb-6 pt-1">
+            <button onclick="openDetailsModal('TP-Link AC1200', 'Gigabit Dual-Band AC1200', '4 Portas LAN Gigabit, 1 Porta WAN Gigabit', 'LED Power, 2.4GHz, 5GHz, Internet, LAN (Piscar geral indica reset)')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2.5 rounded-2xl transition active:scale-95">
               Ver detalhes
             </button>
           </div>
@@ -307,109 +320,109 @@
 
   </main>
 
-  <!-- MODAL DINÂMICO PARA AS OPÇÕES DE AUTOATENDIMENTO -->
-  <div id="modal-feature" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 shadow-xl w-full max-w-lg rounded-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+  <!-- MODAL: RECURSOS -->
+  <div id="modal-feature" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 shadow-2xl w-full max-w-lg rounded-3xl p-6 md:p-8 space-y-5 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-start">
-        <div class="flex items-center gap-2">
-          <div id="modal-feature-icon" class="bg-cyan-600 p-1.5 rounded-lg text-white"></div>
-          <h3 id="modal-feature-title" class="text-base font-bold text-slate-900">Título</h3>
+        <div class="flex items-center gap-3">
+          <div id="modal-feature-icon" class="bg-cyan-600 p-2.5 rounded-2xl text-white shadow-md shadow-cyan-600/30"></div>
+          <h3 id="modal-feature-title" class="text-lg font-bold text-slate-900">Título</h3>
         </div>
-        <button onclick="closeFeatureModal()" class="text-slate-400 hover:text-slate-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="closeFeatureModal()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-xl hover:bg-slate-100 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <div id="modal-feature-desc" class="text-xs text-slate-600 leading-relaxed space-y-3"></div>
-      <button onclick="closeFeatureModal()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-medium py-2.5 rounded-xl text-xs transition shadow-sm">
+      <button onclick="closeFeatureModal()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg shadow-cyan-600/20 active:scale-95">
         Entendido
       </button>
     </div>
   </div>
 
-  <!-- MODAL: LOGIN ADMINISTRADOR -->
-  <div id="modal-admin-login" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 shadow-xl w-full max-w-sm rounded-2xl p-6 space-y-4">
+  <!-- MODAL: ADMIN LOGIN -->
+  <div id="modal-admin-login" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 shadow-2xl w-full max-w-sm rounded-3xl p-6 md:p-8 space-y-5">
       <div class="flex justify-between items-start">
-        <div class="flex items-center gap-2">
-          <div class="bg-cyan-600 p-1.5 rounded-lg text-white"><i data-lucide="shield" class="w-4 h-4"></i></div>
-          <h3 class="text-base font-bold text-slate-900">Acesso Administrativo</h3>
+        <div class="flex items-center gap-3">
+          <div class="bg-cyan-600 p-2.5 rounded-2xl text-white shadow-md shadow-cyan-600/30"><i data-lucide="shield" class="w-5 h-5"></i></div>
+          <h3 class="text-lg font-bold text-slate-900">Acesso Admin</h3>
         </div>
-        <button onclick="closeAdminModal()" class="text-slate-400 hover:text-slate-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="closeAdminModal()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-xl hover:bg-slate-100 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <p class="text-xs text-slate-500">Insira as credenciais para gerenciar a plataforma SaaS do NetGuide.</p>
 
-      <form id="form-login" onsubmit="handleAdminLogin(event)" class="space-y-3 text-xs">
+      <form id="form-login" onsubmit="handleAdminLogin(event)" class="space-y-4 text-xs">
         <div>
-          <label class="block text-slate-700 mb-1 font-medium">Usuário</label>
-          <input type="text" id="admin-user" required placeholder="admin" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-base sm:text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+          <label class="block text-slate-700 mb-1.5 font-semibold">Usuário</label>
+          <input type="text" id="admin-user" required placeholder="admin" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-base sm:text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500">
         </div>
         <div>
-          <label class="block text-slate-700 mb-1 font-medium">Senha</label>
-          <input type="password" id="admin-pass" required placeholder="••••••" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-base sm:text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+          <label class="block text-slate-700 mb-1.5 font-semibold">Senha</label>
+          <input type="password" id="admin-pass" required placeholder="••••••" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-base sm:text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500">
         </div>
-        <p id="login-error" class="text-red-600 text-xs hidden">Usuário ou senha incorretos. (Dica: admin / 123)</p>
+        <p id="login-error" class="text-red-600 text-xs hidden font-medium">Usuário ou senha incorretos. (Dica: admin / 123)</p>
 
-        <div class="pt-2 flex gap-2">
-          <button type="button" onclick="closeAdminModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-2 rounded-xl transition">Cancelar</button>
-          <button type="submit" class="w-1/2 bg-cyan-600 hover:bg-cyan-500 text-white font-medium py-2 rounded-xl transition shadow-sm">Entrar</button>
+        <div class="pt-2 flex gap-3">
+          <button type="button" onclick="closeAdminModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-2xl transition active:scale-95">Cancelar</button>
+          <button type="submit" class="w-1/2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-2xl transition shadow-lg shadow-cyan-600/20 active:scale-95">Entrar</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- MODAL: DETALHES -->
-  <div id="modal-equip" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 shadow-xl w-full max-w-md rounded-2xl p-6 space-y-3">
+  <div id="modal-equip" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 shadow-2xl w-full max-w-md rounded-3xl p-6 md:p-8 space-y-4">
       <div class="flex justify-between items-start">
         <h3 id="modal-title" class="text-lg font-bold text-slate-900">Detalhes do Roteador</h3>
-        <button onclick="closeDetailsModal()" class="text-slate-400 hover:text-slate-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="closeDetailsModal()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-xl hover:bg-slate-100 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-      <div class="space-y-2 text-xs text-slate-600">
+      <div class="space-y-2.5 text-xs text-slate-600 bg-slate-50 p-4 rounded-2xl border border-slate-100">
         <p><strong>Tecnologia:</strong> <span id="modal-tech" class="text-slate-800"></span></p>
         <p><strong>Portas e Cabos:</strong> <span id="modal-ports" class="text-slate-800"></span></p>
         <p><strong>Indicadores LED:</strong> <span id="modal-leds" class="text-slate-800"></span></p>
       </div>
-      <button onclick="closeDetailsModal()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-medium py-2 rounded-xl text-xs transition shadow-sm">
+      <button onclick="closeDetailsModal()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg shadow-cyan-600/20 active:scale-95">
         Fechar
       </button>
     </div>
   </div>
 
-  <!-- MODAL: ADICIONAR -->
-  <div id="modal-add-equip" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 shadow-xl w-full max-w-md rounded-2xl p-6 space-y-3 max-h-[90vh] overflow-y-auto">
+  <!-- MODAL: ADICIONAR EQUIPAMENTO -->
+  <div id="modal-add-equip" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 shadow-2xl w-full max-w-md rounded-3xl p-6 md:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-start">
         <h3 class="text-lg font-bold text-slate-900">Adicionar Novo Roteador</h3>
-        <button onclick="closeAddModal()" class="text-slate-400 hover:text-slate-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="closeAddModal()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-xl hover:bg-slate-100 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <form id="form-add-router" onsubmit="handleAddRouter(event)" class="space-y-2 text-xs">
+      <form id="form-add-router" onsubmit="handleAddRouter(event)" class="space-y-3 text-xs">
         <div>
-          <label class="block text-slate-700 mb-1 font-medium">Fabricante</label>
-          <input type="text" id="new-brand" required placeholder="Ex: TP-Link" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-base sm:text-xs text-slate-900">
+          <label class="block text-slate-700 mb-1 font-semibold">Fabricante</label>
+          <input type="text" id="new-brand" required placeholder="Ex: TP-Link" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-base sm:text-xs text-slate-900">
         </div>
         <div>
-          <label class="block text-slate-700 mb-1 font-medium">Modelo</label>
-          <input type="text" id="new-model" required placeholder="Ex: Archer AX10" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-base sm:text-xs text-slate-900">
+          <label class="block text-slate-700 mb-1 font-semibold">Modelo</label>
+          <input type="text" id="new-model" required placeholder="Ex: Archer AX10" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-base sm:text-xs text-slate-900">
         </div>
         <div>
-          <label class="block text-slate-700 mb-1 font-medium">URL Direta da Foto (Opcional)</label>
-          <input type="url" id="new-image" placeholder="Ex: https://site.com/foto.jpg" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-base sm:text-xs text-slate-900">
+          <label class="block text-slate-700 mb-1 font-semibold">URL Direta da Foto (Opcional)</label>
+          <input type="url" id="new-image" placeholder="Ex: https://site.com/foto.jpg" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-base sm:text-xs text-slate-900">
         </div>
         <div>
-          <label class="block text-slate-700 mb-1 font-medium">Descrição Curta</label>
-          <textarea id="new-desc" rows="2" required placeholder="Ex: Roteador Wi-Fi..." class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-base sm:text-xs text-slate-900"></textarea>
+          <label class="block text-slate-700 mb-1 font-semibold">Descrição Curta</label>
+          <textarea id="new-desc" rows="2" required placeholder="Ex: Roteador Wi-Fi..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-base sm:text-xs text-slate-900"></textarea>
         </div>
         <div>
-          <label class="block text-slate-700 mb-1 font-medium">Portas e Cabos</label>
-          <input type="text" id="new-ports" required placeholder="Ex: 1 WAN + 4 LAN" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-base sm:text-xs text-slate-900">
+          <label class="block text-slate-700 mb-1 font-semibold">Portas e Cabos</label>
+          <input type="text" id="new-ports" required placeholder="Ex: 1 WAN + 4 LAN" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-base sm:text-xs text-slate-900">
         </div>
         <div>
-          <label class="block text-slate-700 mb-1 font-medium">Indicadores LED</label>
-          <input type="text" id="new-leds" required placeholder="Ex: Power, Wi-Fi, LAN, WAN" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-base sm:text-xs text-slate-900">
+          <label class="block text-slate-700 mb-1 font-semibold">Indicadores LED</label>
+          <input type="text" id="new-leds" required placeholder="Ex: Power, Wi-Fi, LAN, WAN" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-base sm:text-xs text-slate-900">
         </div>
 
-        <div class="pt-2 flex gap-2">
-          <button type="button" onclick="closeAddModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-2 rounded-xl transition">Cancelar</button>
-          <button type="submit" class="w-1/2 bg-cyan-600 hover:bg-cyan-500 text-white font-medium py-2 rounded-xl transition shadow-sm">Cadastrar</button>
+        <div class="pt-2 flex gap-3">
+          <button type="button" onclick="closeAddModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-2xl transition active:scale-95">Cancelar</button>
+          <button type="submit" class="w-1/2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 rounded-2xl transition shadow-lg shadow-cyan-600/25 active:scale-95">Cadastrar</button>
         </div>
       </form>
     </div>
@@ -431,25 +444,25 @@
       document.getElementById('sec-equipamentos').classList.add('hidden');
 
       document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('bg-cyan-600', 'text-white', 'shadow-sm', 'shadow-cyan-600/20');
-        btn.classList.add('text-slate-700', 'hover:bg-slate-100');
+        btn.classList.remove('bg-gradient-to-r', 'from-cyan-600', 'to-cyan-500', 'text-white', 'shadow-md', 'shadow-cyan-500/20');
+        btn.classList.add('text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900');
       });
 
       if (tab === 'scan') {
         document.getElementById('sec-scan').classList.remove('hidden');
         const b = document.getElementById('btn-scan');
-        b.classList.add('bg-cyan-600', 'text-white', 'shadow-sm', 'shadow-cyan-600/20');
-        b.classList.remove('text-slate-700', 'hover:bg-slate-100');
+        b.classList.add('bg-gradient-to-r', 'from-cyan-600', 'to-cyan-500', 'text-white', 'shadow-md', 'shadow-cyan-500/20');
+        b.classList.remove('text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900');
       } else if (tab === 'dashboard') {
         document.getElementById('sec-dashboard').classList.remove('hidden');
         const b = document.getElementById('btn-dashboard');
-        b.classList.add('bg-cyan-600', 'text-white', 'shadow-sm', 'shadow-cyan-600/20');
-        b.classList.remove('text-slate-700', 'hover:bg-slate-100');
+        b.classList.add('bg-gradient-to-r', 'from-cyan-600', 'to-cyan-500', 'text-white', 'shadow-md', 'shadow-cyan-500/20');
+        b.classList.remove('text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900');
       } else if (tab === 'equipamentos') {
         document.getElementById('sec-equipamentos').classList.remove('hidden');
         const b = document.getElementById('btn-equipamentos');
-        b.classList.add('bg-cyan-600', 'text-white', 'shadow-sm', 'shadow-cyan-600/20');
-        b.classList.remove('text-slate-700', 'hover:bg-slate-100');
+        b.classList.add('bg-gradient-to-r', 'from-cyan-600', 'to-cyan-500', 'text-white', 'shadow-md', 'shadow-cyan-500/20');
+        b.classList.remove('text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900');
       }
 
       if (window.innerWidth < 768) {
@@ -467,48 +480,40 @@
       if (type === 'led') {
         title.innerText = "Diagnóstico Inteligente de LEDs (AC1200)";
         desc.innerHTML = "O sistema analisa o padrão óptico do roteador. <strong>Atenção:</strong> Se todos os LEDs estiverem piscando simultaneamente, o equipamento foi restaurado para o padrão de fábrica (resetado) e perdeu as configurações de conexão.";
-        iconContainer.innerHTML = '<i data-lucide="activity" class="w-4 h-4"></i>';
+        iconContainer.innerHTML = '<i data-lucide="activity" class="w-5 h-5"></i>';
       } else if (type === 'cables') {
         title.innerText = "Guia de Portas e Cabos (RA)";
         desc.innerHTML = "A Realidade Aumentada (RA) identifica o roteador. Certifique-se de que o cabo principal da fibra/modem está conectado firmemente na porta <strong>WAN (azul)</strong> e os dispositivos locais nas portas <strong>LAN</strong>.";
-        iconContainer.innerHTML = '<i data-lucide="cable" class="w-4 h-4"></i>';
+        iconContainer.innerHTML = '<i data-lucide="cable" class="w-5 h-5"></i>';
       } else if (type === 'wifi') {
         title.innerText = "Configuração e Otimização do Wi-Fi";
         desc.innerHTML = "Permite revisar o nome da rede (SSID) e senha nas frequências de 2.4GHz e 5GHz diretamente pelo painel de controle do equipamento.";
-        iconContainer.innerHTML = '<i data-lucide="wifi" class="w-4 h-4"></i>';
+        iconContainer.innerHTML = '<i data-lucide="wifi" class="w-5 h-5"></i>';
       } else if (type === 'reset-guide') {
         title.innerText = "TP-Link AC1200 Resetado - Passo a Passo NetGuide";
         desc.innerHTML = `
           <p class="text-slate-700 font-medium">O sistema detectou o padrão de LEDs piscando, indicando reset de fábrica. Siga o guia prático abaixo para reconfigurar:</p>
           
-          <div class="space-y-3 mt-2 text-left">
-            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+          <div class="space-y-3 mt-3 text-left">
+            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
               <strong class="text-cyan-600 block mb-1">1. Conecte à Rede Wi-Fi Padrão</strong>
-              <p>Conecte um computador ou celular à rede Wi-Fi gerada pelo roteador. Ela aparecerá com o nome padrão, e a senha está em uma etiqueta na parte de baixo do equipamento, provavelmente como 'Senha Wireless'.</p>
+              <p>Conecte um computador ou celular à rede Wi-Fi gerada pelo roteador. Ela aparecerá com o nome padrão, e a senha está em uma etiqueta na parte de baixo do equipamento.</p>
             </div>
-
-            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
               <strong class="text-cyan-600 block mb-1">2. Acesse a Página Web</strong>
-              <p>Когда conectado, mesmo sem estar com internet, abra o navegador e digite na barra de endereços <code class="bg-slate-200 px-1.5 py-0.5 rounded text-cyan-700 font-mono">192.168.0.1</code> e aperte enter. (esse IP pode variar de acordo o equipamento).</p>
+              <p>Quando conectado, abra o navegador e digite <code class="bg-slate-200/80 px-1.5 py-0.5 rounded text-cyan-700 font-mono">192.168.0.1</code> e aperte enter.</p>
             </div>
-
-            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
               <strong class="text-cyan-600 block mb-1">3. Faça o Login</strong>
               <p>Vai abrir uma página solicitando a senha, coloque a senha wireless informada na etiqueta.</p>
             </div>
-
-            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
               <strong class="text-cyan-600 block mb-1">4 e 5. Configuração Rápida e PPPoE</strong>
-              <p>Na aba de configuração rápida, selecione <strong>PPPoE</strong> e avance. Solicitará usuário e senha PPPoE fornecidos pelo provedor. <em>Não precisa marcar nem desmarcar nada, só clicar em avançar.</em></p>
-            </div>
-
-            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-              <strong class="text-cyan-600 block mb-1">6. Nome e Senha do Wi-Fi</strong>
-              <p>A próxima janela vai ser para configurar o nome e senha da rede wi-fi. <strong>SSID</strong> = o nome desejado para a rede; <strong>password</strong> = a senha do wi-fi. Configure o nome e senha como quiser, se tiver a rede 5G disponível, pode escrever '5G' no final para diferenciar. Pode avançar até o final, e salvar a configuração. O equipamento vai reiniciar.</p>
+              <p>Na aba de configuração rápida, selecione <strong>PPPoE</strong> e avance. Insira usuário e senha PPPoE fornecidos pelo provedor.</p>
             </div>
           </div>
         `;
-        iconContainer.innerHTML = '<i data-lucide="refresh-cw" class="w-4 h-4"></i>';
+        iconContainer.innerHTML = '<i data-lucide="refresh-cw" class="w-5 h-5"></i>';
       }
 
       lucide.createIcons();
@@ -559,9 +564,10 @@
           label: 'Acessos de Clientes',
           data: [65, 89, 120, 142, 110, 155, 170],
           borderColor: '#0891b2',
-          backgroundColor: 'rgba(8, 145, 178, 0.1)',
+          backgroundColor: 'rgba(8, 145, 178, 0.08)',
           fill: true,
-          tension: 0.4
+          tension: 0.4,
+          borderWidth: 3
         }]
       },
       options: {
@@ -569,8 +575,8 @@
         maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-          x: { grid: { color: '#e2e8f0' }, ticks: { color: '#64748b' } },
-          y: { grid: { color: '#e2e8f0' }, ticks: { color: '#64748b' } }
+          x: { grid: { color: '#f1f5f9' }, ticks: { color: '#64748b' } },
+          y: { grid: { color: '#f1f5f9' }, ticks: { color: '#64748b' } }
         }
       }
     });
@@ -589,13 +595,8 @@
         const loadingText = document.getElementById('loading-text');
         loadingDiv.classList.remove('hidden');
 
-        setTimeout(() => {
-          loadingText.innerText = "Etiqueta encontrada! Lendo MAC Address...";
-        }, 1000);
-
-        setTimeout(() => {
-          loadingText.innerText = "Consultando base de dados NetGuide...";
-        }, 2200);
+        setTimeout(() => { loadingText.innerText = "Etiqueta encontrada! Lendo MAC Address..."; }, 1000);
+        setTimeout(() => { loadingText.innerText = "Consultando base de dados NetGuide..."; }, 2200);
 
         setTimeout(() => {
           loadingDiv.classList.add('hidden');
@@ -603,7 +604,7 @@
           document.getElementById('simulation-buttons').classList.remove('hidden');
           
           const badge = document.getElementById('status-badge');
-          badge.className = "flex items-center gap-2 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full w-fit mb-4";
+          badge.className = "flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-full w-fit mb-4";
           badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> TP-Link AC1200 Identificado via MAC';
 
           document.getElementById('router-title').innerText = "TP-Link AC1200";
@@ -619,7 +620,7 @@
         document.getElementById('simulation-buttons').classList.remove('hidden');
         
         const badge = document.getElementById('status-badge');
-        badge.className = "flex items-center gap-2 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full w-fit mb-4";
+        badge.className = "flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-full w-fit mb-4";
         badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Simulação Virtual Ativa (AC1200)';
 
         document.getElementById('router-title').innerText = "TP-Link AC1200";
@@ -664,9 +665,9 @@
         btnSim.classList.replace('bg-cyan-600', 'bg-amber-600');
         
         document.getElementById('mock-leds').innerHTML = `
-          <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-          <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-          <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+          <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400"></div>
+          <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400"></div>
+          <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400"></div>
         `;
       } else {
         errorOverlay.classList.remove('hidden');
@@ -693,13 +694,13 @@
 
       btnResetGuide.classList.remove('hidden');
 
-      badge.className = "flex items-center gap-2 text-xs font-semibold text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full w-fit mb-4";
+      badge.className = "flex items-center gap-2 text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 px-3.5 py-1.5 rounded-full w-fit mb-4";
       badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Alerta: LEDs Piscando (Roteador Resetado)';
 
       document.getElementById('mock-leds').innerHTML = `
-        <div class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></div>
-        <div class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></div>
-        <div class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></div>
+        <div class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></div>
+        <div class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></div>
+        <div class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></div>
       `;
 
       document.getElementById('router-title').innerText = "TP-Link AC1200 (Padrão de Fábrica)";
@@ -747,30 +748,29 @@
 
       const grid = document.getElementById('equipments-grid');
       const card = document.createElement('div');
-      card.className = "bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden flex flex-col justify-between hover:border-slate-300 transition relative";
+      card.className = "bg-white border border-slate-200/80 shadow-sm rounded-3xl overflow-hidden flex flex-col justify-between hover:border-cyan-300 hover:shadow-xl transition-all duration-300 relative group";
 
-      // Mudado para object-contain para a foto inteira aparecer encaixadinha sem dar zoom nas antenas
       const mediaContent = imageUrl 
-        ? `<img src="${imageUrl}" alt="${model}" class="w-full h-full object-contain p-2 rounded-xl" onerror="this.onerror=null; this.parentNode.innerHTML='<i data-lucide=&quot;router&quot; class=&quot;w-12 h-12 stroke-1 text-slate-400&quot;></i>'; lucide.createIcons();">` 
+        ? `<img src="${imageUrl}" alt="${model}" class="w-full h-full object-contain p-2 rounded-2xl" onerror="this.onerror=null; this.parentNode.innerHTML='<i data-lucide=&quot;router&quot; class=&quot;w-12 h-12 stroke-1 text-slate-400&quot;></i>'; lucide.createIcons();">` 
         : `<i data-lucide="router" class="w-12 h-12 stroke-1 text-slate-400"></i>`;
 
       card.innerHTML = `
         <button onclick="removeEquipmentCard(this)" class="absolute top-3 right-3 bg-red-50 hover:bg-red-100 text-red-600 p-2 rounded-xl border border-red-200 transition text-xs shadow-sm z-10" title="Excluir Equipamento">
           <i data-lucide="trash-2" class="w-4 h-4"></i>
         </button>
-        <div class="p-5">
-          <div class="h-32 bg-slate-50 rounded-xl mb-3 flex items-center justify-center border border-slate-200 overflow-hidden">
+        <div class="p-6">
+          <div class="h-36 bg-slate-50 rounded-2xl mb-4 flex items-center justify-center border border-slate-100 overflow-hidden">
             ${mediaContent}
           </div>
-          <span class="text-[10px] font-semibold text-cyan-600 uppercase tracking-wider">${brand}</span>
-          <h3 class="text-lg font-bold text-slate-900 mb-1">${model}</h3>
-          <p class="text-xs text-slate-500 mb-3">${desc}</p>
-          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span class="text-[10px] font-bold text-cyan-600 uppercase tracking-widest">${brand}</span>
+          <h3 class="text-lg font-black text-slate-900 mb-1">${model}</h3>
+          <p class="text-xs text-slate-500 mb-4 leading-relaxed">${desc}</p>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80">
             Status: Ativo
           </span>
         </div>
-        <div class="px-5 pb-5 pt-1">
-          <button onclick="openDetailsModal('${brand} ${model}', 'Tecnologia Padrão', '${ports}', '${leds}')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium py-2 rounded-xl transition">
+        <div class="px-6 pb-6 pt-1">
+          <button onclick="openDetailsModal('${brand} ${model}', 'Tecnologia Padrão', '${ports}', '${leds}')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2.5 rounded-2xl transition active:scale-95">
             Ver detalhes
           </button>
         </div>
@@ -782,6 +782,52 @@
       equipmentCount++;
       document.getElementById('metric-equipments').innerText = equipmentCount;
       closeAddModal();
+    }
+
+    // ==========================================
+    // SISTEMA DE CONFIGURAÇÃO DE WHATSAPP (WHITE LABEL)
+    // ==========================================
+    
+    // Quando a página carrega, verifica se o Admin já salvou um número antes
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedNumber = localStorage.getItem('netguide_whatsapp');
+      if (savedNumber) {
+        applyWhatsAppNumber(savedNumber);
+        
+        // Já deixa o número preenchido no input do painel Admin
+        const adminInput = document.getElementById('admin-whatsapp-input');
+        if (adminInput) adminInput.value = savedNumber;
+      }
+    });
+
+    // Função ativada quando o Admin clica em "Salvar Número"
+    function updateWhatsAppNumber(event) {
+      event.preventDefault(); // Evita recarregar a página
+      const input = document.getElementById('admin-whatsapp-input').value;
+      
+      // Limpa tudo que não for número (tira traços, espaços, parênteses)
+      const cleanNumber = input.replace(/\D/g, '');
+      
+      if (cleanNumber) {
+        // Salva na memória do navegador
+        localStorage.setItem('netguide_whatsapp', cleanNumber);
+        
+        // Atualiza o botão no menu na mesma hora
+        applyWhatsAppNumber(cleanNumber);
+        
+        // Mostra a mensagem verdinha de sucesso por 3 segundos
+        const successMsg = document.getElementById('whatsapp-success-msg');
+        successMsg.classList.remove('hidden');
+        setTimeout(() => { successMsg.classList.add('hidden'); }, 3000);
+      }
+    }
+
+    // Função que vai lá no botão da barra lateral e troca o link 
+    function applyWhatsAppNumber(number) {
+      const whatsappBtn = document.getElementById('btn-whatsapp-support');
+      if (whatsappBtn) {
+        whatsappBtn.href = `https://wa.me/${number}?text=Ol%C3%A1,%20preciso%20de%20ajuda%20com%20a%20minha%20conex%C3%A3o,%20vim%20pelo%20aplicativo%20NetGuide.`;
+      }
     }
   </script>
 </body>
