@@ -26,9 +26,12 @@
       <i data-lucide="menu" class="w-5 h-5 text-cyan-600"></i> Menu
     </button>
     <div class="flex items-center gap-2">
-      <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-100/80 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 transition active:scale-95" title="Alternar Tema">
-        <i data-lucide="sun" class="w-4 h-4 dark:hidden text-amber-500"></i>
-        <i data-lucide="moon" class="w-4 h-4 hidden dark:block text-cyan-400"></i>
+      <!-- BOTÃO DE TEMA (LUA / SOL) CORRIGIDO COM SVG NATIVO -->
+      <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-xl bg-slate-100/80 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center transition active:scale-95 shadow-sm" title="Alternar Tema">
+        <!-- Sol (Aparece no Light Mode) -->
+        <svg class="w-5 h-5 text-amber-500 dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
+        <!-- Lua (Aparece no Dark Mode) -->
+        <svg class="w-5 h-5 text-cyan-400 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
       <button onclick="openAdminModal()" class="text-xs bg-slate-100/80 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 transition font-semibold active:scale-95">
         <i data-lucide="shield" class="w-4 h-4 text-cyan-600"></i> Admin
@@ -51,11 +54,11 @@
           </div>
         </div>
         <div class="flex items-center gap-1">
-          <button onclick="toggleDarkMode()" title="Alternar Tema" class="hidden md:flex flex-shrink-0 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white p-2 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition">
-            <i data-lucide="sun" class="w-4 h-4 dark:hidden text-amber-500"></i>
-            <i data-lucide="moon" class="w-4 h-4 hidden dark:block text-cyan-400"></i>
+          <button onclick="toggleDarkMode()" title="Alternar Tema" class="hidden md:flex w-10 h-10 flex-shrink-0 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition items-center justify-center">
+            <svg class="w-5 h-5 text-amber-500 dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
+            <svg class="w-5 h-5 text-cyan-400 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
-          <button onclick="openAdminModal()" title="Área Administrativa" class="flex-shrink-0 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white p-2 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition">
+          <button onclick="openAdminModal()" title="Área Administrativa" class="w-10 h-10 flex-shrink-0 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition flex items-center justify-center">
             <i data-lucide="shield" class="w-4 h-4 text-cyan-600"></i>
           </button>
         </div>
