@@ -291,13 +291,13 @@
         </div>
       </div>
 
-      <!-- CONFIGURAÇÃO DE WHATSAPP (WHITE LABEL) -->
+      <!-- CONFIGURAÇÃO DE WHATSAPP (WHITE LABEL COM MÁSCARA AUTOMÁTICA) -->
       <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm p-6 rounded-3xl mt-6">
         <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Configuração de Suporte (WhatsApp)</h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Defina o número de telefone que os clientes usarão para pedir ajuda. (Coloque 55 para o Brasil, ex: 550800500800).</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Defina o número de telefone que os clientes usarão para pedir ajuda. Digite apenas números (o 55 é adicionado automaticamente se esquecer).</p>
         
         <form onsubmit="updateWhatsAppNumber(event)" class="flex gap-3">
-          <input type="text" id="admin-whatsapp-input" placeholder="Ex: 558000500800" class="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500">
+          <input type="text" id="admin-whatsapp-input" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="Ex: 5515999998888" class="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500">
           <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-6 rounded-2xl transition-all duration-200 hover:scale-105 shadow-lg shadow-emerald-600/20 active:scale-95 text-sm">
             Salvar Número
           </button>
@@ -915,43 +915,51 @@
       showToast('Novo roteador cadastrado com sucesso!', 'success');
     }
 
-    // WHATSAPP WHITE LABEL (ATUALIZADO PARA SUPABASE SEM CONFLITO)
+    // WHATSAPP WHITE LABEL (COM VALIDAÇÃO INTELIGENTE E AUTO-PREFIXO 55)
     async function updateWhatsAppNumber(event) {
       event.preventDefault();
       const input = document.getElementById('admin-whatsapp-input').value;
-      const cleanNumber = input.replace(/\D/g, '');
+      let cleanNumber = input.replace(/\D/g, '');
       
-      if (cleanNumber) {
-        // Verifica se já existe um registro para a chave 'whatsapp'
-        const { data: existing } = await _supabase
+      if (cleanNumber.length < 10) {
+        showToast('Número muito curto. Digite o DDD e o número completo.', 'warning');
+        return;
+      }
+
+      // Se o usuário digitou sem o 55 na frente, adiciona automaticamente
+      if (!cleanNumber.startsWith('55')) {
+        cleanNumber = '55' + cleanNumber;
+      }
+      
+      // Verifica se já existe um registro para a chave 'whatsapp'
+      const { data: existing } = await _supabase
+        .from('configuracoes')
+        .select('*')
+        .eq('chave', 'whatsapp')
+        .maybeSingle();
+
+      let error;
+      if (existing) {
+        const res = await _supabase
           .from('configuracoes')
-          .select('*')
-          .eq('chave', 'whatsapp')
-          .maybeSingle();
+          .update({ valor: cleanNumber })
+          .eq('chave', 'whatsapp');
+        error = res.error;
+      } else {
+        const res = await _supabase
+          .from('configuracoes')
+          .insert([{ chave: 'whatsapp', valor: cleanNumber }]);
+        error = res.error;
+      }
 
-        let error;
-        if (existing) {
-          // Se já existe, apenas atualiza
-          const res = await _supabase
-            .from('configuracoes')
-            .update({ valor: cleanNumber })
-            .eq('chave', 'whatsapp');
-          error = res.error;
-        } else {
-          // Se não existe, insere um novo
-          const res = await _supabase
-            .from('configuracoes')
-            .insert([{ chave: 'whatsapp', valor: cleanNumber }]);
-          error = res.error;
-        }
-
-        if (!error) {
-          applyWhatsAppNumber(cleanNumber);
-          showToast('Número de suporte atualizado na nuvem para todos!', 'success');
-        } else {
-          console.error(error);
-          showToast('Erro ao atualizar na nuvem.', 'warning');
-        }
+      if (!error) {
+        applyWhatsAppNumber(cleanNumber);
+        // Atualiza o input visualmente com o número formatado correto
+        document.getElementById('admin-whatsapp-input').value = cleanNumber;
+        showToast('Número de suporte atualizado na nuvem para todos!', 'success');
+      } else {
+        console.error(error);
+        showToast('Erro ao atualizar na nuvem.', 'warning');
       }
     }
 
