@@ -513,7 +513,7 @@
           .from('configuracoes')
           .select('valor')
           .eq('chave', 'whatsapp')
-          .single();
+          .maybeSingle();
 
         if (data && data.valor) {
           applyWhatsAppNumber(data.valor);
@@ -915,22 +915,41 @@
       showToast('Novo roteador cadastrado com sucesso!', 'success');
     }
 
-    // WHATSAPP WHITE LABEL (SALVANDO NO SUPABASE)
+    // WHATSAPP WHITE LABEL (ATUALIZADO PARA SUPABASE SEM CONFLITO)
     async function updateWhatsAppNumber(event) {
       event.preventDefault();
       const input = document.getElementById('admin-whatsapp-input').value;
       const cleanNumber = input.replace(/\D/g, '');
       
       if (cleanNumber) {
-        // Salva na nuvem do Supabase
-        const { error } = await _supabase
+        // Verifica se já existe um registro para a chave 'whatsapp'
+        const { data: existing } = await _supabase
           .from('configuracoes')
-          .upsert({ chave: 'whatsapp', valor: cleanNumber }, { onConflict: 'chave' });
+          .select('*')
+          .eq('chave', 'whatsapp')
+          .maybeSingle();
+
+        let error;
+        if (existing) {
+          // Se já existe, apenas atualiza
+          const res = await _supabase
+            .from('configuracoes')
+            .update({ valor: cleanNumber })
+            .eq('chave', 'whatsapp');
+          error = res.error;
+        } else {
+          // Se não existe, insere um novo
+          const res = await _supabase
+            .from('configuracoes')
+            .insert([{ chave: 'whatsapp', valor: cleanNumber }]);
+          error = res.error;
+        }
 
         if (!error) {
           applyWhatsAppNumber(cleanNumber);
           showToast('Número de suporte atualizado na nuvem para todos!', 'success');
         } else {
+          console.error(error);
           showToast('Erro ao atualizar na nuvem.', 'warning');
         }
       }
