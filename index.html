@@ -15,6 +15,8 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- SDK do Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- CSS Externo -->
   <link rel="stylesheet" href="style.css">
 </head>
@@ -452,6 +454,11 @@
   </div>
 
   <script>
+    // Inicialização do Supabase com a URL e a chave fornecidas
+    const SUPABASE_URL = 'https://sdabbqgtoriknunfseda.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNkYWJicWd0b3Jpa251bmZzZWRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg5NTA1NzQsImV4cCI6MjEwNDUyNjU3NH0.n2JFvtpSieEC1T0QuKE1zMb5XtSA5L1VwEaciOvUyYc';
+    const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     lucide.createIcons();
 
     // ==========================================
@@ -492,19 +499,29 @@
     }
 
     // ==========================================
-    // SISTEMA DE MODO ESCURO (DARK MODE)
+    // SISTEMA DE MODO ESCURO E SUPABASE (SYNC)
     // ==========================================
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       const savedTheme = localStorage.getItem('netguide_theme');
       if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
       }
       
-      const savedNumber = localStorage.getItem('netguide_whatsapp');
-      if (savedNumber) {
-        applyWhatsAppNumber(savedNumber);
-        const adminInput = document.getElementById('admin-whatsapp-input');
-        if (adminInput) adminInput.value = savedNumber;
+      // Busca o número do WhatsApp direto da nuvem do Supabase
+      try {
+        const { data } = await _supabase
+          .from('configuracoes')
+          .select('valor')
+          .eq('chave', 'whatsapp')
+          .single();
+
+        if (data && data.valor) {
+          applyWhatsAppNumber(data.valor);
+          const adminInput = document.getElementById('admin-whatsapp-input');
+          if (adminInput) adminInput.value = data.valor;
+        }
+      } catch (err) {
+        console.log('Usando número padrão');
       }
     });
 
@@ -898,16 +915,24 @@
       showToast('Novo roteador cadastrado com sucesso!', 'success');
     }
 
-    // WHATSAPP WHITE LABEL
-    function updateWhatsAppNumber(event) {
+    // WHATSAPP WHITE LABEL (SALVANDO NO SUPABASE)
+    async function updateWhatsAppNumber(event) {
       event.preventDefault();
       const input = document.getElementById('admin-whatsapp-input').value;
       const cleanNumber = input.replace(/\D/g, '');
       
       if (cleanNumber) {
-        localStorage.setItem('netguide_whatsapp', cleanNumber);
-        applyWhatsAppNumber(cleanNumber);
-        showToast('Número de suporte do WhatsApp atualizado!', 'success');
+        // Salva na nuvem do Supabase
+        const { error } = await _supabase
+          .from('configuracoes')
+          .upsert({ chave: 'whatsapp', valor: cleanNumber }, { onConflict: 'chave' });
+
+        if (!error) {
+          applyWhatsAppNumber(cleanNumber);
+          showToast('Número de suporte atualizado na nuvem para todos!', 'success');
+        } else {
+          showToast('Erro ao atualizar na nuvem.', 'warning');
+        }
       }
     }
 
