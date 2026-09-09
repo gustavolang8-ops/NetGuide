@@ -20,13 +20,16 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans flex flex-col md:flex-row min-h-screen overflow-x-hidden w-full transition-colors duration-300">
 
+  <!-- CONTAINER DE NOTIFICAÇÕES TOAST (FEEDBACK VISUAL) -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
+
   <!-- BARRA SUPERIOR MÍNIMA PARA CELULAR -->
   <div class="md:hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-4 pt-safe flex justify-between items-center z-50 w-full fixed top-0 left-0 h-16 shadow-sm">
     <button onclick="toggleMobileMenu()" class="text-slate-700 dark:text-slate-200 p-2.5 rounded-xl bg-slate-100/80 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center gap-2 text-xs font-semibold active:scale-95 transition">
       <i data-lucide="menu" class="w-5 h-5 text-cyan-600"></i> Menu
     </button>
     <div class="flex items-center gap-2">
-      <!-- BOTÃO SWITCH ESTILO iOS (MOBILE) - SEM VERDE -->
+      <!-- BOTÃO SWITCH ESTILO iOS (MOBILE) -->
       <button onclick="toggleDarkMode()" class="w-14 h-8 rounded-full bg-slate-300 dark:bg-slate-700 relative p-1 transition-colors duration-300 flex items-center shadow-inner cursor-pointer" title="Alternar Tema">
         <div class="w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center dark:translate-x-6">
           <svg class="w-3.5 h-3.5 text-amber-500 dark:hidden" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
@@ -54,7 +57,7 @@
           </div>
         </div>
         <div class="flex items-center gap-1">
-          <!-- BOTÃO SWITCH ESTILO iOS (DESKTOP) - SEM VERDE -->
+          <!-- BOTÃO SWITCH ESTILO iOS (DESKTOP) -->
           <button onclick="toggleDarkMode()" title="Alternar Tema" class="hidden md:flex w-14 h-8 rounded-full bg-slate-300 dark:bg-slate-700 relative p-1 transition-colors duration-300 items-center shadow-inner cursor-pointer flex-shrink-0">
             <div class="w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center dark:translate-x-6">
               <svg class="w-3.5 h-3.5 text-amber-500 dark:hidden" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
@@ -231,7 +234,7 @@
             </div>
           </div>
 
-          <button id="btn-continue-diag" class="hidden w-full mt-6 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-2xl transition text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 active:scale-95">
+          <button id="btn-continue-diag" onclick="finalizeValidation()" class="hidden w-full mt-6 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-2xl transition text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 active:scale-95">
             Finalizar e Validar Conexão <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
         </div>
@@ -297,7 +300,6 @@
             Salvar Número
           </button>
         </form>
-        <p id="whatsapp-success-msg" class="text-emerald-600 dark:text-emerald-400 text-xs mt-2 hidden font-medium">Número atualizado com sucesso na plataforma!</p>
       </div>
 
     </section>
@@ -380,7 +382,6 @@
           <label class="block text-slate-700 dark:text-slate-300 mb-1.5 font-semibold">Senha</label>
           <input type="password" id="admin-pass" required placeholder="••••••" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-3 text-base sm:text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500">
         </div>
-        <p id="login-error" class="text-red-600 dark:text-red-400 text-xs hidden font-medium">Usuário ou senha incorretos. (Dica: admin / 123)</p>
 
         <div class="pt-2 flex gap-3">
           <button type="button" onclick="closeAdminModal()" class="w-1/2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-3 rounded-2xl transition active:scale-95">Cancelar</button>
@@ -454,6 +455,43 @@
     lucide.createIcons();
 
     // ==========================================
+    // SISTEMA DE NOTIFICAÇÕES (TOAST FEEDBACK)
+    // ==========================================
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      let bgColors = 'bg-slate-900 text-white border border-slate-800';
+      let iconName = 'info';
+
+      if (type === 'success') {
+        bgColors = 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30';
+        iconName = 'check-circle-2';
+      } else if (type === 'warning') {
+        bgColors = 'bg-amber-600 text-white shadow-lg shadow-amber-600/30';
+        iconName = 'alert-triangle';
+      } else if (type === 'info') {
+        bgColors = 'bg-cyan-600 text-white shadow-lg shadow-cyan-600/30';
+        iconName = 'sparkles';
+      }
+
+      toast.className = `${bgColors} px-4 py-3 rounded-2xl text-xs font-semibold transform translate-y-4 opacity-0 transition-all duration-300 pointer-events-auto flex items-center gap-2.5`;
+      toast.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4 flex-shrink-0"></i> <span>${message}</span>`;
+      
+      container.appendChild(toast);
+      lucide.createIcons();
+      
+      setTimeout(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      }, 50);
+      
+      setTimeout(() => {
+        toast.classList.add('translate-y-4', 'opacity-0');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // ==========================================
     // SISTEMA DE MODO ESCURO (DARK MODE)
     // ==========================================
     document.addEventListener('DOMContentLoaded', () => {
@@ -475,6 +513,7 @@
       html.classList.toggle('dark');
       const isDark = html.classList.contains('dark');
       localStorage.setItem('netguide_theme', isDark ? 'dark' : 'light');
+      showToast(isDark ? 'Modo Escuro ativado 🌙' : 'Modo Claro ativado ☀️', 'info');
     }
 
     function toggleMobileMenu() {
@@ -568,7 +607,6 @@
     function closeAdminModal() {
       document.getElementById('modal-admin-login').classList.add('hidden');
       document.getElementById('form-login').reset();
-      document.getElementById('login-error').classList.add('hidden');
     }
 
     function handleAdminLogin(event) {
@@ -581,8 +619,9 @@
         document.getElementById('admin-nav-group').classList.remove('hidden');
         document.getElementById('admin-logout-box').classList.remove('hidden');
         switchTab('dashboard');
+        showToast('Bem-vindo ao Painel Administrativo!', 'success');
       } else {
-        document.getElementById('login-error').classList.remove('hidden');
+        showToast('Credenciais inválidas. Use admin / 123', 'warning');
       }
     }
 
@@ -590,6 +629,7 @@
       document.getElementById('admin-nav-group').classList.add('hidden');
       document.getElementById('admin-logout-box').classList.add('hidden');
       switchTab('scan');
+      showToast('Sessão administrativa encerrada.', 'info');
     }
 
     const ctx = document.getElementById('chartUsage').getContext('2d');
@@ -632,6 +672,8 @@
         const loadingText = document.getElementById('loading-text');
         loadingDiv.classList.remove('hidden');
 
+        showToast('Câmera conectada com sucesso!', 'success');
+
         setTimeout(() => { loadingText.innerText = "Etiqueta encontrada! Lendo MAC Address..."; }, 1000);
         setTimeout(() => { loadingText.innerText = "Consultando base de dados NetGuide..."; }, 2200);
 
@@ -649,6 +691,7 @@
 
           cameraActive = true;
           startARTrackingSimulation();
+          showToast('Roteador detectado com sucesso!', 'success');
         }, 3400);
 
       } catch (err) {
@@ -665,6 +708,7 @@
 
         cameraActive = true;
         startARTrackingSimulation();
+        showToast('Modo de Simulação Virtual ativado!', 'info');
       }
     }
 
@@ -706,6 +750,7 @@
           <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400"></div>
           <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400"></div>
         `;
+        showToast('Encaixe correto simulado na porta WAN!', 'success');
       } else {
         errorOverlay.classList.remove('hidden');
         wanMarker.classList.remove('hidden');
@@ -713,6 +758,7 @@
         btnContinue.classList.add('hidden');
         btnSim.innerText = "Simular Encaixe Correto";
         btnSim.classList.replace('bg-amber-600', 'bg-cyan-600');
+        showToast('Simulando cabo conectado na porta incorreta.', 'warning');
       }
     }
 
@@ -742,6 +788,11 @@
 
       document.getElementById('router-title').innerText = "TP-Link AC1200 (Padrão de Fábrica)";
       document.getElementById('router-desc').innerText = "Padrão de luzes piscando detectado: Equipamento resetado.";
+      showToast('Atenção: Roteador em padrão de fábrica detectado.', 'warning');
+    }
+
+    function finalizeValidation() {
+      showToast('Parabéns! Conexão validada e estabilizada com sucesso! 🎉', 'success');
     }
 
     function openDetailsModal(title, tech, ports, leds) {
@@ -772,6 +823,7 @@
       card.remove();
       equipmentCount = Math.max(0, equipmentCount - 1);
       document.getElementById('metric-equipments').innerText = equipmentCount;
+      showToast('Equipamento removido do catálogo.', 'info');
     }
 
     function handleAddRouter(event) {
@@ -819,6 +871,7 @@
       equipmentCount++;
       document.getElementById('metric-equipments').innerText = equipmentCount;
       closeAddModal();
+      showToast('Novo roteador cadastrado com sucesso!', 'success');
     }
 
     // WHATSAPP WHITE LABEL
@@ -830,9 +883,7 @@
       if (cleanNumber) {
         localStorage.setItem('netguide_whatsapp', cleanNumber);
         applyWhatsAppNumber(cleanNumber);
-        const successMsg = document.getElementById('whatsapp-success-msg');
-        successMsg.classList.remove('hidden');
-        setTimeout(() => { successMsg.classList.add('hidden'); }, 3000);
+        showToast('Número de suporte do WhatsApp atualizado!', 'success');
       }
     }
 
