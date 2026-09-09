@@ -20,55 +20,32 @@
   <!-- CSS Externo -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans flex flex-col md:flex-row min-h-screen overflow-x-hidden w-full transition-colors duration-300">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans flex flex-col sm:flex-row min-h-screen overflow-x-hidden w-full transition-colors duration-300">
 
   <!-- CONTAINER DE NOTIFICAÇÕES TOAST (FEEDBACK VISUAL) -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
 
-  <!-- BARRA SUPERIOR MÍNIMA PARA CELULAR -->
-  <div class="md:hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-4 pt-safe flex justify-between items-center z-50 w-full fixed top-0 left-0 h-16 shadow-sm">
+  <!-- BARRA SUPERIOR MÍNIMA PARA CELULAR (APENAS MENU E ADMIN) -->
+  <div class="sm:hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-4 pt-safe flex justify-between items-center z-50 w-full fixed top-0 left-0 h-16 shadow-sm">
     <button onclick="toggleMobileMenu()" class="text-slate-700 dark:text-slate-200 p-2.5 rounded-xl bg-slate-100/80 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center gap-2 text-xs font-semibold active:scale-95 transition-all duration-200 hover:scale-105">
       <i data-lucide="menu" class="w-5 h-5 text-cyan-600"></i> Menu
     </button>
-    <div class="flex items-center gap-2">
-      <!-- BOTÃO SWITCH ESTILO iOS (MOBILE) -->
-      <button onclick="toggleDarkMode()" class="w-14 h-8 rounded-full bg-slate-300 dark:bg-slate-700 relative p-1 transition-all duration-300 flex items-center shadow-inner cursor-pointer hover:scale-105" title="Alternar Tema">
-        <div class="w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center dark:translate-x-6">
-          <svg class="w-3.5 h-3.5 text-amber-500 dark:hidden" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
-          <svg class="w-3.5 h-3.5 text-slate-900 hidden dark:block" fill="currentColor" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </div>
-      </button>
-      <button onclick="openAdminModal()" class="text-xs bg-slate-100/80 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 transition-all duration-200 hover:scale-105 font-semibold active:scale-95">
-        <i data-lucide="shield" class="w-4 h-4 text-cyan-600"></i> Admin
-      </button>
-    </div>
+    <button onclick="openAdminModal()" class="text-xs bg-slate-100/80 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 transition-all duration-200 hover:scale-105 font-semibold active:scale-95">
+      <i data-lucide="shield" class="w-4 h-4 text-cyan-600"></i> Admin
+    </button>
   </div>
 
   <!-- MENU LATERAL / MOBILE OVERLAY -->
-  <aside id="sidebar" class="fixed md:sticky top-16 md:top-0 inset-y-0 left-0 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-200 dark:border-slate-800 flex flex-col p-4 flex-shrink-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out h-full md:h-screen shadow-lg md:shadow-none overflow-y-auto">
+  <aside id="sidebar" class="fixed sm:sticky top-16 sm:top-0 inset-y-0 left-0 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-200 dark:border-slate-800 flex flex-col p-4 flex-shrink-0 z-40 transform -translate-x-full sm:translate-x-0 transition-transform duration-300 ease-in-out h-full sm:h-screen shadow-lg sm:shadow-none overflow-y-auto">
     <div>
       <!-- LOGO NETGUIDE -->
-      <div class="flex justify-between items-center px-2 py-4 mb-6 border-b border-slate-100 dark:border-slate-800 gap-1.5">
-        <div class="flex items-center gap-3 min-w-0 flex-1">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-cyan-500/25">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12 18.75h.008v.008H12v-.008z"></path></svg>
-          </div>
-          <div class="min-w-0 flex-1">
-            <h1 class="font-black text-lg tracking-tight text-slate-900 dark:text-white">Net<span class="text-cyan-600">Guide</span></h1>
-            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Smart Diagnostic OS</p>
-          </div>
+      <div class="flex items-center px-2 py-4 mb-6 border-b border-slate-100 dark:border-slate-800 gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-cyan-500/25">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12 18.75h.008v.008H12v-.008z"></path></svg>
         </div>
-        <div class="flex items-center gap-1">
-          <!-- BOTÃO SWITCH ESTILO iOS (DESKTOP) -->
-          <button onclick="toggleDarkMode()" title="Alternar Tema" class="hidden md:flex w-14 h-8 rounded-full bg-slate-300 dark:bg-slate-700 relative p-1 transition-all duration-300 items-center shadow-inner cursor-pointer flex-shrink-0 hover:scale-105">
-            <div class="w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center dark:translate-x-6">
-              <svg class="w-3.5 h-3.5 text-amber-500 dark:hidden" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
-              <svg class="w-3.5 h-3.5 text-slate-900 hidden dark:block" fill="currentColor" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            </div>
-          </button>
-          <button onclick="openAdminModal()" title="Área Administrativa" class="w-10 h-10 flex-shrink-0 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-all duration-200 hover:scale-105 flex items-center justify-center active:scale-95">
-            <i data-lucide="shield" class="w-4 h-4 text-cyan-600"></i>
-          </button>
+        <div class="min-w-0 flex-1">
+          <h1 class="font-black text-lg tracking-tight text-slate-900 dark:text-white">Net<span class="text-cyan-600">Guide</span></h1>
+          <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Smart Diagnostic OS</p>
         </div>
       </div>
 
@@ -89,8 +66,18 @@
       </nav>
     </div>
 
-    <!-- RODAPÉ DO MENU -->
+    <!-- RODAPÉ DO MENU (BOTÕES DE TEMA E ADMIN PRESENTES NO RODAPÉ PARA AMBOS) -->
     <div class="space-y-2.5 pt-6 mt-auto pb-4">
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="toggleDarkMode()" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-medium py-2.5 rounded-xl text-xs transition-all duration-200 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer" title="Alternar Tema">
+          <i data-lucide="sun-medium" class="w-4 h-4 text-amber-500 dark:hidden"></i>
+          <i data-lucide="moon" class="w-4 h-4 text-cyan-400 hidden dark:block"></i> Tema
+        </button>
+        <button onclick="openAdminModal()" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-medium py-2.5 rounded-xl text-xs transition-all duration-200 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer" title="Área Admin">
+          <i data-lucide="shield" class="w-4 h-4 text-cyan-600"></i> Admin
+        </button>
+      </div>
+
       <a id="btn-whatsapp-support" href="https://wa.me/558000500800?text=Ol%C3%A1,%20preciso%20de%20ajuda%20com%20a%20minha%20conex%C3%A3o,%20vim%20pelo%20aplicativo%20NetGuide." target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-medium text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50/80 dark:hover:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 transition-all duration-200 hover:scale-[1.02] active:scale-95 text-xs shadow-sm bg-emerald-50/40 dark:bg-emerald-950/20">
         <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i> Suporte WhatsApp
       </a>
@@ -108,10 +95,10 @@
   </aside>
 
   <!-- OVERLAY MOBILE -->
-  <div id="mobile-overlay" onclick="toggleMobileMenu()" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-30 md:hidden"></div>
+  <div id="mobile-overlay" onclick="toggleMobileMenu()" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-30 sm:hidden"></div>
 
   <!-- CONTEÚDO PRINCIPAL -->
-  <main class="flex-1 bg-slate-50 dark:bg-slate-950 p-4 md:p-8 w-full pt-24 pb-16 md:pt-8 md:pb-8 transition-colors duration-300">
+  <main class="flex-1 bg-slate-50 dark:bg-slate-950 p-4 sm:p-8 w-full pt-24 pb-16 sm:pt-8 sm:pb-8 transition-colors duration-300">
 
     <!-- SEÇÃO: SCANEAR ROTEADOR -->
     <section id="sec-scan" class="space-y-6 max-w-full">
@@ -131,7 +118,7 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
-        <!-- ÁREA DA CÂMERA (MAIOR NO CELULAR) -->
+        <!-- ÁREA DA CÂMERA -->
         <div class="lg:col-span-2 relative bg-slate-950 rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 h-[360px] sm:h-[400px] lg:aspect-video flex items-center justify-center w-full shadow-xl">
           <video id="webcam" autoplay playsinline class="w-full h-full object-cover"></video>
           
@@ -549,7 +536,7 @@
         b.classList.remove('text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-50', 'dark:hover:bg-slate-800', 'hover:text-slate-900', 'dark:hover:text-white');
       }
 
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 640) {
         toggleMobileMenu();
       }
     }
@@ -858,7 +845,6 @@
       grid.innerHTML = '';
 
       if (!data || data.length === 0) {
-        // Se a tabela estiver vazia, insere o padrão inicial para facilitar
         await _supabase.from('equipamentos').insert([{
           brand: 'TP-Link',
           model: 'AC1200',
@@ -917,7 +903,6 @@
       const ports = document.getElementById('new-ports').value;
       const leds = document.getElementById('new-leds').value;
 
-      // Salva na tabela 'equipamentos' do Supabase
       const { error } = await _supabase.from('equipamentos').insert([{
         brand,
         model,
@@ -930,7 +915,7 @@
       if (!error) {
         closeAddModal();
         showToast('Novo roteador cadastrado na nuvem com sucesso!', 'success');
-        loadEquipmentsFromCloud(); // Atualiza a lista direto da nuvem
+        loadEquipmentsFromCloud();
       } else {
         console.error(error);
         showToast('Erro ao cadastrar roteador na nuvem.', 'warning');
@@ -945,7 +930,7 @@
 
       if (!error) {
         showToast('Equipamento removido da nuvem.', 'info');
-        loadEquipmentsFromCloud(); // Atualiza a lista
+        loadEquipmentsFromCloud();
       } else {
         showToast('Erro ao remover equipamento.', 'warning');
       }
